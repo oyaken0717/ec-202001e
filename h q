@@ -1,0 +1,135 @@
+[33mcommit 2cb84f752a21c522574171070e84f166ddf6edac[m[33m ([m[1;36mHEAD -> [m[1;32mdevelop[m[33m, [m[1;32mfeature/userRepository[m[33m)[m
+Author: nosemasashi <ma.nose9413@gmail.com>
+Date:   Mon Mar 2 17:39:21 2020 +0900
+
+    UserRepositoryにユーザー情報を登録するinsertメソッドを追加しました。
+
+[33mcommit 3e43eff67746354dde57c243e52c267702a5e193[m[33m ([m[1;31morigin/develop[m[33m)[m
+Merge: 9610bf8 97b7dcd
+Author: nosemasashi <ma.nose9413@gmail.com>
+Date:   Mon Mar 2 17:27:49 2020 +0900
+
+    RegisterUserFormを追加しました。
+    Merge branch 'resisterForm' into develop
+
+[33mcommit 97b7dcd78dc42587bbfffd7daf82dd7461bdf454[m
+Author: nosemasashi <ma.nose9413@gmail.com>
+Date:   Mon Mar 2 17:26:03 2020 +0900
+
+    RegisterUserFormを作成しました。
+
+[33mcommit 9610bf87951fe8bb4bc8fb3814b8e1c1affa6575[m
+Author: KenjiOyamada <oyaken0717@yahoo.co.jp>
+Date:   Mon Mar 2 17:19:36 2020 +0900
+
+    【add】①UserRepositoryと②loginUserServiceのJavadoc追加
+    【modify】templateフォルダを「templates」フォルダに名前の変更
+    【new】LoginUserControllerクラスとtoLogin()メソッドの実装
+
+[33mcommit 193810982b8521ce65aed1069ae9ad4878a5f1b0[m
+Merge: 79db35a 6cf13b5
+Author: KenjiOyamada <oyaken0717@yahoo.co.jp>
+Date:   Mon Mar 2 16:53:18 2020 +0900
+
+    Merge branch 'feature/LoginUserService' into develop
+
+[33mcommit 6cf13b5742daea1da41cf4831f83529b81875f57[m
+Author: KenjiOyamada <oyaken0717@yahoo.co.jp>
+Date:   Mon Mar 2 16:51:19 2020 +0900
+
+    【add】LoginUserServiceクラスのfindByEmail()メソッドにJavadocの追加
+
+[33mcommit e0a3ebcf9e4c1e8c9fd48238f9c9c272f38329ca[m
+Merge: 0fdb786 79db35a
+Author: nosemasashi <ma.nose9413@gmail.com>
+Date:   Mon Mar 2 16:26:05 2020 +0900
+
+    Merge remote-tracking branch 'origin/develop' into resisterForm
+
+[33mcommit aa4bc31ef8c5cd875270de19a5c6208b6a9d2c67[m
+Author: KenjiOyamada <oyaken0717@yahoo.co.jp>
+Date:   Mon Mar 2 15:57:27 2020 +0900
+
+    【new】LoginUserServiceクラスの作成
+
+[33mcommit 0fdb78686dd96a9cc5bf9b72e4ce46b0bd81196a[m
+Merge: 4f2ef56 4349d8f
+Author: nosemasashi <ma.nose9413@gmail.com>
+Date:   Mon Mar 2 15:57:11 2020 +0900
+
+    Merge remote-tracking branch 'origin/develop' into resisterForm
+
+[33mcommit 4f2ef5699edbd3616060a0237655fa244cddabc0[m
+Author: nosemasashi <ma.nose9413@gmail.com>
+Date:   Mon Mar 2 15:45:23 2020 +0900
+
+    ResisterUserFormを作成しました。
+
+[33mcommit 79db35ae0f310d7298429d5e33171386a996fd45[m
+Merge: 8d6fd8f 4349d8f
+Author: yusukeAshibe <yusuke.ashibe@rakus-partners.co.jpgit config --listgit config --global user.email yusuke.ashibe@rakus-partners.co.jp>
+Date:   Mon Mar 2 15:45:00 2020 +0900
+
+    Merge remote-tracking branch 'origin/develop' into feature/Item
+
+[33mcommit 4349d8ffc2199ac3c3510f0a35032a1ce52304af[m
+Merge: 08978f3 a584491
+Author: KenjiOyamada <oyaken0717@yahoo.co.jp>
+Date:   Mon Mar 2 15:36:06 2020 +0900
+
+    Merge branch 'feature/login3' into develop
+
+[33mcommit 8d6fd8f6a54893b7b9adba46e1a472e32d8b2998[m
+Merge: 3f10ce6 08978f3
+Author: yusukeAshibe <yusuke.ashibe@rakus-partners.co.jpgit config --listgit config --global user.email yusuke.ashibe@rakus-partners.co.jp>
+Date:   Mon Mar 2 15:35:40 2020 +0900
+
+    Merge remote-tracking branch 'origin/develop' into feature/Item
+
+[33mcommit a5844916884a85eca6ce0bd9c3c7f11257df2dd5[m
+Author: KenjiOyamada <oyaken0717@yahoo.co.jp>
+Date:   Mon Mar 2 15:34:18 2020 +0900
+
+    【add】UserRepositoryクラスのfindByEmail()のJavadoc追加
+
+[33mcommit 3f10ce6b019ee4aa6d5a411b836017991bde5290[m
+Author: yusukeAshibe <yusuke.ashibe@rakus-partners.co.jpgit config --listgit config --global user.email yusuke.ashibe@rakus-partners.co.jp>
+Date:   Mon Mar 2 15:33:35 2020 +0900
+
+    新規にitemドメインを作成
+
+[33mcommit c1bc28b85939c790b7649937149500343890b7a7[m
+Author: KenjiOyamada <oyaken0717@yahoo.co.jp>
+Date:   Mon Mar 2 15:31:26 2020 +0900
+
+    【new】UserRepositoryクラスのfindByEmailメソッドの作成
+
+[33mcommit 08978f353d6f987545df894c8407ae8b1756e1bb[m
+Author: oshiromai <mai.oshiro@rakus-partners.co.jp>
+Date:   Mon Mar 2 15:27:52 2020 +0900
+
+    ToppingクラスとOrderToppingクラスを作成
+
+[33mcommit 2a9bf3e1dfd4e521336d294ec4e9c7fc5073d8cb[m
+Author: nosemasashi <ma.nose9413@gmail.com>
+Date:   Mon Mar 2 15:02:26 2020 +0900
+
+    resorcesフォルダの中にstatic,templateファイルを作成しました。
+
+[33mcommit 9804989783e41e2979b239688ae1be526bbb56d3[m
+Author: nosemasashi <ma.nose9413@gmail.com>
+Date:   Mon Mar 2 14:41:16 2020 +0900
+
+    Userドメインを作成しました。
+
+[33mcommit a912e1f751a34e18dde3150f3f489d913bd89247[m
+Author: KenjiOyamada <oyaken0717@yahoo.co.jp>
+Date:   Mon Mar 2 14:11:32 2020 +0900
+
+    【new】umlファイル作成
+
+[33mcommit 48e8ae61c92cc7240ab5f91a39ec3d66de9d819b[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: KenjiOyamada <oyaken0717@yahoo.co.jp>
+Date:   Mon Mar 2 13:51:09 2020 +0900
+
+    【new】first commit
