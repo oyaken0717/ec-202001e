@@ -6,7 +6,7 @@ package com.example.form;
  * @author masashi.nose
  *
  */
-public class ResisterUserForm {
+public class RegisterUserForm {
 
 	/** ID */
 	private String id;
