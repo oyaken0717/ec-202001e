@@ -19,6 +19,7 @@ import com.example.service.RegisterUserService;
  *
  */
 @Controller
+@RequestMapping("/")
 public class RegisterUserController {
 
 	@Autowired
@@ -36,7 +37,7 @@ public class RegisterUserController {
 	 */
 	@RequestMapping("/toregister")
 	public String toRegister() {
-		return "user/register";
+		return "register";
 	}
 
 	/**
@@ -66,7 +67,7 @@ public class RegisterUserController {
 		BeanUtils.copyProperties(form, user);
 		registerUserService.register(user);
 
-		return "user/login";
+		return "login";
 
 	}
 
