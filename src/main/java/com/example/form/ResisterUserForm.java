@@ -1,14 +1,15 @@
-package com.example.domain;
+package com.example.form;
 
 /**
- * usersテーブルのドメインクラス.
+ * 登録画面からリクエストパラメータを受け取るフォームクラス.
  * 
  * @author masashi.nose
  *
  */
-public class User {
+public class ResisterUserForm {
+
 	/** ID */
-	private Integer id;
+	private String id;
 	/** 名前 */
 	private String name;
 	/** メールアドレス */
@@ -19,14 +20,14 @@ public class User {
 	private String zipcode;
 	/** 住所 */
 	private String address;
-	/** 電話番号 */
+	/** 電話 */
 	private String telephone;
 
-	public Integer getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
@@ -80,8 +81,8 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password + ", zipcode="
-				+ zipcode + ", address=" + address + ", telephone=" + telephone + "]";
+		return "ResisterUserForm [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password
+				+ ", zipcode=" + zipcode + ", address=" + address + ", telephone=" + telephone + "]";
 	}
 
 }
