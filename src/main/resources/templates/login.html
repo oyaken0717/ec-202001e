@@ -5,11 +5,12 @@
 <title>ネットでラーメン注文</title>
 </head>
 <body>
-<form action="@{/login-user/login}" method="post" th:object="${loginUserForm}">
+<form th:action="@{/login-user/login}" method="post" th:object="${loginUserForm}">
 	メールアドレス:
 	<input type="text" name="email" th:field="*{email}"><br>
 	パスワード:
-	<input type="text" name="password" th:field="*{password}">
+	<input type="text" name="password" th:field="*{password}"><br>
+	<button type="submit">ログイン</button>
 </form>
 </body>
 </html>
