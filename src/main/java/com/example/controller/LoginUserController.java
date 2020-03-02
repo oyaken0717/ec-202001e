@@ -65,6 +65,17 @@ public class LoginUserController {
 		return "item_list_noodle";
 	}
 
+	/**
+	 * ログアウトをします. 
+	 * 
+	 * @return ログイン画面
+	 */
+	@RequestMapping("/logout")
+	public String logout() {
+		session.invalidate();
+		return "redirect:/to-login";
+	}
+
 
 	
 }
