@@ -14,6 +14,12 @@ public class LoginUserService {
 	@Autowired
 	private UserRepository userRepository;
 
+	/**
+	 * メールアドレスからユーザー情報を取得します.
+	 * 
+	 * @param email メールアドレス
+	 * @return ユーザー情報 存在しない場合はnullを返します
+	 */
 	public User findByEmail(String email) {
 		return userRepository.findByEmail(email);
 	}
