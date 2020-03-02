@@ -7,6 +7,12 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.domain.User;
 import com.example.repository.UserRepository;
 
+/**
+ * ログイン情報を操作するサービス.
+ * 
+ * @author oyamadakenji
+ *
+ */
 @Service
 @Transactional
 public class LoginUserService {

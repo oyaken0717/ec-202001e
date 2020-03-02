@@ -11,6 +11,12 @@ import org.springframework.stereotype.Repository;
 
 import com.example.domain.User;
 
+/**
+ * ログイン時にuserテーブルを操作するリポジトリ.
+ * 
+ * @author oyamadakenji
+ *
+ */
 @Repository
 public class UserRepository {
 
