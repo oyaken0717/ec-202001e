@@ -1,5 +1,6 @@
 package com.example.controller;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,16 +17,12 @@ import com.example.service.OrderService;
  *
  */
 @Controller
-@RequestMapping("/confirmation")
+@RequestMapping("/orderconfirm")
 public class OrderController {
 
 	@Autowired
 	private OrderService orderService;
 	
-	/*@Autowired
-	public LoginUserForm setUpForm() {
-		return new LoginUserForm(); 
-	}*/
 	
 	/**
 	 * 注文情報を表示するメソッド.
@@ -33,14 +30,13 @@ public class OrderController {
 	 * @param model モデル
 	 * @return　注文商品表示画面
 	 */
+	@RequestMapping("")
 	public String toOrder(Model model) {
-		Integer status= 0;
+		int status=2;
 		User user=new User();
 		Integer userId=user.getId();
-		
-		Order order=orderService.findByUserIdAndStatus(userId, status);
+		Order order=orderService.findByUserIdAndStatus(userId,status); //userIdを入れないと動かない
 		model.addAttribute("order",order);
-		
 		return "order_confirm";
 	}
 	
