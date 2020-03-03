@@ -1,5 +1,6 @@
 package com.example.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -14,7 +15,7 @@ import com.example.service.showItemListService;
 
 
 @Controller
-@RequestMapping("/show-itemList")
+@RequestMapping("/")
 public class showItemListController {
 	
 	@Autowired
@@ -24,7 +25,8 @@ public class showItemListController {
 	private showItemListService showitemListServise;
 	
 	@RequestMapping("/")
-	public String showItemList(Model model) {
+	public String showItemList(Model model) {		
+		
 		List<Item> itemList = showitemListServise.showItemList();
 		model.addAttribute("itemList",itemList);
 		return "item_list_noodle";
