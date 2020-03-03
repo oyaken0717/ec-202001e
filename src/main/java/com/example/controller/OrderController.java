@@ -22,6 +22,10 @@ public class OrderController {
 	@Autowired
 	private OrderService orderService;
 	
+	/*@Autowired
+	public LoginUserForm setUpForm() {
+		return new LoginUserForm(); 
+	}*/
 	
 	/**
 	 * 注文情報を表示するメソッド.
@@ -30,7 +34,7 @@ public class OrderController {
 	 * @return　注文商品表示画面
 	 */
 	public String toOrder(Model model) {
-		Integer status=0;
+		Integer status= 0;
 		User user=new User();
 		Integer userId=user.getId();
 		
