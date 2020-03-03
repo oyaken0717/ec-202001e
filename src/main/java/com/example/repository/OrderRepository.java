@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.ResultSetExtractor;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -110,6 +111,20 @@ public class OrderRepository {
 		sql.append("WHERE o.user_id=:user_id AND o.status=:status ORDER BY oi.id");
 		SqlParameterSource param=new MapSqlParameterSource().addValue("user_id",userId).addValue("status",status);
 		Order order=template.query(sql.toString(), param,ORDER_RESULT_SET_EXTRACTOR);
+		return order;
+	}
+	
+	/**
+	 * カートに追加した時にDBに格納するメソッド.
+	 * 
+	 * @param order 注文情報
+	 * @return id情報を持ったbオブジェクト
+	 */
+	public Order insert(Order order) {
+		String sql = "INSERT INTO orders(user_id, status) values(:user_id, :status)";
+		SqlParameterSource param = new BeanPropertySqlParameterSource(order);
+		template.update(sql, param);
+		
 		return order;
 	}
 }
