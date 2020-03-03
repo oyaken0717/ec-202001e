@@ -11,7 +11,7 @@ import com.example.repository.ItemRepository;
 
 @Service
 @Transactional
-public class SearchByFindItemService {
+public class SearchByItemService {
 
 	@Autowired
 	private ItemRepository itemRepository;
