@@ -33,6 +33,7 @@ public class OrderRepository {
 		boolean firstTimeOrder=true;
 		Order order=new Order();
 		Item item=new Item();
+		OrderTopping orderTopping = new OrderTopping();
 		OrderItem orderItem=new OrderItem();
 		List<OrderTopping>orderToppingList=new ArrayList<>();
 		List<OrderItem>orderItemList=new ArrayList<>();
@@ -53,7 +54,6 @@ public class OrderRepository {
 				order.setDeliveryTime(rs.getTimestamp("order_delivery_time"));
 				order.setPaymentMethod(rs.getInt("order_payment_method"));
 				order.setOrderItemList(orderItemList);
-				firstTimeOrder=false;
 			}
 			if(rs.getInt("orderitem_id") != firstOrderItemId) {
 				orderItemList.add(orderItem);
@@ -72,8 +72,15 @@ public class OrderRepository {
 				item.setPriceL(rs.getInt("item_price_l"));
 				item.setImagePath(rs.getString("item_image_path"));
 				item.setDeleted(rs.getBoolean("item_deleted"));
-				
+			}
+			if(rs.getInt("order_topping_id")!=0) {
 				Topping topping=new Topping();
+				orderToppingList.add(orderTopping);
+				orderTopping.setId(rs.getInt("order_topping_id"));
+				orderTopping.setToppingId(rs.getInt("topping_id"));
+				orderTopping.setOrderItemId(rs.getInt("ordert_item_id"));
+				orderTopping.setTopping(topping);
+				
 				topping.setId(rs.getInt("topping_id"));
 				topping.setName(rs.getString("topping_name"));
 				topping.setPriceM(rs.getInt("topping_price_m"));
@@ -100,7 +107,7 @@ public class OrderRepository {
 		sql.append("o.destination_zipcode order_destination_zipcode,o.destination_address order_destination_address,");
 		sql.append("o.destination_tel order_destination_tel,o.delivery_time order_delivery_time,o.payment_method order_payment_method,");
 		sql.append("oi.id orderitem_id,oi.item_id orderitem_item_id,oi.order_id orderitem_order_id, oi.quantity orderitem_quantity,oi.size orderitem_size,");
-		sql.append("ot.id order_topping_id,ot.topping_id topping_id,");
+		sql.append("ot.id order_topping_id,ot.topping_id topping_id,ot.order_item_id ordert_item_id,");
 		sql.append("t.name topping_name,t.price_m topping_price_m,t.price_l topping_price_l ");
 		sql.append("FROM orders o JOIN order_items oi ON o.id = oi.id ");
 		sql.append("LEFT OUTER JOIN order_toppings ot ON oi.id = ot.order_item_id ");

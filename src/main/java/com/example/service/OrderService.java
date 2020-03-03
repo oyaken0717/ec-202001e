@@ -31,7 +31,8 @@ public class OrderService {
 	 * @return 注文情報
 	 */
 	public Order findByUserIdAndStatus(Integer userId,Integer status) {
-		return orderRepository.findByUserIdAndStatus(userId,status);
+		Order order=orderRepository.findByUserIdAndStatus(userId,status);
+		return order;
 	}
 
 }
