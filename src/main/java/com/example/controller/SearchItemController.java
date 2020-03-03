@@ -15,7 +15,7 @@ import com.example.form.SearchItemForm;
 import com.example.service.SearchItemService;
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("/searchItem")
 public class SearchItemController {
 
 	@ModelAttribute
