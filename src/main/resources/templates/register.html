@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ネットでピザ注文</title>
-<link href="../static/css/bootstrap.css" rel="stylesheet">
+<title>ネットでラーメン注文</title>
+<link href="../static/css/bootstrap.css" rel="stylesheet" th:href="@{/css/bootstrap.css}">
 
 <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -47,57 +47,48 @@
 		<div class="row">
 			<div class="col-lg-offset-3 col-lg-6 col-md-offset-2 col-md-8 col-sm-10 col-xs-12">
 				<div class="well">
-					<form method="post" action="item_list.html">
+					<form method="post" action="item_list.html" th:action="@{/register-user/register}" th:object="${registerUserForm}">
 						<fieldset>
 							<legend>ユーザ登録</legend>
 							<div class="form-group">
-								<label for="inputName">名前:</label><label
-									class="control-label" style="color: red" for="inputError">名前を入力してください</label>
-								<input type="text" id="inputName" class="form-control"
-									placeholder="Name">
+								<label for="inputName">名前:</label><label class="control-label" style="color: red" for="inputError">名前を入力してください</label>
+								<input type="text" id="inputName" class="form-control" placeholder="Name" th:field="*{name}">
 							</div>
 							<div class="form-group">
-								<label for="inputEmail">メールアドレス:</label><label
-									class="control-label" style="color: red" for="inputError">メールアドレスを入力してください</label>
-								<input type="text" id="inputEmail" class="form-control"
-									placeholder="Email">
+								<label for="inputEmail">メールアドレス:</label><label class="control-label" style="color: red" for="inputError">メールアドレスを入力してください</label>
+								<input type="text" id="inputEmail" class="form-control" placeholder="Email" th:field="*{email}">
 							</div>
 							<div class="form-group">
 								<label for="inputZipcode">郵便番号:</label>
 								<label
 									class="control-label" style="color: red" for="inputError">郵便番号を入力してください</label>
 									<input type="button" value="住所検索">
-								<input type="text" id="inputZipcode" class="form-control"
-									placeholder="Zipcode">
+								<input type="text" id="inputZipcode" class="form-control" placeholder="Zipcode" th:field="*{zipcode}">
 								
 							</div>
 							<div class="form-group">
 								<label for="inputAddress">住所:</label>
 								<label
 									class="control-label" style="color: red" for="inputError">住所を入力してください</label>
-								<input type="text" id="inputAddress" class="form-control"
-									placeholder="Address">
+								<input type="text" id="inputAddress" class="form-control" placeholder="Address" th:field="*{address}">
 							</div>
 							<div class="form-group">
 								<label for="inputTel">電話番号:</label>
 								<label
 									class="control-label" style="color: red" for="inputError">電話番号を入力してください</label>
-								<input type="text" id="inputTel" class="form-control"
-									placeholder="Tel">
+								<input type="text" id="inputTel" class="form-control" placeholder="Tel" th:field="*{telephone}">
 							</div>
 							<div class="form-group">
 								<label for="inputPassword">パスワード:</label>
 								<label
 									class="control-label" style="color: red" for="inputError">パスワードを入力してください</label>
-								<input type="text" id="inputPassword" class="form-control"
-									placeholder="Password">
+								<input type="text" id="inputPassword" class="form-control" placeholder="Password" th:field="*{password}">
 							</div>
 							<div class="form-group">
 								<label for="inputConfirmationPassword">確認用パスワード:</label>
 								<label
 									class="control-label" style="color: red" for="inputError">確認用パスワードを入力してください</label>
-								<input type="text" id="inputConfirmationPassword" class="form-control"
-									placeholder="Confirmation Password">
+								<input type="text" id="inputConfirmationPassword" class="form-control" placeholder="Confirmation Password" th:field="*{confirmationPassword}">
 							</div>
 							<div class="form-group">
 								<button type="submit" class="btn btn-primary">登録</button>
@@ -113,6 +104,6 @@
 	<!-- end container -->
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-	<script src="../static/js/bootstrap.min.js"></script>
+	<script src="../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
 </body>
 </html>

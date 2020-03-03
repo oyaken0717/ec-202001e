@@ -5,6 +5,8 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -21,13 +23,13 @@ import com.example.service.LoginUserService;
 @Controller
 @RequestMapping("/login-user")
 public class LoginUserController {
-	
+
 	@Autowired
 	private HttpSession session;
-	
+
 	@Autowired
 	private LoginUserService loginUserService;
-	
+
 	/**
 	 * 使用するフォームオブジェクトをリクエストスコープに格納する.
 	 * 
@@ -37,7 +39,7 @@ public class LoginUserController {
 	public LoginUserForm setUpLoginUserForm() {
 		return new LoginUserForm();
 	}
-	
+
 	/**
 	 * ログイン画面を出力します.
 	 * 
@@ -47,7 +49,7 @@ public class LoginUserController {
 	public String toLogin() {
 		return "login";
 	}
-	
+
 	/**
 	 * ログインします.
 	 * 
@@ -55,10 +57,15 @@ public class LoginUserController {
 	 * @return ログイン後の商品一覧画面
 	 */
 	@RequestMapping("/login")
-	public String login(LoginUserForm form,Model model) {
+	public String login(@Validated LoginUserForm form, BindingResult result, Model model) {
+
+		if (result.hasErrors()) {
+			result.rejectValue("email", null, "メールアドレス、またはパスワードが間違っています");
+			return toLogin();
+		}
 		User user = loginUserService.findByEmail(form.getEmail());
 		if (user == null) {
-			model.addAttribute("errorMessage", "メールアドレスまたはパスワードが不正です。");
+			result.rejectValue("email", null, "登録されていません");
 			return toLogin();
 		}
 		session.setAttribute("user", user);
@@ -66,16 +73,14 @@ public class LoginUserController {
 	}
 
 	/**
-	 * ログアウトをします. 
+	 * ログアウトをします.
 	 * 
 	 * @return ログイン画面
 	 */
 	@RequestMapping("/logout")
 	public String logout() {
 		session.invalidate();
-		return "redirect:/to-login";
+		return "redirect:/login-user/to-login";
 	}
 
-
-	
 }

@@ -19,7 +19,7 @@ import com.example.service.RegisterUserService;
  *
  */
 @Controller
-@RequestMapping("/")
+@RequestMapping("/register-user")
 public class RegisterUserController {
 
 	@Autowired
@@ -35,7 +35,7 @@ public class RegisterUserController {
 	 * 
 	 * @return ユーザー情報登録画面
 	 */
-	@RequestMapping("/toregister")
+	@RequestMapping("/toRegister")
 	public String toRegister() {
 		return "register";
 	}
