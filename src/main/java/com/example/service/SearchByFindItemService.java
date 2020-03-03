@@ -11,21 +11,20 @@ import com.example.repository.ItemRepository;
 
 @Service
 @Transactional
-public class showItemListService {
-	
+public class SearchByFindItemService {
+
 	@Autowired
 	private ItemRepository itemRepository;
-	
-	public List<Item> showItemList(){
+
+	public List<Item> showItemList() {
 		List<Item> itemList = itemRepository.findAllItem();
 		return itemList;
-		
-		
 	}
 
-	
-	
-	
-	
+	public List<Item> SearchByLikeName(String name) {
+		List<Item> itemList = itemRepository.findByLikeName(name);
+		return itemList;
+
+	}
 
 }

@@ -11,7 +11,6 @@ import org.springframework.stereotype.Repository;
 
 import com.example.domain.Item;
 
-import jp.co.sample.emp_management.domain.Employee;
 @Repository
 public class ItemRepository {
 	

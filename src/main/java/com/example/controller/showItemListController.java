@@ -11,7 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.domain.Item;
-import com.example.service.showItemListService;
+import com.example.service.SearchByFindItemService;
 
 @Controller
 @RequestMapping("/")
@@ -21,7 +21,7 @@ public class showItemListController {
 	private HttpSession session;
 
 	@Autowired
-	private showItemListService showitemListServise;
+	private SearchByFindItemService showitemListServise;
 
 	@RequestMapping("/")
 	public String showItemList(Model model) {
