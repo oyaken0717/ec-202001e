@@ -11,21 +11,21 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.domain.Item;
-import com.example.service.SearchByItemService;
+import com.example.service.SearchItemService;
 
 @Controller
 @RequestMapping("/")
-public class showItemListController {
+public class SearchItemController {
 
 	@Autowired
 	private HttpSession session;
 
 	@Autowired
-	private SearchByItemService showitemListServise;
+	private SearchItemService showitemListServise;
 
 	@RequestMapping("/")
-	public String showItemList(Model model) {
-
+	public String searchItem(Model model) {
+		
 		List<Item> itemList = showitemListServise.showItemList();
 		model.addAttribute("itemList", itemList);
 		return "item_list_noodle";
