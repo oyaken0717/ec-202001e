@@ -13,25 +13,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.example.domain.Item;
 import com.example.service.showItemListService;
 
-
 @Controller
 @RequestMapping("/")
 public class showItemListController {
-	
+
 	@Autowired
 	private HttpSession session;
-	
+
 	@Autowired
 	private showItemListService showitemListServise;
-	
+
 	@RequestMapping("/")
-	public String showItemList(Model model) {		
-		
+	public String showItemList(Model model) {
+
 		List<Item> itemList = showitemListServise.showItemList();
-		model.addAttribute("itemList",itemList);
+		model.addAttribute("itemList", itemList);
 		return "item_list_noodle";
-		
+
 	}
-	
 
 }
