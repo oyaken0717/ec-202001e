@@ -8,28 +8,20 @@ package com.example.form;
  */
 public class RegisterUserForm {
 
-	/** ID */
-	private String id;
 	/** 名前 */
 	private String name;
 	/** メールアドレス */
 	private String email;
-	/** パスワード */
-	private String password;
 	/** 郵便番号 */
 	private String zipcode;
 	/** 住所 */
 	private String address;
 	/** 電話 */
 	private String telephone;
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
+	/** パスワード */
+	private String password;
+	/** 確認用パスワード */
+	private String confirmationPassword;
 
 	public String getName() {
 		return name;
@@ -45,14 +37,6 @@ public class RegisterUserForm {
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
 	}
 
 	public String getZipcode() {
@@ -79,10 +63,26 @@ public class RegisterUserForm {
 		this.telephone = telephone;
 	}
 
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getConfirmationPassword() {
+		return confirmationPassword;
+	}
+
+	public void setConfirmPassword(String confirmationPassword) {
+		this.confirmationPassword = confirmationPassword;
+	}
+
 	@Override
 	public String toString() {
-		return "ResisterUserForm [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password
-				+ ", zipcode=" + zipcode + ", address=" + address + ", telephone=" + telephone + "]";
+		return "RegisterUserForm [name=" + name + ", email=" + email + ", zipcode=" + zipcode + ", address=" + address
+				+ ", telephone=" + telephone + ", password=" + password + ", confirmationPassword=" + confirmationPassword + "]";
 	}
 
 }
