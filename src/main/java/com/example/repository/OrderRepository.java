@@ -115,7 +115,7 @@ public class OrderRepository {
 	}
 	
 	/**
-	 * カートに追加した時にDBに格納するメソッド.
+	 * カートに追加した時にordersテーブルに格納するメソッド.
 	 * 
 	 * @param order 注文情報
 	 * @return id情報を持ったbオブジェクト
