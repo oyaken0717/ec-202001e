@@ -20,11 +20,11 @@ public class ItemRepository {
 		Item item = new Item();
 		item.setId(rs.getInt("id"));
 		item.setName(rs.getString("name"));
-		item.setDescription(rs.getString(""));
-		item.setPriceM(rs.getInt(""));
-		item.setPriceL(rs.getInt(""));
-		item.setImagePath(rs.getString(""));
-		item.setDeleted(rs.getBoolean(""));
+		item.setDescription(rs.getString("description"));
+		item.setPriceM(rs.getInt("price_m"));
+		item.setPriceL(rs.getInt("price_l"));
+		item.setImagePath(rs.getString("image_path"));
+		item.setDeleted(rs.getBoolean("deleted"));
 		return item;
 	};
 	
