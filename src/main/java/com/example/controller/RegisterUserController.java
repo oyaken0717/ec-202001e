@@ -52,6 +52,7 @@ public class RegisterUserController {
 	 */
 	@RequestMapping("/register")
 	public String register(@Validated RegisterUserForm form, BindingResult result) {
+		
 		User existUser = registerUserService.findByEmail(form.getEmail());
 
 		if (!(existUser == null)) {
