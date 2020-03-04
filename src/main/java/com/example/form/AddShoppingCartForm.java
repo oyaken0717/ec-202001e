@@ -16,7 +16,7 @@ public class AddShoppingCartForm {
 	/**
 	 * トッピングリスト
 	 */
-	private List<Integer> toppingList;
+	private List<Integer> orderToppingList;
 	/**
 	 * 数量
 	 */
@@ -28,7 +28,7 @@ public class AddShoppingCartForm {
 
 	@Override
 	public String toString() {
-		return "AddShoppingCartForm [size=" + size + ", toppingList=" + toppingList + ", quantity=" + quantity
+		return "AddShoppingCartForm [size=" + size + ", orderToppingList=" + orderToppingList + ", quantity=" + quantity
 				+ ", itemId=" + itemId + "]";
 	}
 
@@ -40,12 +40,14 @@ public class AddShoppingCartForm {
 		this.size = size;
 	}
 
-	public List<Integer> getToppingList() {
-		return toppingList;
+	
+
+	public List<Integer> getOrderToppingList() {
+		return orderToppingList;
 	}
 
-	public void setToppingList(List<Integer> toppingList) {
-		this.toppingList = toppingList;
+	public void setOrderToppingList(List<Integer> orderToppingList) {
+		this.orderToppingList = orderToppingList;
 	}
 
 	public Integer getQuantity() {

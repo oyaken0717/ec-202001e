@@ -41,19 +41,20 @@ public class ShoppingCartService {
 			Order order = new Order();
 			order.setUserId(userId);
 			order.setStatus(0);
-			Order toOrderId = OrderRepository.insert(order);
+			order = OrderRepository.insert(order);
 			
 			//OrderItemオブジェクトにformとorderId格納
 			OrderItem orderItem = new OrderItem();
 			BeanUtils.copyProperties(form, orderItem);
-			orderItem.setOrderId(toOrderId.getId());
-			OrderItem toOrderItemId = OrderItemRepository.insert(orderItem);
+			orderItem.setOrderId(order.getId());
+			orderItem = OrderItemRepository.insert(orderItem);
 			
+			System.out.println(form);
 			//OrderToppingオブジェクトにtoppingIdとorderItemIdを格納
-			for (Integer topping: toOrderItemId.getOrderToppingList()) {				
+			for (Integer topping: form.getOrderToppingList()) {			
 				OrderTopping orderTopping = new OrderTopping();
 				orderTopping.setToppingId(topping);
-				orderTopping.setOrderItemId(toOrderItemId.getId());
+				orderTopping.setOrderItemId(orderItem.getId());
 				orderToppingRepository.insert(orderTopping);
 			}
 		} else {
@@ -61,13 +62,13 @@ public class ShoppingCartService {
 			OrderItem orderItem = new OrderItem();
 			BeanUtils.copyProperties(form, orderItem);
 			orderItem.setOrderId(userOrder.getId());
-			OrderItem toOrderItemId = OrderItemRepository.insert(orderItem);
-			
+			orderItem = OrderItemRepository.insert(orderItem);
+			System.out.println(form);
 			//OrderToppingオブジェクトにtoppingIdとorderItemIdを格納
-			for (Integer topping: toOrderItemId.getOrderToppingList()) {				
+			for (Integer topping: form.getOrderToppingList()) {				
 				OrderTopping orderTopping = new OrderTopping();
 				orderTopping.setToppingId(topping);
-				orderTopping.setOrderItemId(toOrderItemId.getId());
+				orderTopping.setOrderItemId(orderItem.getId());
 				orderToppingRepository.insert(orderTopping);
 			}
 		}

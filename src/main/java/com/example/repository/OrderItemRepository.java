@@ -28,10 +28,10 @@ public class OrderItemRepository {
 	 * @return id情報を持った注文商品
 	 */
 	public OrderItem insert(OrderItem orderItem) {
-		String sql = "INSERT INTO order_items(itemId,orderId,quantity,size) values(:itemId,:orderId,:quantity,:size)";
+		String sql = "INSERT INTO order_items(item_id,order_id,quantity,size) values(:itemId,:orderId,:quantity,:size)";
 		SqlParameterSource param = new BeanPropertySqlParameterSource(orderItem);
-		template.update(sql, param);
-		
+		int orderItemId = template.update(sql, param);
+		orderItem.setId(orderItemId);
 		return orderItem;
 	}
 }
