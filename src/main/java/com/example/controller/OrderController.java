@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -34,6 +35,7 @@ public class OrderController {
 	public OrderDestinationForm setUpForm() {
 		return new OrderDestinationForm();
 	}
+	
 	
 	/**
 	 * 注文情報を表示するメソッド.
@@ -85,6 +87,7 @@ public class OrderController {
 		
 		orderService.order(order);
 		
+
 		return "redirect:/orderfinish";
 		
 	}
@@ -97,4 +100,5 @@ public class OrderController {
 	public String finish() {
 		return "order_finished";
 	}
+
 }

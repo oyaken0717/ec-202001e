@@ -3,12 +3,16 @@ package com.example.repository;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import com.example.domain.Item;
@@ -29,6 +33,8 @@ public class OrderRepository {
 	@Autowired
 	private NamedParameterJdbcTemplate template;
 	
+	private SimpleJdbcInsert insert;
+
 	
 	/** 注文情報をOrderドメインにセットするResultSetExtractor */
 	private static final ResultSetExtractor<Order>ORDER_RESULT_SET_EXTRACTOR=(rs)->{
@@ -119,6 +125,16 @@ public class OrderRepository {
 		Order order=template.query(sql.toString(), param, ORDER_RESULT_SET_EXTRACTOR);
 		return order;
 	}
+
+	
+	@PostConstruct
+	public void init() {
+		SimpleJdbcInsert simpleJdbcInsert=new SimpleJdbcInsert((JdbcTemplate)template.getJdbcOperations());
+		SimpleJdbcInsert withTableName=simpleJdbcInsert.withTableName("orders");
+		insert=withTableName.usingGeneratedKeyColumns("id");
+	}
+	
+
 	/**
 	 * Ordersテーブルを更新するメソッド.
 	 * 
@@ -133,6 +149,7 @@ public class OrderRepository {
 		SqlParameterSource param=new BeanPropertySqlParameterSource(order);
 		template.update(sql.toString(), param);
 	}
+
 	/**
 	 * カートに追加した時にordersテーブルに格納するメソッド.
 	 * 
@@ -146,5 +163,5 @@ public class OrderRepository {
 		order.setId(orderId);
 		return order;
 	}
-}
 
+}

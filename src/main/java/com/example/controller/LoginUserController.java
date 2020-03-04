@@ -50,37 +50,38 @@ public class LoginUserController {
 		return "login";
 	}
 
-	/**
-	 * ログインします.
-	 * 
-	 * @param form ユーザーログイン用フォーム
-	 * @return ログイン後の商品一覧画面
-	 */
-	@RequestMapping("/login")
-	public String login(@Validated LoginUserForm form, BindingResult result, Model model) {
-
-		if (result.hasErrors()) {
-			result.rejectValue("email", null, "メールアドレス、またはパスワードが間違っています");
-			return toLogin();
-		}
-		User user = loginUserService.findByEmail(form.getEmail());
-		if (user == null) {
-			result.rejectValue("email", null, "登録されていません");
-			return toLogin();
-		}
-		session.setAttribute("user", user);
-		return "item_list_noodle";
-	}
+//	/**
+//	 * ログインします.
+//	 * 
+//	 * @param form ユーザーログイン用フォーム
+//	 * @return ログイン後の商品一覧画面
+//	 */
+//	@RequestMapping("/login")
+//	public String login(@Validated LoginUserForm form, BindingResult result, Model model) {
+//
+//		if (result.hasErrors()) {
+//			result.rejectValue("email", null, "メールアドレス、またはパスワードが間違っています");
+//			return toLogin();
+//		}
+//		User user = loginUserService.findByEmail(form.getEmail());
+//		if (user == null) {
+//			result.rejectValue("email", null, "登録されていません");
+//			return toLogin();
+//		}
+//		session.setAttribute("user", user);
+//		return "item_list_noodle";
+//	}
 
 	/**
 	 * ログアウトをします.
 	 * 
-	 * @return ログイン画面
+	 * @return 商品一覧画面
 	 */
 	@RequestMapping("/logout")
 	public String logout() {
 		session.invalidate();
-		return "redirect:/login-user/to-login";
+//		return "redirect:/login-user/to-login";
+		return "item_list_noodle";
 	}
 
 }
