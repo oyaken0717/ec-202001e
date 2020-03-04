@@ -124,6 +124,7 @@ public class OrderRepository {
 		Order order=template.query(sql.toString(), param, ORDER_RESULT_SET_EXTRACTOR);
 		return order;
 	}
+
 	@PostConstruct
 	public void init() {
 		SimpleJdbcInsert simpleJdbcInsert=new SimpleJdbcInsert((JdbcTemplate)template.getJdbcOperations());
@@ -152,6 +153,19 @@ public class OrderRepository {
 		}
 		return order;
 	}
+		
+	/**
+	 * カートに追加した時にordersテーブルに格納するメソッド.
+	 * 
+	 * @param order 注文情報
+	 * @return id情報を持ったbオブジェクト
+	 */
+	public Order insert(Order order) {
+		String sql = "INSERT INTO orders(user_id, status, total_price) values(:userId, :status, 0)";
+		SqlParameterSource param = new BeanPropertySqlParameterSource(order);
+		int orderId = template.update(sql, param);
+		order.setId(orderId);
+		return order;
+	}
 
 }
-
