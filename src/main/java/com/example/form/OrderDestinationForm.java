@@ -2,6 +2,7 @@ package com.example.form;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 public class OrderDestinationForm {
 
@@ -30,6 +31,7 @@ public class OrderDestinationForm {
 	private String deliveryDate;
 	
 	/** 配達時間 */
+	@NotNull(message="配達時間を指定してください")
 	private String deliveryTime;
 	
 	/**　支払い方法*/
