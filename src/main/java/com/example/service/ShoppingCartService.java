@@ -89,4 +89,9 @@ public class ShoppingCartService {
 		orderToppingRepository.deleteById(orderItemId);
 		OrderItemRepository.deleteById(orderItemId);
 	}
+	
+	public Order showCartList(int userId) {
+		Order order = OrderRepository.findByUserIdAndStatus(userId, 0);
+		return order;
+	}
 }
