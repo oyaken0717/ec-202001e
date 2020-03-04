@@ -2,6 +2,7 @@ package com.example.repository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
@@ -33,5 +34,16 @@ public class OrderItemRepository {
 		int orderItemId = template.update(sql, param);
 		orderItem.setId(orderItemId);
 		return orderItem;
+	}
+	
+	/**
+	 * カートの商品を削除するメソッド.
+	 * 
+	 * @param id　itemの主キー
+	 */
+	public void deleteById(int id) {
+		String sql = "DELETE FROM order_items WHERE id=:id";
+		SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
+		template.update(sql, param);
 	}
 }
