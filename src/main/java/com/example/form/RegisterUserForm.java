@@ -26,7 +26,7 @@ public class RegisterUserForm {
 	@NotBlank(message="住所を入力してください。")
 	private String address;
 	/** 電話 */
-	@Pattern(regexp="0\\d{1,4}-\\d{1,4}-\\d{4}", message="電話番号を入力してください。")
+	@Pattern(regexp="0\\d{1,4}\\d{1,4}\\d{4}", message="電話番号を入力してください。")
 	private String telephone;
 	/** パスワード */
 	@NotBlank(message="パスワードを入力してください。")
@@ -87,7 +87,7 @@ public class RegisterUserForm {
 		return confirmationPassword;
 	}
 
-	public void setConfirmPassword(String confirmationPassword) {
+	public void setConfirmationPassword(String confirmationPassword) {
 		this.confirmationPassword = confirmationPassword;
 	}
 
