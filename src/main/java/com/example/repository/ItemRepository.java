@@ -13,11 +13,10 @@ import com.example.domain.Item;
 
 @Repository
 public class ItemRepository {
-	
-	 @Autowired
-	 private NamedParameterJdbcTemplate template;
-	 
-	
+
+	@Autowired
+	private NamedParameterJdbcTemplate template;
+
 	private static final RowMapper<Item> ITEM_ROW_MAPPER = (rs, i) -> {
 		Item item = new Item();
 		item.setId(rs.getInt("id"));
@@ -29,23 +28,35 @@ public class ItemRepository {
 		item.setDeleted(rs.getBoolean("deleted"));
 		return item;
 	};
-	
+
 	public List<Item> findAllItem() {
-		String sql="SELECT id,name,description,price_m,price_l,image_path,deleted FROM items ORDER BY id";
+		String sql = "SELECT id,name,description,price_m,price_l,image_path,deleted FROM items ORDER BY id";
 		List<Item> itemList = template.query(sql, ITEM_ROW_MAPPER);
 		return itemList;
-		
+
 	}
-	
-	public List<Item> findByLikeName(String name){
-		String sql="SELECT * FROM items WHERE name LIKE :name ORDER BY id ";
+
+	public List<Item> findByLikeName(String name) {
+		String sql = "SELECT * FROM items WHERE name LIKE :name ORDER BY id ";
 		SqlParameterSource param = new MapSqlParameterSource().addValue("name", "%" + name + "%");
 		List<Item> itemList = template.query(sql, param, ITEM_ROW_MAPPER);
 		return itemList;
-		
-		
+
 	}
-	
-	
+
+	/**
+	 * 
+	 * itemテーブルからIDで1件検索します.
+	 * 
+	 * @param id ID
+	 * @return 商品情報の詰まったオブジェクト.
+	 */
+	public Item load(Integer id) {
+		String sql = "SELECT id, name, description, price_m, price_l, image_path, deleted from items WHERE id = :id";
+		SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
+		Item item = template.queryForObject(sql, param, ITEM_ROW_MAPPER);
+		return item;
+
+	}
 
 }
