@@ -33,7 +33,7 @@ public class OrderRepository {
 	@Autowired
 	private NamedParameterJdbcTemplate template;
 	
-	/*private SimpleJdbcInsert insert;*/
+	private SimpleJdbcInsert insert;
 	
 	/** 注文情報をOrderドメインにセットするResultSetExtractor */
 	private static final ResultSetExtractor<Order>ORDER_RESULT_SET_EXTRACTOR=(rs)->{
@@ -124,12 +124,13 @@ public class OrderRepository {
 		Order order=template.query(sql.toString(), param, ORDER_RESULT_SET_EXTRACTOR);
 		return order;
 	}
-	/*@PostConstruct
+	
+	@PostConstruct
 	public void init() {
 		SimpleJdbcInsert simpleJdbcInsert=new SimpleJdbcInsert((JdbcTemplate)template.getJdbcOperations());
 		SimpleJdbcInsert withTableName=simpleJdbcInsert.withTableName("orders");
 		insert=withTableName.usingGeneratedKeyColumns("id");
-	}*/
+	}
 	
 	/**
 	 * Ordersテーブルを更新するメソッド.
@@ -145,6 +146,19 @@ public class OrderRepository {
 		SqlParameterSource param=new BeanPropertySqlParameterSource(order);
 		template.update(sql.toString(), param);
 	}
+		
+	/**
+	 * カートに追加した時にordersテーブルに格納するメソッド.
+	 * 
+	 * @param order 注文情報
+	 * @return id情報を持ったbオブジェクト
+	 */
+	public Order insert(Order order) {
+		String sql = "INSERT INTO orders(user_id, status, total_price) values(:userId, :status, 0)";
+		SqlParameterSource param = new BeanPropertySqlParameterSource(order);
+		int orderId = template.update(sql, param);
+		order.setId(orderId);
+		return order;
+	}
 
 }
-

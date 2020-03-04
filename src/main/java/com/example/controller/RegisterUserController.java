@@ -42,9 +42,7 @@ public class RegisterUserController {
 
 	/**
 	 * 
-	 * ユーザー情報を登録します. 
-	 * 登録成功の場合、ログイン画面へ遷移します. 
-	 * メールアドレスが重複した場合、登録画面へ戻りエラーメッセージを表示させます.
+	 * ユーザー情報を登録します. 登録成功の場合、ログイン画面へ遷移します. メールアドレスが重複した場合、登録画面へ戻りエラーメッセージを表示させます.
 	 * 
 	 * @param form   リクエストパラメータ
 	 * @param result 入力値チェック
@@ -52,27 +50,33 @@ public class RegisterUserController {
 	 */
 	@RequestMapping("/register")
 	public String register(@Validated RegisterUserForm form, BindingResult result) {
+		
 		User existUser = registerUserService.findByEmail(form.getEmail());
+		
+		System.out.println(form);
 
 		if (!(existUser == null)) {
 			result.rejectValue("email", "", "入力したメールアドレスはすでに登録されています。");
 		}
-		
-		if(!(form.getPassword().equals(form.getConfirmationPassword()))) {
+
+		if (!(form.getPassword().equals(form.getConfirmationPassword()))) {
+			
 			result.rejectValue("password", "", "パスワードが一致していません");
 			result.rejectValue("confirmationPassword", "", "");
 		}
+		
+		
 
 		if (result.hasErrors()) {
 			return toRegister();
 		}
 
 		User user = new User();
-		
+
 		BeanUtils.copyProperties(form, user);
 		registerUserService.register(user);
 
-		return "login";
+		return "redirect:/login-user/to-login";
 
 	}
 
