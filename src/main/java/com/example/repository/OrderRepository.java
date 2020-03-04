@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.ResultSetExtractor;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -27,6 +28,7 @@ public class OrderRepository {
 
 	@Autowired
 	private NamedParameterJdbcTemplate template;
+	
 	
 	/** 注文情報をOrderドメインにセットするResultSetExtractor */
 	private static final ResultSetExtractor<Order>ORDER_RESULT_SET_EXTRACTOR=(rs)->{
@@ -117,7 +119,32 @@ public class OrderRepository {
 		Order order=template.query(sql.toString(), param, ORDER_RESULT_SET_EXTRACTOR);
 		return order;
 	}
-	
-
+	/**
+	 * Ordersテーブルを更新するメソッド.
+	 * 
+	 * @param order 注文情報
+	 */
+	public void updateOrder(Order order) {
+		StringBuilder sql=new StringBuilder();
+		sql.append("UPDATE orders SET user_id=:userId,status=:status,total_price=:totalPrice,order_date=:orderDate,");
+		sql.append("destination_name=:destinationName,destination_email=:destinationEmail,destination_zipcode=:destinationZipcode,");
+		sql.append("destination_address=:destinationAddress,destination_tel=:destinationTel,delivery_time=:deliveryTime,");
+		sql.append("payment_method=:paymentMethod WHERE id=:id");
+		SqlParameterSource param=new BeanPropertySqlParameterSource(order);
+		template.update(sql.toString(), param);
+	}
+	/**
+	 * カートに追加した時にordersテーブルに格納するメソッド.
+	 * 
+	 * @param order 注文情報
+	 * @return id情報を持ったbオブジェクト
+	 */
+	public Order insert(Order order) {
+		String sql = "INSERT INTO orders(user_id, status, total_price) values(:userId, :status, 0)";
+		SqlParameterSource param = new BeanPropertySqlParameterSource(order);
+		int orderId = template.update(sql, param);
+		order.setId(orderId);
+		return order;
+	}
 }
 
