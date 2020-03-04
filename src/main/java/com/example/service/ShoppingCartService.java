@@ -80,6 +80,11 @@ public class ShoppingCartService {
 		}
 	}
 	
+	/**
+	 * ショッピングカートにある商品を削除するメソッド.
+	 * 
+	 * @param orderItemId orderItemId
+	 */
 	public void deleteOrderItem(int orderItemId) {
 		orderToppingRepository.deleteById(orderItemId);
 		OrderItemRepository.deleteById(orderItemId);
