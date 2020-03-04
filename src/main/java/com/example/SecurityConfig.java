@@ -37,7 +37,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		// 認可に関する設定
-		http.authorizeRequests().antMatchers("/register-user/toRegister", "/register-user/register","/login-user/to-login").permitAll().anyRequest().authenticated();
+		http.authorizeRequests().antMatchers("/**").permitAll().anyRequest().authenticated();
+//		http.authorizeRequests().antMatchers("/register-user/toRegister", "/register-user/register","/login-user/to-login").permitAll().anyRequest().authenticated();
 	}
 
 	/**
