@@ -120,7 +120,7 @@
 		</div>
 
 		<!-- table -->
-		<form action="order_finished.html" method="post">
+		<form action="order_finished.html" method="post" th:action="@{/order}" th:object="${orderDestinationForm}">
 			<div class="row">
 				<div
 					class="table-responsive col-lg-offset-3 col-lg-6 col-md-offset-1 col-md-10 col-sm-10 col-xs-12">
@@ -134,7 +134,9 @@
 									</div>
 								</td>
 								<td>
-									<input type="text">
+									<span th:errors="*{destinationName}" style="color:red"></span>
+									<input type="text" name="destinationName" class="form-control"
+									th:field="*{destinationName}">
 								</td>
 							</tr>
 							<tr>
@@ -144,7 +146,9 @@
 									</div>
 								</td>
 								<td>
-									<input type="text">
+									<span th:errors="*{destinationEmail}" style="color:red"></span>
+									<input type="text" name="destinationEmail" class="form-control"
+									th:field="*{destinationEmail}">
 								</td>
 							</tr>
 							<tr>
@@ -154,7 +158,10 @@
 									</div>
 								</td>
 								<td>
-									<input type="text">&nbsp;&nbsp;<button>住所検索</button>
+									<span th:errors="*{destinationZipcode}" style="color:red"></span>
+									<input type="text" name="destinationZipcode" class="form-control"
+									th:field="*{destinationZipcode}">
+									<button type="button" class="address-search">住所検索</button>
 								</td>
 							</tr>
 							<tr>
@@ -164,7 +171,9 @@
 									</div>
 								</td>
 								<td>
-									<input type="text">
+									<span th:errors="*{destinationAddress}" style="color: red"></span>
+									<input type="text" name="destinationAddress"
+									class="form-control" th:field="*{destinationAddress}" size="60">
 								</td>
 							</tr>
 							<tr>
@@ -174,25 +183,25 @@
 									</div>
 								</td>
 								<td>
-									<input type="text">
+									<span th:errors="*{destinationTel}" style="color: red"></span>
+									<input type="text" name="destinationTel" class="form-control" th:field="*{destinationTel}">
 								</td>
 							</tr>
 							<tr>
 								<td>
 									<div class="text-center">
-										配達日時
-									</div>
+										配達日時</div>
 								</td>
 								<td>
 									<div class="form-group">
 										<div class="row">
-											<div class="col-sm-12">
-												<label
-													class="control-label" style="color: red" for="inputPeriod">配達日時を入力してください</label>
+											<div class="col-sm-10">
+												<span th:errors="*{deliveryDate}" style="color:red"></span><br>									
 											</div>
-											<div class="col-sm-5">
-												<input type="date" name="name" id="name"
-													class="form-control input-sm" />
+										</div>
+										<div class="row">
+											<div class="col-sm-12">
+												<input type="date" name="deliveryDate" id="deliveryDate" class="form-control">
 											</div>
 
 										</div>
@@ -200,48 +209,39 @@
 											<div class="col-sm-12">
 												<label class="radio-inline">
 													<input type="radio"
-														name="responsibleCompany" checked="checked">
-													10時
+														name="deliveryTime" checked="checked" id="deliveryTime" value="10">10時
 												</label>
 												<label class="radio-inline">
 													<input type="radio"
-														name="responsibleCompany">
-													11時
+														name="deliveryTime" checked="checked" id="deliveryTime" value="11">11時
 												</label>
 												<label class="radio-inline">
 													<input type="radio"
-														name="responsibleCompany">
-													12時
-												</label><br>
-												<label class="radio-inline">
-													<input type="radio"
-														name="responsibleCompany">
-													13時
+														name="deliveryTime" checked="checked" id="deliveryTime" value="12">12時
 												</label>
 												<label class="radio-inline">
 													<input type="radio"
-														name="responsibleCompany">
-													14時
+														name="deliveryTime" checked="checked" id="deliveryTime" value="13">13時
 												</label>
 												<label class="radio-inline">
 													<input type="radio"
-														name="responsibleCompany">
-													15時
-												</label><br>
-												<label class="radio-inline">
-													<input type="radio"
-														name="responsibleCompany">
-													16時
+														name="deliveryTime" checked="checked" id="deliveryTime" value="14">14時
 												</label>
 												<label class="radio-inline">
 													<input type="radio"
-														name="responsibleCompany">
-													17時
+														name="deliveryTime" checked="checked" id="deliveryTime" value="15">15時
 												</label>
 												<label class="radio-inline">
 													<input type="radio"
-														name="responsibleCompany">
-													18時
+														name="deliveryTime" checked="checked" id="deliveryTime" value="16">16時
+												</label>
+												<label class="radio-inline">
+													<input type="radio"
+														name="deliveryTime" checked="checked" id="deliveryTime" value="17">17時
+												</label>
+												<label class="radio-inline">
+													<input type="radio"
+														name="deliveryTime" checked="checked" id="deliveryTime" value="18">18時
 												</label><br>
 											</div>
 										</div>
@@ -270,8 +270,7 @@
 									<div class="row">
 										<div class="col-sm-12">
 											<label class="radio-inline">
-												<input type="radio"
-													name="responsibleCompany" checked="checked">
+												<input type="radio" name="paymentMethod" th:value="1" checked="checked">
 												代金引換
 											</label>
 										</div>
@@ -289,7 +288,8 @@
 										<div class="col-sm-12">
 											<label class="radio-inline">
 												<input type="radio"
-													name="responsibleCompany" checked="checked">
+													name="paymentMethod" checked="checked" id="paymentMethod"
+													th:value="2" th:field="*{paymentMethod}">
 												クレジットカード
 											</label><br><br>
 										</div>
@@ -300,6 +300,7 @@
 					</table>
 				</div>
 			</div>
+		
 			<div class="row">
 				<div class="col-xs-offset-4 col-xs-4">
 					<div class="form-group">
