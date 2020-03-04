@@ -32,6 +32,12 @@ public class ShoppingCartService {
 		return new AddShoppingCartForm();
 	}
 	
+	/**
+	 * ショッピングカートに商品を追加するメソッド
+	 * 
+	 * @param form リクエストパラメータ
+	 * @param userId　userId
+	 */
 	public void insert(AddShoppingCartForm form, int userId) {
 		Order userOrder = OrderRepository.findByUserIdAndStatus(userId, 0);
 		//ショッピングカートに何も入っていない（orderのstatusがない）とき、order,orderItem,orderToppingの3つをinsert。
@@ -72,5 +78,10 @@ public class ShoppingCartService {
 				orderToppingRepository.insert(orderTopping);
 			}
 		}
+	}
+	
+	public void deleteOrderItem(int orderItemId) {
+		orderToppingRepository.deleteById(orderItemId);
+		OrderItemRepository.deleteById(orderItemId);
 	}
 }
