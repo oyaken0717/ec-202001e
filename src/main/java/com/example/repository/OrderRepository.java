@@ -116,12 +116,13 @@ public class OrderRepository {
 		sql.append("oi.id orderitem_id,oi.item_id orderitem_item_id,oi.order_id orderitem_order_id, oi.quantity orderitem_quantity,oi.size orderitem_size,");
 		sql.append("ot.id order_topping_id,ot.topping_id topping_id,ot.order_item_id ordert_item_id,");
 		sql.append("t.name topping_name,t.price_m topping_price_m,t.price_l topping_price_l ");
-		sql.append("FROM orders o JOIN order_items oi ON o.id = oi.id ");
+		sql.append("FROM orders o LEFT OUTER JOIN order_items oi ON o.id = oi.id ");
 		sql.append("LEFT OUTER JOIN order_toppings ot ON oi.id = ot.order_item_id ");
-		sql.append("INNER JOIN items i ON oi.item_id = i.id LEFT OUTER JOIN toppings t ON ot.topping_id = t.id ");
+		sql.append("LEFT OUTER JOIN items i ON oi.item_id = i.id LEFT OUTER JOIN toppings t ON ot.topping_id = t.id ");
 		sql.append("WHERE o.user_id=:user_id AND o.status=:status ORDER BY oi.id");
 		SqlParameterSource param=new MapSqlParameterSource().addValue("user_id",userId).addValue("status",status);
 		Order order=template.query(sql.toString(), param, ORDER_RESULT_SET_EXTRACTOR);
+		System.out.println("111" + order);
 		return order;
 	}
 

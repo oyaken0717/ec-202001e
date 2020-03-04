@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.example.domain.Order;
 import com.example.form.AddShoppingCartForm;
 import com.example.service.ShoppingCartService;
 
@@ -58,6 +59,13 @@ public class ShoppingCartController {
 	@RequestMapping("/delete")
 	public String delteOrderItem(int orderItemId) {
 		service.deleteOrderItem(orderItemId);
+		return "cart_list";
+	}
+	
+	@RequestMapping("/showList")
+	public String showcartList() {
+		Order order = service.showCartList(1);
+		System.out.println(order);
 		return "cart_list";
 	}
 }

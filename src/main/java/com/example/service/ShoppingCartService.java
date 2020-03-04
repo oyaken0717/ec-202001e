@@ -39,7 +39,8 @@ public class ShoppingCartService {
 	 * @param userId　userId
 	 */
 	public void insert(AddShoppingCartForm form, int userId) {
-		Order userOrder = OrderRepository.findByUserIdAndStatus(userId, 0);
+		Order userOrder = new Order(); 
+		userOrder = OrderRepository.findByUserIdAndStatus(userId, 0);
 		//ショッピングカートに何も入っていない（orderのstatusがない）とき、order,orderItem,orderToppingの3つをinsert。
 		//そうでないときはorderItem,orderToppingの2つをinsert。
 		if (userOrder.getStatus() == null) {
@@ -63,7 +64,7 @@ public class ShoppingCartService {
 				orderTopping.setOrderItemId(orderItem.getId());
 				orderToppingRepository.insert(orderTopping);
 			}
-		} else {
+		} else if (userOrder.getStatus() == 0) {
 			//OrderItemオブジェクトにformとorderId格納
 			OrderItem orderItem = new OrderItem();
 			BeanUtils.copyProperties(form, orderItem);
@@ -90,6 +91,12 @@ public class ShoppingCartService {
 		OrderItemRepository.deleteById(orderItemId);
 	}
 	
+	/**
+	 * ショッピングカートを表示するためのメソッド.
+	 * 
+	 * @param userId userId
+	 * @return 色々な情報が含まれた注文情報
+	 */
 	public Order showCartList(int userId) {
 		Order order = OrderRepository.findByUserIdAndStatus(userId, 0);
 		return order;
