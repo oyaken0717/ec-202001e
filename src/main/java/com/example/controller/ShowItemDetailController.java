@@ -16,7 +16,7 @@ import com.example.repository.ItemDetailService;
  */
 @Controller
 @RequestMapping("/detail")
-public class ItemDetailController {
+public class ShowItemDetailController {
 
 	@Autowired
 	private ItemDetailService itemDetailService;
@@ -30,7 +30,7 @@ public class ItemDetailController {
 	 */
 	@RequestMapping("/showDetail")
 	public String showDetail(Integer id, Model model) {
-		Item item = itemDetailService.showDetail(id);
+		Item item = itemDetailService.showDetail(1);
 		item.setToppingList(itemDetailService.showToppingList());
 
 		model.addAttribute("item", item);
