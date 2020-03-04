@@ -26,7 +26,8 @@
 							class="icon-bar"></span>
 					</button>
 					<a class="navbar-brand" href="item_list.html"> <!-- 企業ロゴ --> <img
-						alt="main log" src="../static/img_noodle/header_logo.png" height="35">
+						alt="main log" src="../static/img_noodle/header_logo.png"
+						height="35">
 					</a>
 				</div>
 
@@ -36,8 +37,8 @@
 					<p class="navbar-text navbar-right">
 						<a href="cart_list.html" class="navbar-link">ショッピングカート</a>&nbsp;&nbsp;
 						<a href="order_history.html" class="navbar-link">注文履歴</a>&nbsp;&nbsp;
-						<a href="login.html" class="navbar-link">ログイン</a>&nbsp;&nbsp;
-						<a href="item_list.html" th:href="@{/login-user/logout}">ログアウト</a>
+						<a href="login.html" class="navbar-link">ログイン</a>&nbsp;&nbsp; <a
+							href="item_list.html" th:href="@{/login-user/logout}">ログアウト</a>
 					</p>
 				</div>
 				<!-- /.navbar-collapse -->
@@ -54,7 +55,8 @@
 						<div class="panel-title">商品を検索する</div>
 					</div>
 					<div class="panel-body">
-						<form method="post" th:action="@{/searchItem/}" class="form-horizontal">
+						<form method="post" th:action="@{/searchItem/searchItem}"
+							class="form-horizontal">
 							<div class="form-group">
 								<label for="code" class="control-label col-sm-2">商品名</label>
 								<div class="col-sm-9">
@@ -65,6 +67,7 @@
 							<div class="text-center">
 								<button type="submit" value="検索" class="btn btn-primary">検索</button>
 								<button type="reset" value="クリア" class="btn btn-default">クリア</button>
+								<a th:text="${message}"></a>
 							</div>
 						</form>
 					</div>
@@ -76,19 +79,19 @@
 		<div class="row">
 			<div
 				class="table-responsive col-lg-offset-1 col-lg-10 col-md-offset-1 col-md-10 col-sm-10 col-xs-12">
-				<table class="table table-striped">
+				<table class="table table-striped" th:each="itemList:${bigItemList}">
 					<tbody>
-						<tr th:each="item: ${itemList}">
+						<tr >
 
-							<th >
-								<a href="item_detail.html">
-									<img src="../static/img_noodle/1.jpg"
-										class="img-responsive img-rounded" width="200" height="600">
-								</a><br>
-								<a href="item_detail.html"><span th:text="${item.name}">じゃがバターベーコン</span></a><br>
-								<span class="price">&nbsp;М&nbsp;</span>&nbsp;&nbsp;<span th:text="${item.priceM}+円（税抜）">1,380円(税抜)</span><br>
-								<span class="price">&nbsp;Ｌ</span>&nbsp;&nbsp;<span th:text="${item.priceL}+円（税抜）">2,380円(税抜)</span><br>
-							</th>
+							<th th:each="item:${itemList}"><a href="item_detail.html"> <img
+									src="../static/img_noodle/1.jpg"
+									class="img-responsive img-rounded" width="200" height="600">
+							</a><br> <a href="item_detail.html"><span
+									th:text="${item.name}">じゃがバターベーコン</span></a><br> <span
+								class="price">&nbsp;М&nbsp;</span>&nbsp;&nbsp;<span
+								th:text="${item.priceM}+円（税抜）">1,380円(税抜)</span><br> <span
+								class="price">&nbsp;Ｌ</span>&nbsp;&nbsp;<span
+								th:text="${item.priceL}+円（税抜）">2,380円(税抜)</span><br></th>
 						</tr>
 					</tbody>
 				</table>
