@@ -32,11 +32,12 @@ public class OrderController {
 	 */
 	@RequestMapping("")
 	public String toOrder(Model model) {
-		int status=2;
+		int status=0;
 		User user=new User();
 		Integer userId=user.getId();
-		Order order=orderService.findByUserIdAndStatus(userId,status); //userIdを入れないと動かない
+		Order order=orderService.findByUserIdAndStatus(1,status);
 		model.addAttribute("order",order);
+		
 		return "order_confirm";
 	}
 	
