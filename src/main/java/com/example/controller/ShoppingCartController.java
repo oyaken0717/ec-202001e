@@ -2,9 +2,12 @@ package com.example.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.example.domain.Order;
+import com.example.domain.OrderItem;
 import com.example.form.AddShoppingCartForm;
 import com.example.service.ShoppingCartService;
 
@@ -58,6 +61,15 @@ public class ShoppingCartController {
 	@RequestMapping("/delete")
 	public String delteOrderItem(int orderItemId) {
 		service.deleteOrderItem(orderItemId);
+		return "cart_list";
+	}
+	
+	@RequestMapping("/showList")
+	public String showcartList(Model model) {
+		Order order = service.showCartList(1);
+		model.addAttribute("order", order);
+		model.addAttribute("orderItemList", order.getOrderItemList());
+		System.out.println(order.getOrderItemList());
 		return "cart_list";
 	}
 }

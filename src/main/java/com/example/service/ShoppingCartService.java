@@ -39,7 +39,8 @@ public class ShoppingCartService {
 	 * @param userId　userId
 	 */
 	public void insert(AddShoppingCartForm form, int userId) {
-		Order userOrder = OrderRepository.findByUserIdAndStatus(userId, 0);
+		Order userOrder = new Order(); 
+		userOrder = OrderRepository.findByUserIdAndStatus(userId, 0);
 		//ショッピングカートに何も入っていない（orderのstatusがない）とき、order,orderItem,orderToppingの3つをinsert。
 		//そうでないときはorderItem,orderToppingの2つをinsert。
 		if (userOrder.getStatus() == null) {
@@ -47,15 +48,14 @@ public class ShoppingCartService {
 			Order order = new Order();
 			order.setUserId(userId);
 			order.setStatus(0);
+			order.setTotalPrice(0);
 			order = OrderRepository.insert(order);
-			
 			//OrderItemオブジェクトにformとorderId格納
 			OrderItem orderItem = new OrderItem();
 			BeanUtils.copyProperties(form, orderItem);
 			orderItem.setOrderId(order.getId());
 			orderItem = OrderItemRepository.insert(orderItem);
 			
-			System.out.println(form);
 			//OrderToppingオブジェクトにtoppingIdとorderItemIdを格納
 			for (Integer topping: form.getOrderToppingList()) {			
 				OrderTopping orderTopping = new OrderTopping();
@@ -63,13 +63,12 @@ public class ShoppingCartService {
 				orderTopping.setOrderItemId(orderItem.getId());
 				orderToppingRepository.insert(orderTopping);
 			}
-		} else {
+		} else if (userOrder.getStatus() == 0) {
 			//OrderItemオブジェクトにformとorderId格納
 			OrderItem orderItem = new OrderItem();
 			BeanUtils.copyProperties(form, orderItem);
 			orderItem.setOrderId(userOrder.getId());
 			orderItem = OrderItemRepository.insert(orderItem);
-			System.out.println(form);
 			//OrderToppingオブジェクトにtoppingIdとorderItemIdを格納
 			for (Integer topping: form.getOrderToppingList()) {				
 				OrderTopping orderTopping = new OrderTopping();
@@ -88,5 +87,16 @@ public class ShoppingCartService {
 	public void deleteOrderItem(int orderItemId) {
 		orderToppingRepository.deleteById(orderItemId);
 		OrderItemRepository.deleteById(orderItemId);
+	}
+	
+	/**
+	 * ショッピングカートを表示するためのメソッド.
+	 * 
+	 * @param userId userId
+	 * @return 色々な情報が含まれた注文情報
+	 */
+	public Order showCartList(int userId) {
+		Order order = OrderRepository.findByUserIdAndStatus(userId, 0);
+		return order;
 	}
 }
