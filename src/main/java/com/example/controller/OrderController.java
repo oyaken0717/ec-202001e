@@ -44,11 +44,12 @@ public class OrderController {
 	 * @return　注文商品表示画面
 	 */
 	@RequestMapping("")
-	public String toOrder(LoginUser loginUser,Model model) {
+	public String toOrder(/*LoginUser loginUser,*/Model model) {
 		int status=0;
-		User user=loginUser.getAdministrator();
+		User user=new User();//loginUser.getAdministrator();
+		
 		Integer userId=user.getId();
-		Order order=orderService.findByUserIdAndStatus(userId,status);
+		Order order=orderService.findByUserIdAndStatus(2,0);
 		model.addAttribute("order",order);
 		
 		return "order_confirm";
@@ -62,18 +63,18 @@ public class OrderController {
 	 * @return 注文確認画面にリダイレクト
 	 */
 	@RequestMapping("/order")
-	public String order(@Validated OrderDestinationForm form,BindingResult result,LoginUser loginUser,Model model) {
+	public String order(@Validated OrderDestinationForm form,BindingResult result,/*LoginUser loginUser,*/Model model) {
 		if(result.hasErrors()) {
-			return toOrder(loginUser,model);
+			return toOrder(/*loginUser,*/model);
 		}
 		Timestamp strDeliveryTime=null;
-		strDeliveryTime=orderService.strTimestamp(form.getDeliveryDate()+""+form.getDeliveryTime());
+		strDeliveryTime=orderService.strTimestamp(form.getDeliveryDate()+","+form.getDeliveryTime());
 		
 		Integer status=0;
-		User user=loginUser.getAdministrator();
+		User user=new User();//loginUser.getAdministrator();
 		Integer userId=user.getId();
 		Order order=orderService.findByUserIdAndStatus(userId, status);
-
+		
 		order.setTotalPrice(order.getCalcTotalPrice());
 		order.setOrderDate(new Date());
 		order.setDestinationName(form.getDestinationName());

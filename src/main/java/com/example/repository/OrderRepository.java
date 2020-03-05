@@ -142,9 +142,11 @@ public class OrderRepository {
 	 * @return
 	 */
 	public Order insertOrder(Order order) {
-		SqlParameterSource param = new BeanPropertySqlParameterSource(order);
-		Number key = insert.executeAndReturnKey(param);
-		order.setId(key.intValue());
+		if(order.getId()==null) {
+			SqlParameterSource param = new BeanPropertySqlParameterSource(order);
+			Number key = insert.executeAndReturnKey(param);
+			order.setId(key.intValue());
+		}
 		return order;
 	}
 	/**
@@ -152,7 +154,7 @@ public class OrderRepository {
 	 * 
 	 * @param order 注文情報
 	 */
-	public void updateOrder(Order order) {
+	public Order updateOrder(Order order) {
 		StringBuilder sql=new StringBuilder();
 		sql.append("UPDATE orders SET user_id=:userId,status=:status,total_price=:totalPrice,order_date=:orderDate,");
 		sql.append("destination_name=:destinationName,destination_email=:destinationEmail,destination_zipcode=:destinationZipcode,");
@@ -160,6 +162,7 @@ public class OrderRepository {
 		sql.append("payment_method=:paymentMethod WHERE id=:id");
 		SqlParameterSource param=new BeanPropertySqlParameterSource(order);
 		template.update(sql.toString(), param);
+		return order;
 	}
 	/**
 	 * カートに追加した時にordersテーブルに格納するメソッド.

@@ -49,7 +49,7 @@ public class OrderService {
 	}
 	
 
-	private static final String TIMESTAMP_FORMAT = "yyyy-MM-dd,h";
+	private static final String TIMESTAMP = "yyyy-MM-dd,h";
 	
 
 	/**
@@ -60,7 +60,7 @@ public class OrderService {
 	 */
 	public Timestamp strTimestamp(String time) {
 	try {
-			return new Timestamp(new SimpleDateFormat(TIMESTAMP_FORMAT).parse(time).getTime());
+			return new Timestamp(new SimpleDateFormat(TIMESTAMP).parse(time).getTime());
 		} catch (ParseException e) {
 			e.printStackTrace();
 			return null;
