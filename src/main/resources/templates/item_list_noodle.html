@@ -1,9 +1,5 @@
 <!DOCTYPE html>
-<<<<<<< HEAD
 <html lang="ja" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-=======
-<html lang="ja" xmlns:th="http://www.thymeleaf.org">
->>>>>>> feature/ItemList
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -43,10 +39,17 @@
 
 						<a href="cart_list.html" class="navbar-link">ショッピングカート</a>&nbsp;&nbsp;
 						<a href="order_history.html" class="navbar-link">注文履歴</a>&nbsp;&nbsp;
+<<<<<<< HEAD
 						<a href="login.html" class="navbar-link">ログイン</a>&nbsp;&nbsp;
 						<span sec:authorize="isAuthenticated()"><a href="/login">ログイン</a></span> 
 						<a href="item_list.html" th:href="@{/login-user/logout}">ログアウト</a>
 
+=======
+						<!-- <a href="login.html" class="navbar-link">ログイン</a>&nbsp;&nbsp; -->
+<span sec:authorize="isAuthenticated()"><a href="/login">ログアウト</a></span> 
+<span sec:authorize="!isAuthenticated()"><a href="/login">ログイン</a></span> 
+						<!-- <a href="item_list.html" th:href="@{/login-user/logout}">ログアウト</a> -->
+>>>>>>> feature/Springsecutiry4
 					</p>
 				</div>
 				<!-- /.navbar-collapse -->
