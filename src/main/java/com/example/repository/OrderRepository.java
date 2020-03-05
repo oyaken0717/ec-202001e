@@ -32,23 +32,28 @@ public class OrderRepository {
 
 	@Autowired
 	private NamedParameterJdbcTemplate template;
-	
 	private SimpleJdbcInsert insert;
-
+	
+	@PostConstruct
+	public void init() {
+		SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert((JdbcTemplate) template.getJdbcOperations());
+		SimpleJdbcInsert withTableName = simpleJdbcInsert.withTableName("orders");
+		insert = withTableName.usingGeneratedKeyColumns("id");
+	}
 	
 	/** 注文情報をOrderドメインにセットするResultSetExtractor */
 	private static final ResultSetExtractor<Order>ORDER_RESULT_SET_EXTRACTOR=(rs)->{
-		boolean firstTimeOrder=true;
 		Order order=new Order();
 		Item item=new Item();
 		OrderTopping orderTopping = new OrderTopping();
 		OrderItem orderItem=new OrderItem();
 		List<OrderTopping>orderToppingList=new ArrayList<>();
 		List<OrderItem>orderItemList=new ArrayList<>();
-		int firstOrderItemId=0;
+		int preOrderItemId=0;
+		int preId=0;
 		
 		while(rs.next()) {
-			if(firstTimeOrder) {
+			if(rs.getInt("order_id")!=preId) {
 				order.setId(rs.getInt("order_id"));
 				order.setUserId(rs.getInt("order_user_id"));
 				order.setStatus(rs.getInt("order_status"));
@@ -62,8 +67,10 @@ public class OrderRepository {
 				order.setDeliveryTime(rs.getTimestamp("order_delivery_time"));
 				order.setPaymentMethod(rs.getInt("order_payment_method"));
 				order.setOrderItemList(orderItemList);
+				
+				preId=rs.getInt("order_id");
 			}
-			if(rs.getInt("orderitem_id") != firstOrderItemId) {
+			if(rs.getInt("orderitem_id") != 0 && rs.getInt("orderitem_id")!=preOrderItemId) {
 				orderItemList.add(orderItem);
 				orderItem.setId(rs.getInt("orderitem_id"));
 				orderItem.setItemId(rs.getInt("orderitem_item_id"));
@@ -80,6 +87,8 @@ public class OrderRepository {
 				item.setPriceL(rs.getInt("item_price_l"));
 				item.setImagePath(rs.getString("item_image_path"));
 				item.setDeleted(rs.getBoolean("item_deleted"));
+				
+				preOrderItemId=orderItem.getId();
 			}
 			if(rs.getInt("order_topping_id")!=0) {
 				Topping topping=new Topping();
@@ -94,7 +103,7 @@ public class OrderRepository {
 				topping.setPriceM(rs.getInt("topping_price_m"));
 				topping.setPriceL(rs.getInt("topping_price_l"));
 			}
-			firstOrderItemId=rs.getInt("orderitem_id");
+			preId=order.getId();
 		}
 		return order;
 	};
@@ -125,16 +134,19 @@ public class OrderRepository {
 		Order order=template.query(sql.toString(), param, ORDER_RESULT_SET_EXTRACTOR);
 		return order;
 	}
-
 	
-	@PostConstruct
-	public void init() {
-		SimpleJdbcInsert simpleJdbcInsert=new SimpleJdbcInsert((JdbcTemplate)template.getJdbcOperations());
-		SimpleJdbcInsert withTableName=simpleJdbcInsert.withTableName("orders");
-		insert=withTableName.usingGeneratedKeyColumns("id");
+	/**
+	 * 注文内容とユーザー情報を登録するメソッド.
+	 * 
+	 * @param order
+	 * @return
+	 */
+	public Order insertOrder(Order order) {
+		SqlParameterSource param = new BeanPropertySqlParameterSource(order);
+		Number key = insert.executeAndReturnKey(param);
+		order.setId(key.intValue());
+		return order;
 	}
-	
-
 	/**
 	 * Ordersテーブルを更新するメソッド.
 	 * 
@@ -149,7 +161,6 @@ public class OrderRepository {
 		SqlParameterSource param=new BeanPropertySqlParameterSource(order);
 		template.update(sql.toString(), param);
 	}
-
 	/**
 	 * カートに追加した時にordersテーブルに格納するメソッド.
 	 * 
@@ -163,5 +174,5 @@ public class OrderRepository {
 		order.setId(orderId);
 		return order;
 	}
-
 }
+

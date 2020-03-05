@@ -9,10 +9,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.example.domain.LoginUser;
 import com.example.domain.Order;
 import com.example.domain.User;
 import com.example.form.OrderDestinationForm;
@@ -44,11 +44,11 @@ public class OrderController {
 	 * @return　注文商品表示画面
 	 */
 	@RequestMapping("")
-	public String toOrder(Model model) {
+	public String toOrder(LoginUser loginUser,Model model) {
 		int status=0;
-		User user=new User();
+		User user=loginUser.getAdministrator();
 		Integer userId=user.getId();
-		Order order=orderService.findByUserIdAndStatus(1,status);
+		Order order=orderService.findByUserIdAndStatus(userId,status);
 		model.addAttribute("order",order);
 		
 		return "order_confirm";
@@ -62,19 +62,18 @@ public class OrderController {
 	 * @return 注文確認画面にリダイレクト
 	 */
 	@RequestMapping("/order")
-	public String order(@Validated OrderDestinationForm form,BindingResult result,Model model) {
+	public String order(@Validated OrderDestinationForm form,BindingResult result,LoginUser loginUser,Model model) {
 		if(result.hasErrors()) {
-			return toOrder(model);
+			return toOrder(loginUser,model);
 		}
 		Timestamp strDeliveryTime=null;
 		strDeliveryTime=orderService.strTimestamp(form.getDeliveryDate()+""+form.getDeliveryTime());
 		
 		Integer status=0;
-		User user=new User();
+		User user=loginUser.getAdministrator();
 		Integer userId=user.getId();
 		Order order=orderService.findByUserIdAndStatus(userId, status);
-			
-		order.setStatus(Integer.valueOf(form.getPaymentMethod()));
+
 		order.setTotalPrice(order.getCalcTotalPrice());
 		order.setOrderDate(new Date());
 		order.setDestinationName(form.getDestinationName());
@@ -82,13 +81,14 @@ public class OrderController {
 		order.setDestinationZipcode(form.getDestinationZipcode());
 		order.setDestinationAddress(form.getDestinationAddress());
 		order.setDestinationTel(form.getDestinationTel());
+		order.setStatus(Integer.valueOf(form.getPaymentMethod()));
 		order.setDeliveryTime(strDeliveryTime);
 		order.setPaymentMethod(Integer.valueOf(form.getPaymentMethod()));
 		
 		orderService.order(order);
 		
 
-		return "redirect:/orderfinish";
+		return "redirect:/orderconfirm/orderFinish";
 		
 	}
 	/**
