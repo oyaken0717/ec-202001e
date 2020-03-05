@@ -49,7 +49,7 @@ public class OrderController {
 		User user=new User();//loginUser.getAdministrator();
 		
 		Integer userId=user.getId();
-		Order order=orderService.findByUserIdAndStatus(2,0);
+		Order order=orderService.findByUserIdAndStatus(2,2);
 		model.addAttribute("order",order);
 		
 		return "order_confirm";

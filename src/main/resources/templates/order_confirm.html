@@ -120,7 +120,7 @@
 		</div>
 
 		<!-- table -->
-		<form action="order_finished.html" method="post" th:action="@{/order}" th:object="${orderDestinationForm}">
+		<form action="order_finished.html" method="post" th:action="@{/orderconfirm/order}" th:object="${orderDestinationForm}">
 			<div class="row">
 				<div
 					class="table-responsive col-lg-offset-3 col-lg-6 col-md-offset-1 col-md-10 col-sm-10 col-xs-12">
@@ -161,7 +161,7 @@
 									<span th:errors="*{destinationZipcode}" style="color:red"></span>
 									<input type="text" name="destinationZipcode" class="form-control"
 									th:field="*{destinationZipcode}">
-									<button type="button" class="address-search">住所検索</button>
+									<button id="get_address_btn" type="button">住所検索</button>
 								</td>
 							</tr>
 							<tr>
@@ -313,6 +313,8 @@
 	<!-- end container -->
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 	<script src="../static/js/bootstrap.min.js"></script>
+	<script src="../static/js/get_address.js" th:src="@{/js/get_address.js}"></script>
 </body>
 </html>
