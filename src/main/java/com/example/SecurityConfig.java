@@ -53,7 +53,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.loginPage("/login-user/to-login") // ログイン画面に遷移させるパス(ログイン認証が必要なパスを指定してかつログインされていないとこのパスに遷移される)
 				.loginProcessingUrl("/login-user/login") // ログインボタンを押した際に遷移させるパス(ここに遷移させれば自動的にログインが行われる)
 				.failureUrl("/error") // ログイン失敗に遷移させるパス
-//			.defaultSuccessUrl("/login-user/login", false) // 第1引数:デフォルトでログイン成功時に遷移させるパス
+			.defaultSuccessUrl("/searchItem/", false) // 第1引数:デフォルトでログイン成功時に遷移させるパス
 //			.defaultSuccessUrl("/item_list_noodle", false) // 第1引数:デフォルトでログイン成功時に遷移させるパス
 				// 第2引数: true :認証後常に第1引数のパスに遷移
 				// false:認証されてなくて一度ログイン画面に飛ばされてもログインしたら指定したURLに遷移
