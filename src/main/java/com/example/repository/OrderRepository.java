@@ -126,7 +126,7 @@ public class OrderRepository {
 		sql.append("oi.id orderitem_id,oi.item_id orderitem_item_id,oi.order_id orderitem_order_id, oi.quantity orderitem_quantity,oi.size orderitem_size,");
 		sql.append("ot.id order_topping_id,ot.topping_id topping_id,ot.order_item_id ordert_item_id,");
 		sql.append("t.name topping_name,t.price_m topping_price_m,t.price_l topping_price_l ");
-		sql.append("FROM orders o JOIN order_items oi ON o.id = oi.id ");
+		sql.append("FROM orders o JOIN order_items oi ON o.id = oi.order_id ");
 		sql.append("LEFT OUTER JOIN order_toppings ot ON oi.id = ot.order_item_id ");
 		sql.append("INNER JOIN items i ON oi.item_id = i.id LEFT OUTER JOIN toppings t ON ot.topping_id = t.id ");
 		sql.append("WHERE o.user_id=:user_id AND o.status=:status ORDER BY oi.id");
@@ -142,9 +142,11 @@ public class OrderRepository {
 	 * @return
 	 */
 	public Order insertOrder(Order order) {
-		SqlParameterSource param = new BeanPropertySqlParameterSource(order);
-		Number key = insert.executeAndReturnKey(param);
-		order.setId(key.intValue());
+		if(order.getId()==null) {
+			SqlParameterSource param = new BeanPropertySqlParameterSource(order);
+			Number key = insert.executeAndReturnKey(param);
+			order.setId(key.intValue());
+		}
 		return order;
 	}
 	/**
@@ -152,7 +154,7 @@ public class OrderRepository {
 	 * 
 	 * @param order 注文情報
 	 */
-	public void updateOrder(Order order) {
+	public Order updateOrder(Order order) {
 		StringBuilder sql=new StringBuilder();
 		sql.append("UPDATE orders SET user_id=:userId,status=:status,total_price=:totalPrice,order_date=:orderDate,");
 		sql.append("destination_name=:destinationName,destination_email=:destinationEmail,destination_zipcode=:destinationZipcode,");
@@ -160,6 +162,7 @@ public class OrderRepository {
 		sql.append("payment_method=:paymentMethod WHERE id=:id");
 		SqlParameterSource param=new BeanPropertySqlParameterSource(order);
 		template.update(sql.toString(), param);
+		return order;
 	}
 	/**
 	 * カートに追加した時にordersテーブルに格納するメソッド.
