@@ -48,15 +48,14 @@ public class ShoppingCartService {
 			Order order = new Order();
 			order.setUserId(userId);
 			order.setStatus(0);
+			order.setTotalPrice(0);
 			order = OrderRepository.insert(order);
-			
 			//OrderItemオブジェクトにformとorderId格納
 			OrderItem orderItem = new OrderItem();
 			BeanUtils.copyProperties(form, orderItem);
 			orderItem.setOrderId(order.getId());
 			orderItem = OrderItemRepository.insert(orderItem);
 			
-			System.out.println(form);
 			//OrderToppingオブジェクトにtoppingIdとorderItemIdを格納
 			for (Integer topping: form.getOrderToppingList()) {			
 				OrderTopping orderTopping = new OrderTopping();
@@ -70,7 +69,6 @@ public class ShoppingCartService {
 			BeanUtils.copyProperties(form, orderItem);
 			orderItem.setOrderId(userOrder.getId());
 			orderItem = OrderItemRepository.insert(orderItem);
-			System.out.println(form);
 			//OrderToppingオブジェクトにtoppingIdとorderItemIdを格納
 			for (Integer topping: form.getOrderToppingList()) {				
 				OrderTopping orderTopping = new OrderTopping();

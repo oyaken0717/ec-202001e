@@ -37,17 +37,16 @@ public class OrderRepository {
 	
 	/** 注文情報をOrderドメインにセットするResultSetExtractor */
 	private static final ResultSetExtractor<Order>ORDER_RESULT_SET_EXTRACTOR=(rs)->{
-		boolean firstTimeOrder=true;
 		Order order=new Order();
-		Item item=new Item();
-		OrderTopping orderTopping = new OrderTopping();
-		OrderItem orderItem=new OrderItem();
 		List<OrderTopping>orderToppingList=new ArrayList<>();
 		List<OrderItem>orderItemList=new ArrayList<>();
+		List<Topping> toppingList = new ArrayList<>();
 		int firstOrderItemId=0;
+		int beforeUserId = 0;
 		
 		while(rs.next()) {
-			if(firstTimeOrder) {
+			int nowUserId = rs.getInt("order_user_id");
+			if(nowUserId != beforeUserId) {
 				order.setId(rs.getInt("order_id"));
 				order.setUserId(rs.getInt("order_user_id"));
 				order.setStatus(rs.getInt("order_status"));
@@ -63,6 +62,10 @@ public class OrderRepository {
 				order.setOrderItemList(orderItemList);
 			}
 			if(rs.getInt("orderitem_id") != firstOrderItemId) {
+				OrderItem orderItem=new OrderItem();
+				Item item=new Item();
+				toppingList = new ArrayList<>();
+				orderToppingList = new ArrayList<>();
 				orderItemList.add(orderItem);
 				orderItem.setId(rs.getInt("orderitem_id"));
 				orderItem.setItemId(rs.getInt("orderitem_item_id"));
@@ -79,9 +82,12 @@ public class OrderRepository {
 				item.setPriceL(rs.getInt("item_price_l"));
 				item.setImagePath(rs.getString("item_image_path"));
 				item.setDeleted(rs.getBoolean("item_deleted"));
+				item.setToppingList(toppingList);
 			}
 			if(rs.getInt("order_topping_id")!=0) {
+				OrderTopping orderTopping = new OrderTopping();
 				Topping topping=new Topping();
+				toppingList.add(topping);
 				orderToppingList.add(orderTopping);
 				orderTopping.setId(rs.getInt("order_topping_id"));
 				orderTopping.setToppingId(rs.getInt("topping_id"));
@@ -94,6 +100,7 @@ public class OrderRepository {
 				topping.setPriceL(rs.getInt("topping_price_l"));
 			}
 			firstOrderItemId=rs.getInt("orderitem_id");
+			beforeUserId = rs.getInt("order_user_id");
 		}
 		return order;
 	};
@@ -116,13 +123,12 @@ public class OrderRepository {
 		sql.append("oi.id orderitem_id,oi.item_id orderitem_item_id,oi.order_id orderitem_order_id, oi.quantity orderitem_quantity,oi.size orderitem_size,");
 		sql.append("ot.id order_topping_id,ot.topping_id topping_id,ot.order_item_id ordert_item_id,");
 		sql.append("t.name topping_name,t.price_m topping_price_m,t.price_l topping_price_l ");
-		sql.append("FROM orders o LEFT OUTER JOIN order_items oi ON o.id = oi.id ");
+		sql.append("FROM orders o JOIN order_items oi ON o.id = oi.order_id ");
 		sql.append("LEFT OUTER JOIN order_toppings ot ON oi.id = ot.order_item_id ");
-		sql.append("LEFT OUTER JOIN items i ON oi.item_id = i.id LEFT OUTER JOIN toppings t ON ot.topping_id = t.id ");
+		sql.append("INNER JOIN items i ON oi.item_id = i.id LEFT OUTER JOIN toppings t ON ot.topping_id = t.id ");
 		sql.append("WHERE o.user_id=:user_id AND o.status=:status ORDER BY oi.id");
 		SqlParameterSource param=new MapSqlParameterSource().addValue("user_id",userId).addValue("status",status);
 		Order order=template.query(sql.toString(), param, ORDER_RESULT_SET_EXTRACTOR);
-		System.out.println("111" + order);
 		return order;
 	}
 
@@ -162,10 +168,13 @@ public class OrderRepository {
 	 * @return id情報を持ったbオブジェクト
 	 */
 	public Order insert(Order order) {
-		String sql = "INSERT INTO orders(user_id, status, total_price) values(:userId, :status, 0)";
 		SqlParameterSource param = new BeanPropertySqlParameterSource(order);
-		int orderId = template.update(sql, param);
-		order.setId(orderId);
+		if(order.getId() == null) {
+			Number key = insert.executeAndReturnKey(param);
+			order.setId(key.intValue());
+		} else {
+			
+		}
 		return order;
 	}
 
