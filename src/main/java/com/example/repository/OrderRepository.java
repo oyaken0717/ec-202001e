@@ -140,27 +140,27 @@ public class OrderRepository {
 		Order order=template.query(sql.toString(), param, ORDER_RESULT_SET_EXTRACTOR);
 		return order;
 	}
-	
+
 	/**
 	 * 注文内容とユーザー情報を登録するメソッド.
 	 * 
 	 * @param order
 	 * @return
 	 */
-	public Order insertOrder(Order order) {
+	/*public Order insertOrder(Order order) {
 		if(order.getId()==null) {
 			SqlParameterSource param = new BeanPropertySqlParameterSource(order);
 			Number key = insert.executeAndReturnKey(param);
 			order.setId(key.intValue());
 		}
 		return order;
-	}
+	}*/
 	/**
 	 * Ordersテーブルを更新するメソッド.
 	 * 
 	 * @param order 注文情報
 	 */
-	public Order updateOrder(Order order) {
+	public void updateOrder(Order order) {
 		StringBuilder sql=new StringBuilder();
 		sql.append("UPDATE orders SET user_id=:userId,status=:status,total_price=:totalPrice,order_date=:orderDate,");
 		sql.append("destination_name=:destinationName,destination_email=:destinationEmail,destination_zipcode=:destinationZipcode,");
@@ -168,7 +168,6 @@ public class OrderRepository {
 		sql.append("payment_method=:paymentMethod WHERE id=:id");
 		SqlParameterSource param=new BeanPropertySqlParameterSource(order);
 		template.update(sql.toString(), param);
-		return order;
 	}
 	/**
 	 * カートに追加した時にordersテーブルに格納するメソッド.
@@ -186,5 +185,7 @@ public class OrderRepository {
 		}
 		return order;
 	}
+	
+
 }
 

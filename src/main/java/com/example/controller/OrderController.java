@@ -49,7 +49,7 @@ public class OrderController {
 		User user=new User();//loginUser.getAdministrator();
 		
 		Integer userId=user.getId();
-		Order order=orderService.findByUserIdAndStatus(2,2);
+		Order order=orderService.findByUserIdAndStatus(1,status);
 		model.addAttribute("order",order);
 		
 		return "order_confirm";
@@ -73,7 +73,7 @@ public class OrderController {
 		Integer status=0;
 		User user=new User();//loginUser.getAdministrator();
 		Integer userId=user.getId();
-		Order order=orderService.findByUserIdAndStatus(userId, status);
+		Order order=orderService.findByUserIdAndStatus(1, status);
 		
 		order.setTotalPrice(order.getCalcTotalPrice());
 		order.setOrderDate(new Date());
