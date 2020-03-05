@@ -89,18 +89,22 @@ public class SearchItemController {
 			model.addAttribute("bigItemList", bigItemList);
 
 		} else {
-			if (threeList.size() < 3) {
+			if (itemList.size() < 3) {
 				for (int i = 0; i < itemList.size(); i++) {
 					threeList.add(itemList.get(i));
-				}
+				} 
 				bigItemList.add(threeList);
 			} else {
 				for (int i = 0; i < itemList.size(); i++) {
 					threeList.add(itemList.get(i));
-					if (threeList.size() == 3) {
+					if (threeList.size() == 3){
 						bigItemList.add(threeList);
 						threeList = new ArrayList<>();
 					}
+					
+				}
+				if(threeList.size()<3) {
+					bigItemList.add(threeList);
 				}
 
 			}
