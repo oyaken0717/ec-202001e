@@ -55,7 +55,7 @@
 						<div class="panel-title">商品を検索する</div>
 					</div>
 					<div class="panel-body">
-						<form method="post" th:action="@{/searchItem}"
+						<form method="post" th:action="@{/searchItem/searchItem}"
 							class="form-horizontal">
 							<div class="form-group">
 								<label for="code" class="control-label col-sm-2">商品名</label>
@@ -83,10 +83,9 @@
 					<tbody>
 						<tr >
 
-							<th th:each="item:${itemList}"><a href="item_detail.html"> <img
-									src="../static/img_noodle/1.jpg"
-									class="img-responsive img-rounded" width="200" height="600">
-							</a><br> <a href="item_detail.html"><span
+							<th th:each="item:${itemList}"><a th:href="@{'/detail/showDetail?id='+${item.id}}"> 
+							<img th:src="@{'/img_noodle/'+${item.imagePath}}" class="img-responsive img-rounded" width="200" height="600">
+							</a><br> <a th:href="@{'/detail/showDetail?id='+${item.id}}"><span
 									th:text="${item.name}">じゃがバターベーコン</span></a><br> <span
 								class="price">&nbsp;М&nbsp;</span>&nbsp;&nbsp;<span
 								th:text="${item.priceM}+円（税抜）">1,380円(税抜)</span><br> <span
