@@ -44,16 +44,16 @@ public class OrderRepository {
 	/** 注文情報をOrderドメインにセットするResultSetExtractor */
 	private static final ResultSetExtractor<Order>ORDER_RESULT_SET_EXTRACTOR=(rs)->{
 		Order order=new Order();
-		Item item=new Item();
-		OrderTopping orderTopping = new OrderTopping();
-		OrderItem orderItem=new OrderItem();
 		List<OrderTopping>orderToppingList=new ArrayList<>();
 		List<OrderItem>orderItemList=new ArrayList<>();
-		int preOrderItemId=0;
-		int preId=0;
+
+		List<Topping> toppingList = new ArrayList<>();
+		int firstOrderItemId=0;
+		int beforeOrderId = 0;
 		
 		while(rs.next()) {
-			if(rs.getInt("order_id")!=preId) {
+			int nowUserId = rs.getInt("order_id");
+			if(nowUserId != beforeOrderId) {
 				order.setId(rs.getInt("order_id"));
 				order.setUserId(rs.getInt("order_user_id"));
 				order.setStatus(rs.getInt("order_status"));
@@ -68,9 +68,13 @@ public class OrderRepository {
 				order.setPaymentMethod(rs.getInt("order_payment_method"));
 				order.setOrderItemList(orderItemList);
 				
-				preId=rs.getInt("order_id");
+//				preId=rs.getInt("order_id");
 			}
-			if(rs.getInt("orderitem_id") != 0 && rs.getInt("orderitem_id")!=preOrderItemId) {
+			if(rs.getInt("orderitem_id") != firstOrderItemId && rs.getInt("orderitem_id")!=beforeOrderId) {
+				OrderItem orderItem=new OrderItem();
+				Item item=new Item();
+				toppingList = new ArrayList<>();
+				orderToppingList = new ArrayList<>();
 				orderItemList.add(orderItem);
 				orderItem.setId(rs.getInt("orderitem_id"));
 				orderItem.setItemId(rs.getInt("orderitem_item_id"));
@@ -87,11 +91,12 @@ public class OrderRepository {
 				item.setPriceL(rs.getInt("item_price_l"));
 				item.setImagePath(rs.getString("item_image_path"));
 				item.setDeleted(rs.getBoolean("item_deleted"));
-				
-				preOrderItemId=orderItem.getId();
+				item.setToppingList(toppingList);
 			}
 			if(rs.getInt("order_topping_id")!=0) {
+				OrderTopping orderTopping = new OrderTopping();
 				Topping topping=new Topping();
+				toppingList.add(topping);
 				orderToppingList.add(orderTopping);
 				orderTopping.setId(rs.getInt("order_topping_id"));
 				orderTopping.setToppingId(rs.getInt("topping_id"));
@@ -103,7 +108,8 @@ public class OrderRepository {
 				topping.setPriceM(rs.getInt("topping_price_m"));
 				topping.setPriceL(rs.getInt("topping_price_l"));
 			}
-			preId=order.getId();
+			firstOrderItemId=rs.getInt("orderitem_id");
+			beforeOrderId = rs.getInt("order_id");
 		}
 		return order;
 	};
@@ -171,10 +177,13 @@ public class OrderRepository {
 	 * @return id情報を持ったbオブジェクト
 	 */
 	public Order insert(Order order) {
-		String sql = "INSERT INTO orders(user_id, status, total_price) values(:userId, :status, 0)";
 		SqlParameterSource param = new BeanPropertySqlParameterSource(order);
-		int orderId = template.update(sql, param);
-		order.setId(orderId);
+		if(order.getId() == null) {
+			Number key = insert.executeAndReturnKey(param);
+			order.setId(key.intValue());
+		} else {
+			
+		}
 		return order;
 	}
 }
