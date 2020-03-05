@@ -38,7 +38,6 @@ public class OrderService {
 		Order order=orderRepository.findByUserIdAndStatus(userId,status);
 		return order;
 	}
-	
 
 	/**
 	 * 注文をするメソッド.
@@ -52,6 +51,7 @@ public class OrderService {
 
 	private static final String TIMESTAMP_FORMAT = "yyyy-MM-dd,h";
 	
+
 	/**
 	 * 日付をTimestamp型に変換するメソッド.
 	 * 

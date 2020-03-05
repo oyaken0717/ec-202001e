@@ -28,7 +28,7 @@
 					</button>
 					<a class="navbar-brand" href="item_list.html"> <!-- 企業ロゴ -->
 
-						<img alt="main log" src="/img_pizza/header_logo.png" height="35">
+						<img alt="main log" src="/img_noodle/header_logo.png" height="35">
 					</a>
 				</div>
 
@@ -78,12 +78,12 @@
 										<input type="radio"
 											name="size" checked="checked" value="M">
 
-										<span class="price">&nbsp;М&nbsp;</span>&nbsp;&nbsp;1,380円(税抜)
+										<span class="price">&nbsp;М&nbsp;</span>&nbsp;&nbsp;<span th:text="${item.priceM}">1,380円(税抜)</span>
 									</label>
 									<label class="radio-inline">
 										<input type="radio"
 											name="size" value="M">
-										<span class="price">&nbsp;Ｌ</span>&nbsp;&nbsp;2,380円(税抜)
+										<span class="price">&nbsp;Ｌ</span>&nbsp;&nbsp;<span th:text="${item.priceL}">2,380円(税抜)</span>
 									</label>
 									<input type="hidden" name="itemId" value="1"><!-- 仮置き -->
 									<input type="hidden" name="userId" value="1"><!-- 仮置き -->

@@ -16,11 +16,13 @@ import com.example.form.SearchItemForm;
 import com.example.service.SearchItemService;
 
 /**
+ * 商品表示を操作するコントローラー.
+ * 
  * @author ashibe
  *
  */
 @Controller
-@RequestMapping("/searchItem")
+@RequestMapping("/")
 public class SearchItemController {
 
 	/**
@@ -34,9 +36,6 @@ public class SearchItemController {
 	}
 
 	@Autowired
-	private HttpSession session;
-
-	@Autowired
 	private SearchItemService searchItemService;
 
 	/**
@@ -44,7 +43,7 @@ public class SearchItemController {
 	 * 
 	 * @param model モデル
 	 * @param form
-	 * @return商品一覧表示画面
+	 * @return 商品一覧表示画面
 	 */
 	@RequestMapping("/")
 	public String showItemList(Model model) {
@@ -57,39 +56,66 @@ public class SearchItemController {
 			if (threeList.size() == 3) {
 				bigItemList.add(threeList);
 				threeList = new ArrayList<>();
+			}
 		}
-//				else {
-//				bigItemList.add(threeList);
-//			}
-		}
-		model.addAttribute("bigItemList",bigItemList);
+		model.addAttribute("bigItemList", bigItemList);
 
-//		for (Item item : itemList) {
-//			int i = item.getId();
-//			if (i < 3) {
-//				for (i = 0; i < 3; i++) {
-//					List<Item> itemList1 = new ArrayList<>();
-//					itemList1.addAll(itemList);
-//				}
-//			} else {
-//				
-//				List<Item> itemList2 = new ArrayList<>();
-//				itemList2.addAll(itemList);
-//			}
-//		}
 		return "item_list_noodle";
 	}
 
+	/**
+	 * 商品曖昧検索の表示.
+	 * 
+	 * @param model
+	 * @param form
+	 * @return 商品一覧表示画面
+	 */
 	@RequestMapping("/searchItem")
 	public String searchItemList(Model model, SearchItemForm form) {
 		List<Item> itemList = searchItemService.SearchByLikeName(form.getName());
+		List<Item> threeList = new ArrayList<>();
+		List<List<Item>> bigItemList = new ArrayList<>();
+
 		if (itemList.size() == 0) {
 			model.addAttribute("message", "該当する商品がありません");
-			List<Item> itemList1 = searchItemService.showItemList();
-			model.addAttribute("itemList", itemList1);
+			itemList = searchItemService.showItemList();
+			for (int i = 0; i < itemList.size(); i++) {
+				threeList.add(itemList.get(i));
+				if (threeList.size() == 3) {
+					bigItemList.add(threeList);
+					threeList = new ArrayList<>();
+				}
+			}
+			model.addAttribute("bigItemList", bigItemList);
+
 		} else {
-			model.addAttribute("itemList", itemList);
+			if (threeList.size() < 3) {
+				for (int i = 0; i < itemList.size(); i++) {
+					threeList.add(itemList.get(i));
+				}
+				bigItemList.add(threeList);
+			} else {
+				for (int i = 0; i < itemList.size(); i++) {
+					threeList.add(itemList.get(i));
+					if (threeList.size() == 3) {
+						bigItemList.add(threeList);
+						threeList = new ArrayList<>();
+					}
+				}
+
+			}
+			model.addAttribute("bigItemList", bigItemList);
+
 		}
 		return "item_list_noodle";
 	}
 }
+
+//			model.addAttribute("message", "該当する商品がありません");
+//			for (int i = 0; i < itemList.size(); i++) {
+//				if (threeList.size() <= 3) {
+//					threeList.add(itemList.get(i));
+//					bigItemList.add(threeList);
+//					threeList = new ArrayList<>();
+//					model.addAttribute("bigItemList", bigItemList);
+//				}
