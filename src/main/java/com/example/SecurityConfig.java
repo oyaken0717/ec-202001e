@@ -56,6 +56,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.failureUrl("/login-user/to-login?error=true") // ログイン失敗に遷移させるパス
 //			.defaultSuccessUrl("/login-user/login", false) // 第1引数:デフォルトでログイン成功時に遷移させるパス
 			.defaultSuccessUrl("/searchItem/", false) // 第1引数:デフォルトでログイン成功時に遷移させるパス
+
 				// 第2引数: true :認証後常に第1引数のパスに遷移
 				// false:認証されてなくて一度ログイン画面に飛ばされてもログインしたら指定したURLに遷移
 				.usernameParameter("email") // 認証時に使用するユーザ名のリクエストパラメータ名(今回はメールアドレスを使用)

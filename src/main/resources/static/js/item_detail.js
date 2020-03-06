@@ -4,6 +4,7 @@
 
 $(function() {
 	calc_price();
+	
 	$(".size").on("change",function() {
 		calc_price();
 	});

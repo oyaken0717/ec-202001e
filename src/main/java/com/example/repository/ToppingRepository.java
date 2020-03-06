@@ -41,6 +41,7 @@ public class ToppingRepository {
 	public List<Topping> findAll() {
 		String sql = "SELECT id, name, price_m, price_l from toppings ORDER BY id";
 		List<Topping> toppingList = template.query(sql, TOPPING_ROW_MAPPER);
+		System.out.println("トッピングリストは"+ toppingList);
 		return toppingList;
 	}
 
