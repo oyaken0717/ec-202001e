@@ -1,9 +1,7 @@
 <!DOCTYPE html>
-<<<<<<< HEAD
+
 <html lang="ja" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-=======
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
->>>>>>> feature/ItemList
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -63,7 +61,7 @@
 						<div class="panel-title">商品を検索する</div>
 					</div>
 					<div class="panel-body">
-						<form method="post" th:action="@{/searchItem/searchItem}"
+						<form method="post" th:action="@{/searchItem}"
 							class="form-horizontal">
 							<div class="form-group">
 								<label for="code" class="control-label col-sm-2">商品名</label>
@@ -96,9 +94,11 @@
 							</a><br> <a th:href="@{'/detail/showDetail?id='+${item.id}}"><span
 									th:text="${item.name}">じゃがバターベーコン</span></a><br> <span
 								class="price">&nbsp;М&nbsp;</span>&nbsp;&nbsp;<span
-								th:text="${item.priceM}+円（税抜）">1,380円(税抜)</span><br> <span
+								th:text="${#numbers.formatInteger(item.priceM, 1,'COMMA')+'円（税抜き）'}">1,380円(税抜)</span><br>
+								
+								 <span
 								class="price">&nbsp;Ｌ</span>&nbsp;&nbsp;<span
-								th:text="${item.priceL}+円（税抜）">2,380円(税抜)</span><br></th>
+								th:text="${#numbers.formatInteger(item.priceL, 1,'COMMA')+'円（税抜き）'}">2,380円(税抜)</span><br></th>
 						</tr>
 					</tbody>
 				</table>
