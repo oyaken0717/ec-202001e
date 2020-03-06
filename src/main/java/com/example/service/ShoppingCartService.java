@@ -57,11 +57,13 @@ public class ShoppingCartService {
 			orderItem = OrderItemRepository.insert(orderItem);
 			
 			//OrderToppingオブジェクトにtoppingIdとorderItemIdを格納
-			for (Integer topping: form.getOrderToppingList()) {			
-				OrderTopping orderTopping = new OrderTopping();
-				orderTopping.setToppingId(topping);
-				orderTopping.setOrderItemId(orderItem.getId());
-				orderToppingRepository.insert(orderTopping);
+			if(form.getOrderToppingList() != null) {				
+				for (Integer topping: form.getOrderToppingList()) {				
+					OrderTopping orderTopping = new OrderTopping();
+					orderTopping.setToppingId(topping);
+					orderTopping.setOrderItemId(orderItem.getId());
+					orderToppingRepository.insert(orderTopping);
+				}
 			}
 		} else if (userOrder.getStatus() == 0) {
 			//OrderItemオブジェクトにformとorderId格納
@@ -69,12 +71,15 @@ public class ShoppingCartService {
 			BeanUtils.copyProperties(form, orderItem);
 			orderItem.setOrderId(userOrder.getId());
 			orderItem = OrderItemRepository.insert(orderItem);
+			System.out.println(form);
 			//OrderToppingオブジェクトにtoppingIdとorderItemIdを格納
-			for (Integer topping: form.getOrderToppingList()) {				
-				OrderTopping orderTopping = new OrderTopping();
-				orderTopping.setToppingId(topping);
-				orderTopping.setOrderItemId(orderItem.getId());
-				orderToppingRepository.insert(orderTopping);
+			if(form.getOrderToppingList() != null) {				
+				for (Integer topping: form.getOrderToppingList()) {				
+					OrderTopping orderTopping = new OrderTopping();
+					orderTopping.setToppingId(topping);
+					orderTopping.setOrderItemId(orderItem.getId());
+					orderToppingRepository.insert(orderTopping);
+				}
 			}
 		}
 	}

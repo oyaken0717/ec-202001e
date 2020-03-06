@@ -16,6 +16,7 @@ public class AddShoppingCartForm {
 	/**
 	 * トッピングリスト
 	 */
+	
 	private List<Integer> orderToppingList;
 	/**
 	 * 数量
