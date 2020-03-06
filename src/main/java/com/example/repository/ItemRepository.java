@@ -37,7 +37,7 @@ public class ItemRepository {
 	}
 
 	public List<Item> findByLikeName(String name) {
-		String sql = "SELECT * FROM items WHERE name LIKE UPPER(:name) ORDER BY UPPER price_m ";
+		String sql = "SELECT * FROM items WHERE name LIKE UPPER(:name) ORDER BY  price_m ";
 		SqlParameterSource param = new MapSqlParameterSource().addValue("name", "%" + name + "%");
 		List<Item> itemList = template.query(sql, param, ITEM_ROW_MAPPER);
 		return itemList;
