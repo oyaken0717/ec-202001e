@@ -2,6 +2,7 @@ package com.example.controller;
 
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.example.domain.LoginUser;
 import com.example.domain.Order;
 import com.example.domain.User;
 import com.example.form.OrderDestinationForm;
@@ -49,7 +49,7 @@ public class OrderController {
 		User user=new User();//loginUser.getAdministrator();
 		
 		Integer userId=user.getId();
-		Order order=orderService.findByUserIdAndStatus(1,status);
+		Order order=orderService.findByUserIdAndStatus(2,status);
 		model.addAttribute("order",order);
 		
 		return "order_confirm";
@@ -64,11 +64,17 @@ public class OrderController {
 	 */
 	@RequestMapping("/order")
 	public String order(@Validated OrderDestinationForm form,BindingResult result,/*LoginUser loginUser,*/Model model) {
+		
+		Timestamp strDeliveryTime=null;
+		strDeliveryTime=orderService.strTimestamp(form.getDeliveryDate()+","+form.getDeliveryTime());
+		LocalDateTime localDateTime=LocalDateTime.now();
+		Timestamp nowPlusOneHour=Timestamp.valueOf(localDateTime.plusHours(1));
+		if(!nowPlusOneHour.before(strDeliveryTime)) {
+			result.rejectValue("deliveryDate", null, "配達時間は現時刻の1時間前を指定してください");
+		}
 		if(result.hasErrors()) {
 			return toOrder(/*loginUser,*/model);
 		}
-		Timestamp strDeliveryTime=null;
-		strDeliveryTime=orderService.strTimestamp(form.getDeliveryDate()+","+form.getDeliveryTime());
 		
 		Integer status=0;
 		User user=new User();//loginUser.getAdministrator();

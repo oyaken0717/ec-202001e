@@ -137,7 +137,7 @@
 								<td>
 									<span th:errors="*{destinationName}" style="color:red"></span>
 									<input type="text" name="destinationName" class="form-control"
-									th:field="*{destinationName}">
+									th:field="*{destinationName}" value="${user.name}">
 								</td>
 							</tr>
 							<tr>
@@ -149,7 +149,7 @@
 								<td>
 									<span th:errors="*{destinationEmail}" style="color:red"></span>
 									<input type="text" name="destinationEmail" class="form-control"
-									th:field="*{destinationEmail}">
+									th:field="*{destinationEmail}" value="${user.email}">
 								</td>
 							</tr>
 							<tr>
@@ -161,7 +161,7 @@
 								<td>
 									<span th:errors="*{destinationZipcode}" style="color:red"></span>
 									<input type="text" name="destinationZipcode" class="form-control"
-									th:field="*{destinationZipcode}">
+									th:field="*{destinationZipcode}" value="${user.zipcode}">
 									<button id="get_address_btn" type="button">住所検索</button>
 								</td>
 							</tr>
@@ -174,7 +174,7 @@
 								<td>
 									<span th:errors="*{destinationAddress}" style="color: red"></span>
 									<input type="text" name="destinationAddress"
-									class="form-control" th:field="*{destinationAddress}" size="60">
+									class="form-control" th:field="*{destinationAddress}" size="60" value="${user.address}">
 								</td>
 							</tr>
 							<tr>
@@ -185,7 +185,7 @@
 								</td>
 								<td>
 									<span th:errors="*{destinationTel}" style="color: red"></span>
-									<input type="text" name="destinationTel" class="form-control" th:field="*{destinationTel}">
+									<input type="text" name="destinationTel" class="form-control" th:field="*{destinationTel}" value="${user.telephone}">
 								</td>
 							</tr>
 							<tr>
@@ -202,7 +202,7 @@
 										</div>
 										<div class="row">
 											<div class="col-sm-12">
-												<input type="date" name="deliveryDate" id="deliveryDate" class="form-control">
+												<input type="date" name="deliveryDate" id="deliveryDate" class="form-control" th:field="*{deliveryDate}">
 											</div>
 
 										</div>
