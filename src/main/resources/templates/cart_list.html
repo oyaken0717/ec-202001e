@@ -47,95 +47,98 @@
 
 
 		<!-- table -->
-		<div class="row">
-			<div
-				class="table-responsive col-lg-offset-1 col-lg-10 col-md-offset-1 col-md-10 col-sm-10 col-xs-12">
-				<h3 class="text-center">ショッピングカート</h3>
-				<table class="table table-striped">
-					<tbody>
-						<tr>
-							<th>
-								<div class="text-center">
-									商品名
-								</div>
-							</th>
-							<th>
-								<div class="text-center">
-									サイズ、価格(税抜)、数量
-								</div>
-							</th>
-							<th>
-								<div class="text-center">
-									トッピング、価格(税抜)
-								</div>
-							</th>
-							<th>
-								<div class="text-center">
-									小計
-								</div>
-							</th>
-							<th>
-							</th>
-						</tr>
-						<tr th:each="orderItem: ${orderItemList}">
-							<td>
-								<div class="center">
-									<img src="../static/img_pizza/1.jpg" th:src="@{'/img_noodle/'+${orderItem.item.imagePath}}"
-										class="img-responsive img-rounded" width="100" height="300"><br>
-									<span th:text="${orderItem.item.name}">じゃがバターベーコン</span>
-								</div>
-							</td>
-							<td>
-								<span class="price" th:text="${orderItem.size}">&nbsp;Ｌ</span>&nbsp;&nbsp;
-								<span th:if="${orderItem.size}=='M'" th:text="${#numbers.formatInteger(orderItem.item.priceM, 1,'COMMA')+'円'}">2,380円</span>
-								<span th:if="${orderItem.size}=='L'" th:text="${#numbers.formatInteger(orderItem.item.priceL, 1,'COMMA')+'円'}">2,380円</span>
-								&nbsp;&nbsp;
-								<span th:text="${orderItem.quantity} + '個'">1個</span>
-							</td>
-							<td>
-								<ul>
-									<li th:each="orderTopping: ${orderItem.orderToppingList}">
-										<span th:text="${orderTopping.topping.name}">ピーマン</span>
-										<span th:if="${orderItem.size} == 'M'" th:text="${orderTopping.topping.priceM}">300円</span>
-										<span th:if="${orderItem.size} == 'L'" th:text="${orderTopping.topping.priceL}">300円</span>
-									</li>
-								</ul>
-							</td>
-							<td>
-								<div class="text-center" th:text="${#numbers.formatInteger(orderItem.subTotal,1,'COMMA') + '円'}">
-									3,280円
-								</div>
-							</td>
-							<td>
-								<div class="text-center">
-									<form action="" th:action="@{/cart/delete}" method="post">
-										<input type="hidden" name="orderItemId" th:value="${orderItem.id}">
-										<button type="submit" class="btn btn-primary">削除</button>
-									</form> <!-- 仮置き -->
-								</div>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-		</div>
-
-		<div class="row">
-			<div class="col-xs-offset-2 col-xs-8">
-				<div class="form-group text-center">
-					<span id="total-price" th:text="'消費税：' + ${#numbers.formatInteger(order.tax,1,'COMMA')}">消費税：8,000円</span><br>
-					<span id="total-price" th:text="'ご注文金額合計：' + ${#numbers.formatInteger(order.calcTotalPrice,1,'COMMA')}">ご注文金額合計：38,000円 (税込)</span>
+		<div th:if="${orderItemList} == null">カートに商品がありません</div>
+		<div th:if="${orderItemList} != null">
+			<div class="row">
+				<div
+					class="table-responsive col-lg-offset-1 col-lg-10 col-md-offset-1 col-md-10 col-sm-10 col-xs-12">
+					<h3 class="text-center">ショッピングカート</h3>
+					<table class="table table-striped">
+						<tbody>
+							<tr>
+								<th>
+									<div class="text-center">
+										商品名
+									</div>
+								</th>
+								<th>
+									<div class="text-center">
+										サイズ、価格(税抜)、数量
+									</div>
+								</th>
+								<th>
+									<div class="text-center">
+										トッピング、価格(税抜)
+									</div>
+								</th>
+								<th>
+									<div class="text-center">
+										小計
+									</div>
+								</th>
+								<th>
+								</th>
+							</tr>
+							<tr th:each="orderItem: ${orderItemList}">
+								<td>
+									<div class="center">
+										<img src="../static/img_pizza/1.jpg" th:src="@{'/img_noodle/'+${orderItem.item.imagePath}}"
+											class="img-responsive img-rounded" width="100" height="300"><br>
+										<span th:text="${orderItem.item.name}">じゃがバターベーコン</span>
+									</div>
+								</td>
+								<td>
+									<span class="price" th:text="${orderItem.size}">&nbsp;Ｌ</span>&nbsp;&nbsp;
+									<span th:if="${orderItem.size}=='M'" th:text="${#numbers.formatInteger(orderItem.item.priceM, 1,'COMMA')+'円'}">2,380円</span>
+									<span th:if="${orderItem.size}=='L'" th:text="${#numbers.formatInteger(orderItem.item.priceL, 1,'COMMA')+'円'}">2,380円</span>
+									&nbsp;&nbsp;
+									<span th:text="${orderItem.quantity} + '個'">1個</span>
+								</td>
+								<td>
+									<ul>
+										<li th:each="orderTopping: ${orderItem.orderToppingList}">
+											<span th:text="${orderTopping.topping.name}">ピーマン</span>
+											<span th:if="${orderItem.size} == 'M'" th:text="${orderTopping.topping.priceM}">300円</span>
+											<span th:if="${orderItem.size} == 'L'" th:text="${orderTopping.topping.priceL}">300円</span>
+										</li>
+									</ul>
+								</td>
+								<td>
+									<div class="text-center" th:text="${#numbers.formatInteger(orderItem.subTotal,1,'COMMA') + '円'}">
+										3,280円
+									</div>
+								</td>
+								<td>
+									<div class="text-center">
+										<form action="" th:action="@{/cart/delete}" method="post">
+											<input type="hidden" name="orderItemId" th:value="${orderItem.id}">
+											<button type="submit" class="btn btn-primary">削除</button>
+										</form> <!-- 仮置き -->
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
 				</div>
 			</div>
-		</div>
-
-		<div class="row">
-			<div class="col-xs-offset-5 col-xs-3">
-				<div class="form-group">
-					<form action="order_confirm.html">
-						<input class="form-control btn btn-warning btn-block"
-							type="submit" value="注文に進む">
-					</form>
+	
+			<div class="row">
+				<div class="col-xs-offset-2 col-xs-8">
+					<div class="form-group text-center">
+						<span id="total-price" th:text="'消費税：' + ${#numbers.formatInteger(order.tax,1,'COMMA')}">消費税：8,000円</span><br>
+						<span id="total-price" th:text="'ご注文金額合計：' + ${#numbers.formatInteger(order.calcTotalPrice,1,'COMMA')}">ご注文金額合計：38,000円 (税込)</span>
+					</div>
+				</div>
+			</div>
+	
+			<div class="row">
+				<div class="col-xs-offset-5 col-xs-3">
+					<div class="form-group">
+						<form action="order_confirm.html">
+							<input class="form-control btn btn-warning btn-block"
+								type="submit" value="注文に進む">
+						</form>
+					</div>
 				</div>
 			</div>
 		</div>
