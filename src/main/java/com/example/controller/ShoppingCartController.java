@@ -49,7 +49,7 @@ public class ShoppingCartController {
 	@RequestMapping("/insert")
 	public String insert(AddShoppingCartForm form, int userId) {
 		service.insert(form, userId);
-		return "cart_list";
+		return "redirect:/cart/showList";
 	}
 	
 	/**
@@ -61,15 +61,20 @@ public class ShoppingCartController {
 	@RequestMapping("/delete")
 	public String delteOrderItem(int orderItemId) {
 		service.deleteOrderItem(orderItemId);
-		return "cart_list";
+		return "redirect:/cart/showList";
 	}
 	
+	/**
+	 * ショッピングカートの中身を表示.
+	 * 
+	 * @param model リクエストスコープ
+	 * @return カートの中身を表示
+	 */
 	@RequestMapping("/showList")
 	public String showcartList(Model model) {
 		Order order = service.showCartList(1);
 		model.addAttribute("order", order);
 		model.addAttribute("orderItemList", order.getOrderItemList());
-		System.out.println(order.getOrderItemList());
 		return "cart_list";
 	}
 }
