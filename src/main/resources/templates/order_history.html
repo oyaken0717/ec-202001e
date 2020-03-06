@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<html lang="ja" xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -27,7 +28,7 @@
 							class="icon-bar"></span> <span class="icon-bar"></span> <span
 							class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="item_list.html" th:href="@{/}"> <!-- 企業ロゴ -->
+					<a class="navbar-brand" href="item_list.html" th:href="@{/searchItem/}"> <!-- 企業ロゴ -->
 						<img alt="main log" th:src="@{/img_noodle/header_logo.png}"
 						height="35">
 					</a>
@@ -37,8 +38,8 @@
 				<div class="collapse navbar-collapse"
 					id="bs-example-navbar-collapse-1">
 					<p class="navbar-text navbar-right">
-						<a class="navbar-link">ショッピングカート</a>&nbsp;&nbsp; <a
-							class="navbar-link">ログアウト</a>
+						<a class="navbar-link" th:href="@{/cart/showList}">ショッピングカート</a>&nbsp;&nbsp; 
+						<span sec:authorize="isAuthenticated()"><a href="/logout">ログアウト</a></span>
 					</p>
 				</div>
 				<!-- /.navbar-collapse -->
@@ -121,7 +122,7 @@
 			<div class="row">
 				<div class="col-xs-offset-5 col-xs-3">
 					<div class="form-group">
-						<form action="item_list_noodle.html">
+						<form action="item_list_noodle.html" th:action="@{/searchItem/}">
 							<input class="form-control btn btn-warning btn-block"
 								type="submit" value="商品一覧に戻る">
 						</form>

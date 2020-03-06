@@ -38,9 +38,5 @@ public class OrderHistoryController {
 		model.addAttribute("orderList", orderList);
 		return "order_history";
 	}
-	@RequestMapping("/goShoppingList")
-	public String goShoppingList() {
-		return "item_list_noodle";
-	}
 	
 }
