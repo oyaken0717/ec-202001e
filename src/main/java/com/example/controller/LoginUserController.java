@@ -5,12 +5,10 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import com.example.domain.User;
 import com.example.form.LoginUserForm;
 import com.example.service.LoginUserService;
 
@@ -40,16 +38,35 @@ public class LoginUserController {
 		return new LoginUserForm();
 	}
 
+//	/**
+//	 * ログイン画面を出力します.
+//	 * 
+//	 * @return ログイン画面
+//	 */
+//	@RequestMapping("/to-login")
+//	public String toLogin() {
+//		return "login";
+//	}
+	
 	/**
 	 * ログイン画面を出力します.
 	 * 
 	 * @return ログイン画面
 	 */
 	@RequestMapping("/to-login")
-	public String toLogin() {
+//	public String toLogin(Model model,@RequestParam(required = false) String error) {
+		public String toLogin(Model model,@RequestParam(required = false) String error) {
+//		System.err.println("login error:" + error);
+		if (error != null) {
+//			System.err.println("login failed");
+			model.addAttribute("errorMessage", "メールアドレスまたはパスワードが不正です。");
+		}
 		return "login";
 	}
 
+
+	
+	
 //	/**
 //	 * ログインします.
 //	 * 
