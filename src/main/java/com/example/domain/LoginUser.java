@@ -26,7 +26,7 @@ public class LoginUser  extends org.springframework.security.core.userdetails.Us
 		this.user = user;
 	}
 
-	public User getAdministrator() {
+	public User getUser() {
 		return user;
 	}	
 }
