@@ -29,6 +29,9 @@ public class OrderHistoryController {
 		User user = new User();//本来は消す
 		Integer userId = user.getId();//loginUser.getAdministrator().getId();
 		List<Order> orderList = orderHistoryService.showOrderHistory(1);
+		for(Order order: orderList) {
+			System.out.println(order);
+		}
 		for (int i = 0; i < orderList.size(); i++) {
 			Integer status = orderList.get(i).getStatus();
 			if (status == 0) {
