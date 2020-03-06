@@ -22,7 +22,7 @@ import com.example.service.SearchItemService;
  *
  */
 @Controller
-@RequestMapping("")
+@RequestMapping("/")
 public class SearchItemController {
 
 	/**
@@ -45,7 +45,7 @@ public class SearchItemController {
 	 * @param form
 	 * @return 商品一覧表示画面
 	 */
-	@RequestMapping("/")
+	@RequestMapping("")
 	public String showItemList(Model model) {
 
 		List<Item> itemList = searchItemService.showItemList();
