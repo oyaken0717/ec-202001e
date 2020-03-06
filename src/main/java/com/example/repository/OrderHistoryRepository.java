@@ -49,7 +49,7 @@ public class OrderHistoryRepository {
 	      order.setDeliveryTime(rs.getTimestamp("order_delivery_time"));
 	      order.setPaymentMethod(rs.getInt("order_payment_method"));
 	      order.setOrderItemList(orderItemList);
-	      
+	      orderList.add(order);
 //					preId=rs.getInt("order_id");
 	    }
 	    if(rs.getInt("orderitem_id") != firstOrderItemId && rs.getInt("orderitem_id")!=beforeOrderId) {
@@ -109,12 +109,12 @@ public class OrderHistoryRepository {
 	  sql.append("o.destination_tel order_destination_tel,o.delivery_time order_delivery_time,");
 	  sql.append("o.payment_method order_payment_method,oi.id orderitem_id,oi.item_id orderitem_item_id,");
 	  sql.append("oi.order_id orderitem_order_id,oi.quantity orderitem_quantity,oi.size orderitem_size,");
-	  sql.append("i.name item_name,i.description item_description,i.price_m item_price_m,i.price_l item_price_l,");
+	  sql.append("i.id item_id,i.name item_name,i.description item_description,i.price_m item_price_m,i.price_l item_price_l,");
 	  sql.append("i.image_path item_image_path,i.deleted item_deleted,ot.id order_topping_id,ot.topping_id topping_id,");
-	  sql.append("ot.order_item_id ordert_item_id,t.name topping_name,t.price_m topping_price_m,t.price_l topping_price_l");
+	  sql.append("ot.order_item_id ordert_item_id,t.id topping_id,t.name topping_name,t.price_m topping_price_m,t.price_l topping_price_l ");
 	  sql.append("FROM orders o LEFT OUTER JOIN order_items oi ON o.id = oi.order_id LEFT OUTER JOIN order_toppings ot ");
 	  sql.append("ON ot.order_item_id = oi.id INNER JOIN items i ON oi.item_id=i.id ");
-	  sql.append("LEFT OUTER JOIN toppings t ON ot.topping_id=t.id WHERE o.user_id = 1 ORDER BY order_date DESC;");
+	  sql.append("LEFT OUTER JOIN toppings t ON ot.topping_id=t.id WHERE o.user_id =:user_id ORDER BY order_date DESC;");
 	  SqlParameterSource param=new MapSqlParameterSource().addValue("user_id",userId);
 	  List<Order>orderList=template.query(sql.toString(), param, ORDER_HISTORY_EXTRACTER);
 	  if(orderList.size()>0) {

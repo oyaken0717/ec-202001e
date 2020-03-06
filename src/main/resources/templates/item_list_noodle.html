@@ -1,5 +1,11 @@
 <!DOCTYPE html>
+<<<<<<< HEAD
 <html lang="ja" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+=======
+
+<html lang="ja" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+>>>>>>> feature/bag
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -26,8 +32,8 @@
 							class="icon-bar"></span> <span class="icon-bar"></span> <span
 							class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="item_list.html"> <!-- 企業ロゴ --> <img
-						alt="main log" src="../static/img_noodle/header_logo.png"
+					<a class="navbar-brand" href="item_list.html" th:href="@{/searchItem/}"> <!-- 企業ロゴ --> <img
+						alt="main log" src="/img_noodle/header_logo.png"
 						height="35">
 					</a>
 				</div>
@@ -36,11 +42,10 @@
 				<div class="collapse navbar-collapse"
 					id="bs-example-navbar-collapse-1">
 					<p class="navbar-text navbar-right">
-
-						<a href="cart_list.html" class="navbar-link">ショッピングカート</a>&nbsp;&nbsp;
-						<a href="order_history.html" class="navbar-link">注文履歴</a>&nbsp;&nbsp;
-<span sec:authorize="!isAuthenticated()"><a href="/login-user/to-login">ログイン</a></span> 
-<span sec:authorize="isAuthenticated()"><a href="/logout">ログアウト</a></span> 
+						<a href="cart_list.html" th:href="@{/cart/showList}" class="navbar-link">ショッピングカート</a>&nbsp;&nbsp;
+						<a href="order_history.html" th:href="@{/orderHistory}" class="navbar-link">注文履歴</a>&nbsp;&nbsp;
+						<span sec:authorize="!isAuthenticated()"><a href="/login-user/to-login">ログイン</a></span> 
+						<span sec:authorize="isAuthenticated()"><a href="/logout">ログアウト</a></span>  
 					</p>
 				</div>
 				<!-- /.navbar-collapse -->
@@ -57,7 +62,7 @@
 						<div class="panel-title">商品を検索する</div>
 					</div>
 					<div class="panel-body">
-						<form method="post" th:action="@{/searchItem/searchItem}"
+						<form method="post" th:action="@{/searchItem}"
 							class="form-horizontal">
 							<div class="form-group">
 								<label for="code" class="control-label col-sm-2">商品名</label>
@@ -90,9 +95,11 @@
 							</a><br> <a th:href="@{'/detail/showDetail?id='+${item.id}}"><span
 									th:text="${item.name}">じゃがバターベーコン</span></a><br> <span
 								class="price">&nbsp;М&nbsp;</span>&nbsp;&nbsp;<span
-								th:text="${item.priceM}+円（税抜）">1,380円(税抜)</span><br> <span
+								th:text="${#numbers.formatInteger(item.priceM, 1,'COMMA')+'円（税抜き）'}">1,380円(税抜)</span><br>
+								
+								 <span
 								class="price">&nbsp;Ｌ</span>&nbsp;&nbsp;<span
-								th:text="${item.priceL}+円（税抜）">2,380円(税抜)</span><br></th>
+								th:text="${#numbers.formatInteger(item.priceL, 1,'COMMA')+'円（税抜き）'}">2,380円(税抜)</span><br></th>
 						</tr>
 					</tbody>
 				</table>

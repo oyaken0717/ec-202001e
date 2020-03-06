@@ -18,24 +18,24 @@ import com.example.service.OrderHistoryService;
  *
  */
 @Controller
-@RequestMapping("")
+@RequestMapping("/orderHistory")
 public class OrderHistoryController {
 
 	@Autowired
 	private OrderHistoryService orderHistoryService;
-	
-	@RequestMapping("/orderHistory")
-	public String showOrderHisotry(Model model/*LoginUser loginUser*/) {
-		User user=new User();
-		Integer userId=user.getId();
-		List<Order>orderList=orderHistoryService.showOrderHistory(userId);
-		for(int i=0;i<orderList.size();i++) {
-			Integer status=orderList.get(i).getStatus();
-			if(status==0) {
+
+	@RequestMapping("")
+	public String showOrderHisotry(Model model/*, LoginUser loginUser */) {
+		User user = new User();//本来は消す
+		Integer userId = user.getId();//loginUser.getAdministrator().getId();
+		List<Order> orderList = orderHistoryService.showOrderHistory(1);
+		for (int i = 0; i < orderList.size(); i++) {
+			Integer status = orderList.get(i).getStatus();
+			if (status == 0) {
 				orderList.remove(i);
 			}
 		}
-		model.addAttribute("orderList",orderList);
+		model.addAttribute("orderList", orderList);
 		return "order_history";
 	}
 	
