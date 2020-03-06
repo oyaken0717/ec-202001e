@@ -79,11 +79,11 @@
 								<div class="col-sm-12">
 									<label class="radio-inline">
 										<input type="radio"	name="size" id="priceM" class="size" checked="checked" value="M">
-										<span class="price">&nbsp;М&nbsp;</span>&nbsp;&nbsp;<span id="sizeM" th:text="${item.priceM}" th:value="${item.priceM}"></span>円(税抜)
+										<span class="price">&nbsp;М&nbsp;</span>&nbsp;&nbsp;<span id="sizeM" th:text="${#numbers.formatInteger(item.priceM, 2, 'COMMA')}" th:value="${item.priceM}"></span>円(税抜)
 									</label>
 									<label class="radio-inline">
 										<input type="radio"	name="size" id="priceL" class="size" value="L">
-										<span class="price">&nbsp;Ｌ</span>&nbsp;&nbsp;<span id="sizeL" th:text="${item.priceL}" th:value="${item.priceL}"></span>円(税抜)
+										<span class="price">&nbsp;Ｌ</span>&nbsp;&nbsp;<span id="sizeL" th:text="${#numbers.formatInteger(item.priceL, 2, 'COMMA')}" th:value="${item.priceL}"></span>円(税抜)
 									</label>
 									<input type="hidden" name="itemId" value="1"><!-- 仮置き -->
 									<input type="hidden" name="userId" value="1"><!-- 仮置き -->
