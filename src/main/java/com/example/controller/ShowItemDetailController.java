@@ -30,7 +30,7 @@ public class ShowItemDetailController {
 	 */
 	@RequestMapping("/showDetail")
 	public String showDetail(Integer id, Model model) {
-		Item item = itemDetailService.showDetail(1);
+		Item item = itemDetailService.showDetail(id);
 		item.setToppingList(itemDetailService.showToppingList());
 
 		model.addAttribute("item", item);
