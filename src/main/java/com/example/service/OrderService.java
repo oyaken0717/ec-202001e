@@ -45,7 +45,7 @@ public class OrderService {
 	 * @param order 注文情報
 	 */
 	public void order(Order order) {
-		orderRepository.updateOrder(order);
+		orderRepository.save(order);
 	}
 	
 

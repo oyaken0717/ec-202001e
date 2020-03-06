@@ -34,12 +34,6 @@ public class OrderRepository {
 	private NamedParameterJdbcTemplate template;
 	private SimpleJdbcInsert insert;
 	
-	@PostConstruct
-	public void init() {
-		SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert((JdbcTemplate) template.getJdbcOperations());
-		SimpleJdbcInsert withTableName = simpleJdbcInsert.withTableName("orders");
-		insert = withTableName.usingGeneratedKeyColumns("id");
-	}
 	
 	/** 注文情報をOrderドメインにセットするResultSetExtractor */
 	private static final ResultSetExtractor<Order>ORDER_RESULT_SET_EXTRACTOR=(rs)->{
@@ -140,34 +134,33 @@ public class OrderRepository {
 		Order order=template.query(sql.toString(), param, ORDER_RESULT_SET_EXTRACTOR);
 		return order;
 	}
+	
+	@PostConstruct
+	public void init() {
+		SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert((JdbcTemplate) template.getJdbcOperations());
+		SimpleJdbcInsert withTableName = simpleJdbcInsert.withTableName("orders");
+		insert = withTableName.usingGeneratedKeyColumns("id");
+	}
 
 	/**
-	 * 注文内容とユーザー情報を登録するメソッド.
-	 * 
-	 * @param order
-	 * @return
-	 */
-	/*public Order insertOrder(Order order) {
-		if(order.getId()==null) {
-			SqlParameterSource param = new BeanPropertySqlParameterSource(order);
-			Number key = insert.executeAndReturnKey(param);
-			order.setId(key.intValue());
-		}
-		return order;
-	}*/
-	/**
-	 * Ordersテーブルを更新するメソッド.
+	 * Ordersテーブルをinsert or updateするメソッド.
 	 * 
 	 * @param order 注文情報
 	 */
-	public void updateOrder(Order order) {
+	public Order save(Order order) {
+		SqlParameterSource param=new BeanPropertySqlParameterSource(order);
+		if(order.getId()==null) {
+			Number key = insert.executeAndReturnKey(param);
+			order.setId(key.intValue());
+		} else {
 		StringBuilder sql=new StringBuilder();
 		sql.append("UPDATE orders SET user_id=:userId,status=:status,total_price=:totalPrice,order_date=:orderDate,");
 		sql.append("destination_name=:destinationName,destination_email=:destinationEmail,destination_zipcode=:destinationZipcode,");
 		sql.append("destination_address=:destinationAddress,destination_tel=:destinationTel,delivery_time=:deliveryTime,");
 		sql.append("payment_method=:paymentMethod WHERE id=:id");
-		SqlParameterSource param=new BeanPropertySqlParameterSource(order);
 		template.update(sql.toString(), param);
+		}
+		return order;
 	}
 	/**
 	 * カートに追加した時にordersテーブルに格納するメソッド.
