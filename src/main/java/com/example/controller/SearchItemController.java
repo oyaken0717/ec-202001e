@@ -3,8 +3,6 @@ package com.example.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -71,7 +69,7 @@ public class SearchItemController {
 	 * @return 商品一覧表示画面
 	 */
 	@RequestMapping("/searchItem")
-	public String searchItemList(Model model, SearchItemForm form) {
+	public String searchItemList(SearchItemForm form, Model model) {
 		List<Item> itemList = searchItemService.SearchByLikeName(form.getName());
 		List<Item> threeList = new ArrayList<>();
 		List<List<Item>> bigItemList = new ArrayList<>();
