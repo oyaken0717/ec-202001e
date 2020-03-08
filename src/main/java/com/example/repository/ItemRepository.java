@@ -30,14 +30,14 @@ public class ItemRepository {
 	};
 
 	public List<Item> findAllItem() {
-		String sql = "SELECT id,name,description,price_m,price_l,image_path,deleted FROM items ORDER BY price_m";
+		String sql = "SELECT id,name,description,price_m,price_l,image_path,deleted FROM items ORDER BY price_m ";
 		List<Item> itemList = template.query(sql, ITEM_ROW_MAPPER);
 		return itemList;
 
 	}
 
 	public List<Item> findByLikeName(String name) {
-		String sql = "SELECT * FROM items WHERE name LIKE UPPER(:name) ORDER BY  price_m ";
+		String sql = "SELECT * FROM items WHERE name LIKE UPPER(:name) ORDER BY  price_m DESC ";
 		SqlParameterSource param = new MapSqlParameterSource().addValue("name", "%" + name + "%");
 		List<Item> itemList = template.query(sql, param, ITEM_ROW_MAPPER);
 		return itemList;
