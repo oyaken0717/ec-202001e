@@ -21,7 +21,7 @@ import com.example.service.SearchItemService;
  *
  */
 @Controller
-@RequestMapping("/searchItem")
+@RequestMapping("/")
 public  class SearchItemController   {
 
 
