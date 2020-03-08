@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
   <head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
     <link rel="stylesheet" media="screen" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600" />
     <link rel="stylesheet" media="screen" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" />
 
-
+<meta charset="utf-8">
     <style>
      * {
          -moz-box-sizing:border-box;
@@ -320,18 +321,11 @@
       404
     </div>
     <div class="subheader primary-text-color">
-      Oops, the page you're looking for does not exist.
+      お探しのページが見つかりませんでした
     </div>
     <div class="hr"></div>
-    <div class="context secondary-text-color">
-      <p>
-        You may want to head back to the homepage.
-        If you think something is broken, report a problem.
-      </p>
-    </div>
-    <div class="buttons-container">
-      <a class="button" href="#" target="_blank"><span class="fa fa-home"></span> Go to homepage</a>
-      <a class="button" href="mailto:#" target="_blank"><span class="fa fa-warning"></span> Report a problem</a>
+    <div class="buttons-container single-button">
+      <a class="button" th:href="@{/searchItem/}"><span class="fa fa-warning"></span>商品一覧ページに戻る</a>
     </div>
   </div>
 </center>

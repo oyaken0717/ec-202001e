@@ -29,7 +29,7 @@
 							class="icon-bar"></span> <span class="icon-bar"></span> <span
 							class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="item_list.html" th:href="@{/searchItem/}"> <!-- 企業ロゴ -->
+					<a class="navbar-brand" href="item_list.html" th:href="@{/}"> <!-- 企業ロゴ -->
 
 						<img alt="main log" src="/img_noodle/header_logo.png" height="35">
 					</a>
@@ -80,11 +80,11 @@
 								<div class="col-sm-12">
 									<label class="radio-inline">
 										<input type="radio"	name="size" id="priceM" class="size" checked="checked" value="M">
-										<span class="price">&nbsp;М&nbsp;</span>&nbsp;&nbsp;<span id="sizeM" th:text="${item.priceM}" th:value="${item.priceM}"></span>円(税抜)
+										<span class="price">&nbsp;М&nbsp;</span>&nbsp;&nbsp;<span id="sizeM" th:text="${#numbers.formatInteger(item.priceM, 2, 'COMMA')}" th:value="${item.priceM}"></span>円(税抜)
 									</label>
 									<label class="radio-inline">
 										<input type="radio"	name="size" id="priceL" class="size" value="L">
-										<span class="price">&nbsp;Ｌ</span>&nbsp;&nbsp;<span id="sizeL" th:text="${item.priceL}" th:value="${item.priceL}"></span>円(税抜)
+										<span class="price">&nbsp;Ｌ</span>&nbsp;&nbsp;<span id="sizeL" th:text="${#numbers.formatInteger(item.priceL, 2, 'COMMA')}" th:value="${item.priceL}"></span>円(税抜)
 									</label>
 								</div>
 							</div>

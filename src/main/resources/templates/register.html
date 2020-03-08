@@ -6,11 +6,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ネットでラーメン注文</title>
 <link href="../static/css/bootstrap.css" rel="stylesheet" th:href="@{/css/bootstrap.css}">
-<!-- <script src="https://ajaxzip3.github.io/ajaxzip3.js" charset="UTF-8"></script> -->
 <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="https://ajaxzip3.github.io/ajaxzip3.js" charset="UTF-8"></script>
+	<!-- <script src="http://code.jquery.com/jquery-3.2.1.min.js"></script> -->
+	<script src="../static/js/get_address.js" th:src="@{/js/get_address.js}"></script>
+	<script src="../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
     
 </head>
 <body>
@@ -26,7 +30,7 @@
 							class="icon-bar"></span> <span class="icon-bar"></span> <span
 							class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="item_list.html" th:href="@{/searchItem/}"> <!-- 企業ロゴ -->
+					<a class="navbar-brand" href="item_list.html" th:href="@{/}"> <!-- 企業ロゴ -->
 					 <img alt="main log" src="/img_noodle/header_logo.png" height="35">
 					</a>
 				</div>
@@ -59,18 +63,17 @@
 								<input type="text" id="inputEmail" class="form-control" placeholder="Email" th:field="*{email}">
 							</div>
 							
-						
-							 
-							
 							<!-- 
+							 				
 							<div class="form-group">
-								<label for="inputZipcode">郵便番号</label>
+								<label for="inputZipcode">郵便番号</label>&nbsp;&nbsp;
+								<button type="button" id="searchAddress">住所検索</button>
 								<label class="control-label" style="color: red" th:errors="*{zipcode}" for="inputError"></label>
-							<input type="text" name="zip11" size="10" maxlength="8" onKeyUp="AjaxZip3.zip2addr(this,'','addr11','addr11');" class="form-control" placeholder="Zipcode" th:field="*{zipcode}">
+									<input type="text" name="zip11" maxlength="8" class="form-control" placeholder="Zipcode" th:field="*{zipcode}">
 							</div>
-							 -->
 							
-										
+							  -->
+							 							
 							
 							<div class="form-group">
 								<label for="inputZipcode">郵便番号（ハイフンなし）:</label>
@@ -80,17 +83,17 @@
 								 <input type="text" id="zipcode" class="form-control" placeholder="Zipcode" th:field="*{zipcode}" size="7"/>
 								
 							</div>
-							
-							
-							
-							
-							 <!--  
+									
+							<!-- 				 
+								
 							<div class="form-group">
 								<label for="inputAddress">住所：</label>
 								<label class="control-label" th:errors="*{address}" style="color: red" for="inputError"></label>
 								<input type="text" name="addr11" size="60" class="form-control" placeholder="Address" th:field="*{address}"> 
 							</div>
-							-->
+							
+							 -->
+														
 							
 							
 							
@@ -101,8 +104,7 @@
 								<input type="text" id="address" class="form-control" placeholder="Address" th:field="*{address}">
 							</div>
 							
-							
-							
+														
 							
 							<div class="form-group">
 								<label for="inputTel">電話番号（ハイフンなし）:</label>
@@ -134,9 +136,6 @@
 
 	</div>
 	<!-- end container -->
-	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-	<script	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-	<script src="../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
-	<script src="../static/js/get_address.js" th:src="@{/js/get_address.js}"></script> 
+	
 </body>
 </html>
