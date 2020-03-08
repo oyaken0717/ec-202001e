@@ -92,7 +92,6 @@ public class SearchItemController {
 		List<List<Item>> bigItemList = new ArrayList<>();
 		if (itemList.size() == 0) {
 			model.addAttribute("message", "該当する商品がありません");
-//			 bigItemList = showItemList(searchItemForm, model);
 			for (int i = 0; i < itemList.size(); i++) {
 				threeList.add(itemList.get(i));
 				if (threeList.size() == 3) {
