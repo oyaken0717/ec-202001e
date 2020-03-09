@@ -172,7 +172,7 @@
 									style="color: red"></span> <input type="text"
 									name="destinationZipcode" class="form-control"
 									th:field="*{destinationZipcode}" value="${user.zipcode}">
-									<button id="get_address_btn" type="button">住所検索</button></td>
+									<button type="button" id="searchAddress2">住所検索</button></td>
 							</tr>
 							<tr>
 								<td>
@@ -352,11 +352,10 @@
 		</form>
 	</div>
 	<!-- end container -->
-	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+	<script src="https://ajaxzip3.github.io/ajaxzip3.js" charset="UTF-8"></script>
 	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-	<script src="../static/js/bootstrap.min.js"></script>
-	<script src="../static/js/get_address.js"
-		th:src="@{/js/get_address.js}"></script>
+	<script src="../static/js/get_address.js" th:src="@{/js/get_address.js}"></script>
 </body>
 </html>
