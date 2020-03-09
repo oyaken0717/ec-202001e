@@ -35,9 +35,9 @@ public class OrderHistoryController {
 	 */
 	@RequestMapping("")
 	public String showOrderHisotry(Model model,@AuthenticationPrincipal LoginUser loginUser) {
-		User user=new User();
-		Integer userId=user.getId();//loginUser.getUser().getId();
-		List<Order> orderList = orderService.showOrderHistory(1);
+		
+		Integer userId=loginUser.getUser().getId();
+		List<Order> orderList = orderService.showOrderHistory(userId);
 		if(orderList==null) {
 			model.addAttribute("message","注文履歴はありません");
 		}

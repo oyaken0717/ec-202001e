@@ -91,7 +91,7 @@ public class OrderController {
 		
 		Integer status=0;
 		User user = loginUser.getUser();
-		Integer userId =loginUser.getUser().getId();
+		Integer userId =user.getId();
 		Order order=orderService.findByUserIdAndStatus(userId, status);
 		
 		order.setTotalPrice(order.getCalcTotalPrice());
