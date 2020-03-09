@@ -1,6 +1,8 @@
 package com.example.controller;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,15 +80,25 @@ public class SearchItemController {
 	 * @return 商品一覧表示画面
 	 */
 	@RequestMapping("/searchItem")
-	public String searchItemList(Model model, SearchItemForm searchItemForm) {
-		List<List<Item>> bigItemList = showItemList(searchItemForm, model);
+	public String searchItemList(Model model, SearchItemForm searchItemForm, SortItemForm sortItemForm) {
+		List<List<Item>> bigItemList = showItemList(searchItemForm, model, sortItemForm);
 		model.addAttribute("bigItemList", bigItemList);
 		return "item_list_noodle";
 
 	}
 
-	public List<List<Item>> showItemList(SearchItemForm searchItemForm, Model model) {
+	/**
+	 * 商品を表示させるための共通メソッド.
+	 * 
+	 * @param searchItemForm
+	 * @param model
+	 * @return 商品を3個入れたlistの詰まったlist
+	 */
+	public List<List<Item>> showItemList(SearchItemForm searchItemForm, Model model, SortItemForm sortItemForm) {
 		List<Item> itemList = searchItemService.SearchByLikeName(searchItemForm.getName());
+		if(sortItemForm.getElement().equals("high")) {
+		Collections.sort(itemList, new ItemConparator());
+		}
 		List<Item> threeList = new ArrayList<>();
 		List<List<Item>> bigItemList = new ArrayList<>();
 		if (itemList.size() == 0) {
@@ -120,4 +132,3 @@ public class SearchItemController {
 	}
 
 }
-
