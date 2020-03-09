@@ -2,7 +2,6 @@ package com.example.controller;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,6 +65,9 @@ public class SearchItemController {
 			}
 
 		}
+		StringBuilder itemListForAutocomplete = searchItemService.getItemListForAutoconplete(itemList);
+		model.addAttribute("itemListForAutocomplete", itemListForAutocomplete);
+		System.out.println(itemListForAutocomplete);
 
 		model.addAttribute("bigItemList", bigItemList);
 		return "item_list_noodle";
@@ -94,20 +96,22 @@ public class SearchItemController {
 	 * @param model
 	 * @return 商品を3個入れたlistの詰まったlist
 	 */
-	public List<List<Item>> showItemList(SearchItemForm searchItemForm, Model model, SortItemForm sortItemForm) {
+	private List<List<Item>> showItemList(SearchItemForm searchItemForm, Model model, SortItemForm sortItemForm) {
 		List<Item> itemList = searchItemService.SearchByLikeName(searchItemForm.getName());
-		if(sortItemForm.getElement().equals("high")) {
-		Collections.sort(itemList, new ItemConparator());
+		if (sortItemForm.getElement().equals("high")) {
+			Collections.sort(itemList, new ItemConparator());
 		}
 		List<Item> threeList = new ArrayList<>();
 		List<List<Item>> bigItemList = new ArrayList<>();
 		if (itemList.size() == 0) {
 			model.addAttribute("message", "該当する商品がありません");
+			itemList = searchItemService.showItemList();
 			for (int i = 0; i < itemList.size(); i++) {
 				threeList.add(itemList.get(i));
 				if (threeList.size() == 3) {
 					bigItemList.add(threeList);
 					threeList = new ArrayList<>();
+					System.out.println(bigItemList);
 				}
 			}
 		} else if (itemList.size() > 1 && itemList.size() < 3) {
@@ -127,6 +131,7 @@ public class SearchItemController {
 				bigItemList.add(threeList);
 			}
 		}
+
 		model.addAttribute("bigItemList", bigItemList);
 		return bigItemList;
 	}

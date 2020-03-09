@@ -24,7 +24,22 @@ public class SearchItemService {
 	public List<Item> SearchByLikeName(String name) {
 		List<Item> itemList = itemRepository.findByLikeName(name);
 		return itemList;
+	}
 
+	public StringBuilder getItemListForAutoconplete(List<Item> itemList) {
+		StringBuilder itemListForAutocomplete = new StringBuilder();
+		for (int i = 0; i < itemList.size(); i++) {
+			if (i != 0) {
+				itemListForAutocomplete.append(",");
+			}
+			Item item = itemList.get(i);
+			itemListForAutocomplete.append("\"");
+			itemListForAutocomplete.append(item.getName());
+			itemListForAutocomplete.append("\"");
+
+		}
+		System.out.println(itemListForAutocomplete);
+		return itemListForAutocomplete;
 	}
 
 }
