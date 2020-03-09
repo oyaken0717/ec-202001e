@@ -60,4 +60,14 @@ public class OrderItemRepository {
 		SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
 		template.update(sql, param);
 	}
+	
+	/**
+	 * @param order_id
+	 * @param login_order_id
+	 */
+	public void saveBeforeLoginItem(int order_id, int login_order_id) {
+		String sql = "UPDATE order_items SET order_id=:orderId WHERE order_id=:loginOrderId";
+		SqlParameterSource param = new MapSqlParameterSource().addValue("orderId", order_id).addValue("loginOrderId", login_order_id);
+		template.update(sql, param);
+	}
 }

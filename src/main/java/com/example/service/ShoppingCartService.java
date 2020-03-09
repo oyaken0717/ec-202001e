@@ -71,7 +71,6 @@ public class ShoppingCartService {
 			BeanUtils.copyProperties(form, orderItem);
 			orderItem.setOrderId(userOrder.getId());
 			orderItem = OrderItemRepository.insert(orderItem);
-			System.out.println(form);
 			//OrderToppingオブジェクトにtoppingIdとorderItemIdを格納
 			if(form.getOrderToppingList() != null) {				
 				for (Integer topping: form.getOrderToppingList()) {				
@@ -103,5 +102,9 @@ public class ShoppingCartService {
 	public Order showCartList(int userId) {
 		Order order = OrderRepository.findByUserIdAndStatus(userId, 0);
 		return order;
+	}
+	
+	public void saveBeforeLoginItem(int order_id, int login_order_id) {
+		OrderItemRepository.saveBeforeLoginItem(order_id,login_order_id);
 	}
 }

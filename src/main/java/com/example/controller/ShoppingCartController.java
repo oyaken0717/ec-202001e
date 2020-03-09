@@ -1,5 +1,7 @@
 package com.example.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.example.domain.LoginUser;
 import com.example.domain.Order;
 import com.example.form.AddShoppingCartForm;
+import com.example.service.OrderService;
 import com.example.service.ShoppingCartService;
 
 /**
@@ -24,6 +27,12 @@ public class ShoppingCartController {
 
 	@Autowired
 	private ShoppingCartService service;
+	
+	@Autowired
+	private OrderService orderService;
+	
+	@Autowired
+	private HttpSession session;
 	
 	@ModelAttribute
 	public AddShoppingCartForm setAddShoppingCartForm() {
@@ -73,16 +82,29 @@ public class ShoppingCartController {
 	 */
 	@RequestMapping("/showList")
 	public String showcartList(Model model, @AuthenticationPrincipal LoginUser loginUser) {
-		int userId = 0;
-		try {			
-			if (loginUser.getUser() != null) {
-				userId = loginUser.getUser().getId();
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
+		Integer userId = (Integer)session.getAttribute("userId");
+		if(userId == null) {
+			session.setAttribute("userId", session.getId().hashCode());
 		}
-		Order order = service.showCartList(userId); 
 		
+		Order beforeLoginOrder = orderService.findByUserIdAndStatus(userId, 0);
+		Order loginOrder = new Order();
+		if (loginUser != null) {
+			loginOrder = orderService.findByUserIdAndStatus(loginUser.getUser().getId(), 0);
+			userId = loginUser.getUser().getId();
+		}
+		try {
+			if(beforeLoginOrder != null) {
+				System.out.println(beforeLoginOrder);
+				service.saveBeforeLoginItem(loginOrder.getId(), beforeLoginOrder.getId());
+				orderService.deleteById(beforeLoginOrder.getId());
+			}			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		
+		Order order = service.showCartList(userId); 
 		model.addAttribute("order", order);
 		model.addAttribute("orderItemList", order.getOrderItemList());
 		return "cart_list";

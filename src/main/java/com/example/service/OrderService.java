@@ -66,4 +66,8 @@ public class OrderService {
 			return null;
 		}
 	}
+	
+	public void deleteById(int id) {
+		orderRepository.deleteById(id);
+	}
 }
