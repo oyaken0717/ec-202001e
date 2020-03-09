@@ -51,8 +51,8 @@
 		</nav>
 
 		<form action="cart_list.html" th:action="@{/cart/insert}" method="post">
-		<input type="hidden" name="itemId" th:value="${item.id}"><!-- 仮置き -->
-		<input type="hidden" name="userId" value="1"><!-- 仮置き -->
+		<input type="hidden" name="itemId" th:value="${item.id}">
+		<input type="hidden" name="userId" th:value="${userId}">
 		<div class="row">
 			<div class="col-xs-offset-2 col-xs-8">
 

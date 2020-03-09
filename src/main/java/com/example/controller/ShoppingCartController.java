@@ -1,5 +1,7 @@
 package com.example.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.example.domain.LoginUser;
 import com.example.domain.Order;
 import com.example.form.AddShoppingCartForm;
+import com.example.service.OrderService;
 import com.example.service.ShoppingCartService;
 
 /**
@@ -24,7 +27,13 @@ public class ShoppingCartController {
 
 	@Autowired
 	private ShoppingCartService service;
-
+	
+	@Autowired
+	private OrderService orderService;
+	
+	@Autowired
+	private HttpSession session;
+	
 	@ModelAttribute
 	public AddShoppingCartForm setAddShoppingCartForm() {
 		return new AddShoppingCartForm();
@@ -74,8 +83,29 @@ public class ShoppingCartController {
 	 */
 	@RequestMapping("/showList")
 	public String showcartList(Model model, @AuthenticationPrincipal LoginUser loginUser) {
-		Order order = service.showCartList(1); 
+		//ログイン前の仮userIdをsessionスコープに保持
+		Integer userId = (Integer)session.getAttribute("userId");
+		if(userId == null) {
+			session.setAttribute("userId", session.getId().hashCode());
+		}
+		//ログイン前にカートに追加した時に生成されるorder情報を取得
+		Order beforeLoginOrder = orderService.findByUserIdAndStatus(userId, 0);
 		
+		//ログインしているidを元にorder情報を取得
+		Order loginOrder = new Order();
+		if (loginUser != null) {
+			loginOrder = orderService.findByUserIdAndStatus(loginUser.getUser().getId(), 0);
+			userId = loginUser.getUser().getId();
+		}
+		
+		//ログイン前に追加した商品を、ログイン後に反映
+		if(beforeLoginOrder != null) {
+			service.saveBeforeLoginItem(loginOrder.getId(), beforeLoginOrder.getId());
+			orderService.deleteById(beforeLoginOrder.getId());
+		}			
+		
+		
+		Order order = service.showCartList(userId); 
 		model.addAttribute("order", order);
 		model.addAttribute("orderItemList", order.getOrderItemList());
 		return "cart_list";

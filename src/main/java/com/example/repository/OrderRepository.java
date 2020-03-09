@@ -222,5 +222,17 @@ public class OrderRepository {
 		  return null;
 		}
 
+	
+	/**
+	 * ログイン前の仮IDで取得されたorderを削除するメソッド.
+	 * 
+	 * @param id オーダーID
+	 */
+	public void deleteOrderById(int id) {
+		String sql = "DELETE FROM orders WHERE id=:id";
+		SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
+		
+		template.update(sql, param);
+	}
 }
 

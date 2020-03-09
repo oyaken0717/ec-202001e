@@ -86,4 +86,13 @@ public class OrderService {
 		List<Order>orderList=orderRepository.findByUserId(userId);
 		return orderList;
 	}
+	
+	/**
+	 * ログイン前の仮IDで取得されたorderを削除するメソッド.
+	 * 
+	 * @param id オーダーID
+	 */
+	public void deleteById(int id) {
+		orderRepository.deleteById(id);
+	}
 }

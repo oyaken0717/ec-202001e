@@ -73,7 +73,6 @@ public class ShoppingCartService {
 			BeanUtils.copyProperties(form, orderItem);
 			orderItem.setOrderId(userOrder.getId());
 			orderItem = OrderItemRepository.insert(orderItem);
-			System.out.println(form);
 			//OrderToppingオブジェクトにtoppingIdとorderItemIdを格納
 			if(form.getOrderToppingList() != null) {				
 				for (Integer topping: form.getOrderToppingList()) {				
@@ -106,5 +105,15 @@ public class ShoppingCartService {
 		Order userOrder = OrderRepository.findByUserIdAndStatus(userId, 0);
 		
 		return userOrder;
+	}
+	
+	/**
+	 * ログイン前に追加した商品をログイン後に反映し、削除するメソッド.
+	 * 
+	 * @param order_id オーダーID
+	 * @param before_login_order_id　ログイン前のオーダーID
+	 */
+	public void saveBeforeLoginItem(int order_id, int before_login_order_id) {
+		OrderItemRepository.saveBeforeLoginItem(order_id,before_login_order_id);
 	}
 }
