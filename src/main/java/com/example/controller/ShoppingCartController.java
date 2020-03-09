@@ -73,7 +73,15 @@ public class ShoppingCartController {
 	 */
 	@RequestMapping("/showList")
 	public String showcartList(Model model, @AuthenticationPrincipal LoginUser loginUser) {
-		Order order = service.showCartList(1); 
+		int userId = 0;
+		try {			
+			if (loginUser.getUser() != null) {
+				userId = loginUser.getUser().getId();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		Order order = service.showCartList(userId); 
 		
 		model.addAttribute("order", order);
 		model.addAttribute("orderItemList", order.getOrderItemList());
