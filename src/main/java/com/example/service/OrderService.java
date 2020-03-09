@@ -5,6 +5,7 @@ package com.example.service;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -65,5 +66,24 @@ public class OrderService {
 			e.printStackTrace();
 			return null;
 		}
+	}
+	
+	/**
+	 * カートから注文情報を削除するメソッド.
+	 * 
+	 * @param id
+	 */
+	public void deleteById(Integer orderItemId) {
+		orderRepository.deleteById(orderItemId);
+	}
+	/**
+	 * 注文履歴画面を表示するメソッド.
+	 * 
+	 * @param userId ユーザーID
+	 * @return 注文情報
+	 */
+	public List<Order> showOrderHistory(Integer userId) {
+		List<Order>orderList=orderRepository.findByUserId(userId);
+		return orderList;
 	}
 }

@@ -4,6 +4,7 @@ package com.example.controller;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -19,6 +20,7 @@ import com.example.domain.Order;
 import com.example.domain.User;
 import com.example.form.OrderDestinationForm;
 import com.example.service.OrderService;
+import com.example.service.SendMailService;
 
 /**
  * 注文情報を表示するコントローラ.
@@ -32,6 +34,9 @@ public class OrderController {
 
 	@Autowired
 	private OrderService orderService;
+	
+	@Autowired
+	private SendMailService sendMailService;
 	
 	@ModelAttribute
 	public OrderDestinationForm setUpForm() {
@@ -48,9 +53,13 @@ public class OrderController {
 	@RequestMapping("")
 	public String toOrder(@AuthenticationPrincipal LoginUser loginUser,Model model) {
 		int status=0;
-		User user=loginUser.getUser();
-		Integer userId=user.getId();
-		Order order=orderService.findByUserIdAndStatus(userId,status);
+		User user=new User();
+		Integer userId =user.getId();//loginUser.getUser().getId();
+		Order order=orderService.findByUserIdAndStatus(1,status);
+		if(order == null) {
+			return "redirect:/";
+		}
+		model.addAttribute("user",user);
 		model.addAttribute("order",order);
 		
 		return "order_confirm";
@@ -78,9 +87,9 @@ public class OrderController {
 		}
 		
 		Integer status=0;
-		User user=loginUser.getUser();
-		Integer userId=user.getId();
-		Order order=orderService.findByUserIdAndStatus(userId, status);
+		User user=new User();//loginUser.getUser();
+		Integer userId =user.getId();//loginUser.getUser().getId();
+		Order order=orderService.findByUserIdAndStatus(1, status);
 		
 		order.setTotalPrice(order.getCalcTotalPrice());
 		order.setOrderDate(new Date());
@@ -94,6 +103,7 @@ public class OrderController {
 		order.setPaymentMethod(Integer.valueOf(form.getPaymentMethod()));
 		
 		orderService.order(order);
+		sendMailService.sendOrderMail(order);
 		
 
 		return "redirect:/orderconfirm/orderFinish";
@@ -108,5 +118,17 @@ public class OrderController {
 	public String finish() {
 		return "order_finished";
 	}
-
+	/**
+	 * 注文確認画面でカートの注文情報を削除するメソッド.
+	 * 
+	 * @param id　order_itemsテーブルのid
+	 * @return 注文確認画面
+	 */
+	@RequestMapping("/deleteOrder")
+	public String deleteOrder(Integer orederItemId) {
+		orderService.deleteById(orederItemId);
+		return "redirect:/orderconfirm";
+	}
+	
+	
 }
