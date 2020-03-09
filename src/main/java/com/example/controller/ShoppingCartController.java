@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.domain.Order;
-import com.example.domain.OrderItem;
 import com.example.form.AddShoppingCartForm;
 import com.example.service.ShoppingCartService;
 
@@ -23,12 +22,12 @@ public class ShoppingCartController {
 
 	@Autowired
 	private ShoppingCartService service;
-	
+
 	@ModelAttribute
 	public AddShoppingCartForm setAddShoppingCartForm() {
 		return new AddShoppingCartForm();
 	}
-	
+
 	/**
 	 * 商品詳細を表示.
 	 * 
@@ -38,20 +37,21 @@ public class ShoppingCartController {
 	public String index() {
 		return "item_detail";
 	}
-	
+
 	/**
 	 * ショッピングカートに商品を追加.
 	 * 
-	 * @param form リクエストパラメータ
+	 * @param form   リクエストパラメータ
 	 * @param userId userId
 	 * @return カートの中身を表示
 	 */
 	@RequestMapping("/insert")
 	public String insert(AddShoppingCartForm form, int userId) {
+
 		service.insert(form, userId);
 		return "redirect:/cart/showList";
 	}
-	
+
 	/**
 	 * ショッピングカートから商品を削除.
 	 * 
@@ -63,7 +63,7 @@ public class ShoppingCartController {
 		service.deleteOrderItem(orderItemId);
 		return "redirect:/cart/showList";
 	}
-	
+
 	/**
 	 * ショッピングカートの中身を表示.
 	 * 

@@ -16,7 +16,7 @@ public class AddShoppingCartForm {
 	/**
 	 * トッピングリスト
 	 */
-	
+
 	private List<Integer> orderToppingList;
 	/**
 	 * 数量
@@ -40,8 +40,6 @@ public class AddShoppingCartForm {
 	public void setSize(Character size) {
 		this.size = size;
 	}
-
-	
 
 	public List<Integer> getOrderToppingList() {
 		return orderToppingList;

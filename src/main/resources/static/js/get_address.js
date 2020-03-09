@@ -1,7 +1,18 @@
 
 $(function(){
 	
+	$("#searchAddress").on("click", function(){
+		AjaxZip3.zip2addr('zipcode','','address','address');
+		
+	});
+	
+	$("#searchAddress2").on("click", function(){
+		AjaxZip3.zip2addr('zip2','','address2','address2');
+	});
+});
 
+
+/*
 $('#get_address_btn').on("click", function(){
 	$.ajax({
 		url: "http://zipcoda.net/api", 
@@ -23,9 +34,7 @@ $('#get_address_btn').on("click", function(){
 		
 	});
   });
+  */
 
-$("#searchAddress").on("click",function(){
-	AjaxZip3.zip2addr('zip11','','addr11','addr11');
-});
 
-});
+
