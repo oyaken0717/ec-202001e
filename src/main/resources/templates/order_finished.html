@@ -35,6 +35,7 @@
 				<div class="collapse navbar-collapse"
 					id="bs-example-navbar-collapse-1">
 					<p class="navbar-text navbar-right">
+
 						<a class="navbar-link" th:href="@{/cart/showList}">
 						<img th:src="@{/img_noodle/cart1.png}" height="35"></a>&nbsp;&nbsp;
 						<span sec:authorize="isAuthenticated()"><a href="order_history.html" th:href="@{/orderHistory}" class="navbar-link">注文履歴</a>
@@ -69,7 +70,7 @@
 				<div class="form-group">
 					<form action="order_finished.html" th:action="@{/}">
 						<input class="form-control btn btn-warning btn-block"
-							type="submit" value="トップ画面を表示する">
+							type="submit" value="トップ画面に戻る">
 					</form>
 				</div>
 			</div>

@@ -35,8 +35,8 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 				<div class="collapse navbar-collapse"
 					id="bs-example-navbar-collapse-1">
 					<p class="navbar-text navbar-right">
-						<a class="navbar-link" th:href="@{/cart/showList}">
-						<img th:src="@{/img_noodle/cart1.png}" height="35"></a>&nbsp;&nbsp; 
+						<a class="navbar-link" th:href="@{/cart/showList}">ご注文はこちらから→
+						<img th:src="@{/img_noodle/cart.png}" height="35"></a>&nbsp;&nbsp; 
 						<span sec:authorize="isAuthenticated()"><a href="/logout">ログアウト</a></span>
 					</p>
 				</div>
@@ -74,7 +74,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 									<div class="text-center">小計</div>
 								</th>
 							</tr>
-								<div  th:each="order:${orderList}">
+								<div th:each="order:${orderList}">
 								<tr th:each="orderItem:${order.orderItemList}">
 							
 								<td>
@@ -113,6 +113,12 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 										th:text="${#numbers.formatInteger(orderItem.subTotal,1,'COMMA')+'円'}">
 										1,500円
 									</div>
+									<div class="text-center">
+									<a
+										th:href="@{'/detail/showDetail?id=' + ${orderItem.item.id}}">
+										<button type="submit" class="btn btn-primary">再度注文する</button>
+									</a>
+								</div>
 								</td>
 								</div>
 							</tr>
@@ -133,7 +139,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 			<div class="row">
 				<div class="col-xs-offset-5 col-xs-3">
 					<div class="form-group">
-						<form action="item_list_noodle.html" th:action="@{/searchItem/}">
+						<form action="item_list_noodle.html" th:action="@{/}">
 							<input class="form-control btn btn-warning btn-block"
 								type="submit" value="商品一覧に戻る">
 						</form>
