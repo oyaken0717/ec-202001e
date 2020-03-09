@@ -3,7 +3,6 @@ package com.example.form;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 
 /**
  * 登録画面からリクエストパラメータを受け取るフォームクラス.
@@ -22,8 +21,7 @@ public class RegisterUserForm {
 	private String email;
 	/** 郵便番号 */
 	@Pattern(regexp="^[0-9]{7}$", message="郵便番号が不正です。")
-//	@NotBlank(message="郵便番号を入力してください。")
-	@Size()
+	@NotBlank(message="郵便番号を入力してください。")
 	private String zipcode;
 	/** 住所 */
 	@NotBlank(message="住所を入力してください。")

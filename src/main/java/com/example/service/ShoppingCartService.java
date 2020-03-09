@@ -1,5 +1,8 @@
 package com.example.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,46 +42,49 @@ public class ShoppingCartService {
 	 * @param userId　userId
 	 */
 	public void insert(AddShoppingCartForm form, int userId) {
-		Order userOrder = new Order(); 
-		userOrder = OrderRepository.findByUserIdAndStatus(userId, 0);
+		List<Order> userOrderList = new ArrayList<>(); 
+		userOrderList = OrderRepository.findByUserIdAndStatus(userId, 0);
 		//ショッピングカートに何も入っていない（orderのstatusがない）とき、order,orderItem,orderToppingの3つをinsert。
 		//そうでないときはorderItem,orderToppingの2つをinsert。
-		if (userOrder.getStatus() == null) {
-			//OrderオブジェクトにuserIdとstatusを格納
-			Order order = new Order();
-			order.setUserId(userId);
-			order.setStatus(0);
-			order.setTotalPrice(0);
-			order = OrderRepository.insert(order);
-			//OrderItemオブジェクトにformとorderId格納
-			OrderItem orderItem = new OrderItem();
-			BeanUtils.copyProperties(form, orderItem);
-			orderItem.setOrderId(order.getId());
-			orderItem = OrderItemRepository.insert(orderItem);
+		for(Order userOrder: userOrderList) {
 			
-			//OrderToppingオブジェクトにtoppingIdとorderItemIdを格納
-			if(form.getOrderToppingList() != null) {				
-				for (Integer topping: form.getOrderToppingList()) {				
-					OrderTopping orderTopping = new OrderTopping();
-					orderTopping.setToppingId(topping);
-					orderTopping.setOrderItemId(orderItem.getId());
-					orderToppingRepository.insert(orderTopping);
+			if (userOrder.getStatus() == null) {
+				//OrderオブジェクトにuserIdとstatusを格納
+				Order order = new Order();
+				order.setUserId(userId);
+				order.setStatus(0);
+				order.setTotalPrice(0);
+				order = OrderRepository.insert(order);
+				//OrderItemオブジェクトにformとorderId格納
+				OrderItem orderItem = new OrderItem();
+				BeanUtils.copyProperties(form, orderItem);
+				orderItem.setOrderId(order.getId());
+				orderItem = OrderItemRepository.insert(orderItem);
+				
+				//OrderToppingオブジェクトにtoppingIdとorderItemIdを格納
+				if(form.getOrderToppingList() != null) {				
+					for (Integer topping: form.getOrderToppingList()) {				
+						OrderTopping orderTopping = new OrderTopping();
+						orderTopping.setToppingId(topping);
+						orderTopping.setOrderItemId(orderItem.getId());
+						orderToppingRepository.insert(orderTopping);
+					}
 				}
-			}
-		} else if (userOrder.getStatus() == 0) {
-			//OrderItemオブジェクトにformとorderId格納
-			OrderItem orderItem = new OrderItem();
-			BeanUtils.copyProperties(form, orderItem);
-			orderItem.setOrderId(userOrder.getId());
-			orderItem = OrderItemRepository.insert(orderItem);
-			System.out.println(form);
-			//OrderToppingオブジェクトにtoppingIdとorderItemIdを格納
-			if(form.getOrderToppingList() != null) {				
-				for (Integer topping: form.getOrderToppingList()) {				
-					OrderTopping orderTopping = new OrderTopping();
-					orderTopping.setToppingId(topping);
-					orderTopping.setOrderItemId(orderItem.getId());
-					orderToppingRepository.insert(orderTopping);
+			} else if (userOrder.getStatus() == 0) {
+				//OrderItemオブジェクトにformとorderId格納
+				OrderItem orderItem = new OrderItem();
+				BeanUtils.copyProperties(form, orderItem);
+				orderItem.setOrderId(userOrder.getId());
+				orderItem = OrderItemRepository.insert(orderItem);
+				System.out.println(form);
+				//OrderToppingオブジェクトにtoppingIdとorderItemIdを格納
+				if(form.getOrderToppingList() != null) {				
+					for (Integer topping: form.getOrderToppingList()) {				
+						OrderTopping orderTopping = new OrderTopping();
+						orderTopping.setToppingId(topping);
+						orderTopping.setOrderItemId(orderItem.getId());
+						orderToppingRepository.insert(orderTopping);
+					}
 				}
 			}
 		}
@@ -101,7 +107,12 @@ public class ShoppingCartService {
 	 * @return 色々な情報が含まれた注文情報
 	 */
 	public Order showCartList(int userId) {
-		Order order = OrderRepository.findByUserIdAndStatus(userId, 0);
-		return order;
+		List<Order> orderList = OrderRepository.findByUserIdAndStatus(userId, 0);
+		Order userOrder = new Order();
+		
+		for (Order order: orderList) {
+			userOrder = order;
+		}
+		return userOrder;
 	}
 }

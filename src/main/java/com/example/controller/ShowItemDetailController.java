@@ -32,8 +32,10 @@ public class ShowItemDetailController {
 	public String showDetail(Integer id, Model model) {
 		Item item = itemDetailService.showDetail(id);
 		item.setToppingList(itemDetailService.showToppingList());
-
+		
 		model.addAttribute("item", item);
+		
+		
 
 		return "item_detail";
 	}

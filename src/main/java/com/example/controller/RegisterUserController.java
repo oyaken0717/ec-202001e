@@ -42,7 +42,7 @@ public class RegisterUserController {
 
 	/**
 	 * 
-	 * ユーザー情報を登録します. 登録成功の場合、ログイン画面へ遷移します. メールアドレスが重複した場合、登録画面へ戻りエラーメッセージを表示させます.
+	 * ユーザー情報を登録します. 登録成功の場合、ログイン画面へ遷移します. 登録失敗の場合、登録画面へ戻りエラーメッセージを表示させます.
 	 * 
 	 * @param form   リクエストパラメータ
 	 * @param result 入力値チェック
@@ -65,8 +65,6 @@ public class RegisterUserController {
 			result.rejectValue("confirmationPassword", "", "");
 		}
 		
-		
-
 		if (result.hasErrors()) {
 			return toRegister();
 		}
