@@ -54,8 +54,11 @@ public class OrderController {
 	public String toOrder(@AuthenticationPrincipal LoginUser loginUser,Model model) {
 		int status=0;
 		User user=new User();
-		Integer userId =user.getId();//loginUser.getUser().getId();
-		Order order=orderService.findByUserIdAndStatus(1,status);
+		if (loginUser == null) {
+			return "redirect:/login-user/to-login";
+		}
+		Integer userId = loginUser.getUser().getId();
+		Order order=orderService.findByUserIdAndStatus(userId,status);
 		if(order == null) {
 			return "redirect:/";
 		}
@@ -87,9 +90,9 @@ public class OrderController {
 		}
 		
 		Integer status=0;
-		User user=new User();//loginUser.getUser();
-		Integer userId =user.getId();//loginUser.getUser().getId();
-		Order order=orderService.findByUserIdAndStatus(1, status);
+		User user = loginUser.getUser();
+		Integer userId =loginUser.getUser().getId();
+		Order order=orderService.findByUserIdAndStatus(userId, status);
 		
 		order.setTotalPrice(order.getCalcTotalPrice());
 		order.setOrderDate(new Date());
