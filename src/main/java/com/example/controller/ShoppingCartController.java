@@ -106,10 +106,10 @@ public class ShoppingCartController {
 		
 		
 		Order order = service.showCartList(userId); 
-		model.addAttribute("order", order);
 		if (order == null) {
 			order = new Order();
 		}
+		model.addAttribute("order", order);
 		model.addAttribute("orderItemList", order.getOrderItemList());
 		return "cart_list";
 	}
