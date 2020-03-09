@@ -1,11 +1,13 @@
 package com.example.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.example.domain.LoginUser;
 import com.example.domain.Order;
 import com.example.form.AddShoppingCartForm;
 import com.example.service.ShoppingCartService;
@@ -71,8 +73,9 @@ public class ShoppingCartController {
 	 * @return カートの中身を表示
 	 */
 	@RequestMapping("/showList")
-	public String showcartList(Model model) {
-		Order order = service.showCartList(1);
+	public String showcartList(Model model, @AuthenticationPrincipal LoginUser loginUser) {
+		Order order = service.showCartList(1); 
+		
 		model.addAttribute("order", order);
 		model.addAttribute("orderItemList", order.getOrderItemList());
 		return "cart_list";

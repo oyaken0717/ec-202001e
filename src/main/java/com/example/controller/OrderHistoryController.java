@@ -28,7 +28,7 @@ public class OrderHistoryController {
 	public String showOrderHisotry(Model model/*, LoginUser loginUser */) {
 		User user = new User();//本来は消す
 		Integer userId = user.getId();//loginUser.getAdministrator().getId();
-		List<Order> orderList = orderHistoryService.showOrderHistory(1);
+		List<Order> orderList = orderHistoryService.showOrderHistory(2);
 		for (int i = 0; i < orderList.size(); i++) {
 			Integer status = orderList.get(i).getStatus();
 			if (status == 0) {

@@ -26,7 +26,7 @@
 							class="icon-bar"></span> <span class="icon-bar"></span> <span
 							class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="item_list.html" th:href="@{/searchItem/}"> <!-- 企業ロゴ --> <img
+					<a class="navbar-brand" href="item_list.html" th:href="@{/}"> <!-- 企業ロゴ --> <img
 						alt="main log" src="/img_noodle/header_logo.png"
 						height="35">
 					</a>
@@ -56,14 +56,17 @@
 						<div class="panel-title">商品を検索する</div>
 					</div>
 					<div class="panel-body">
-						<form method="post" th:action="@{/searchItem}"
-							class="form-horizontal">
+						<form method="post" th:action="@{/searchItem}" class="form-horizontal" th:object="${searchItemForm}">
 							<div class="form-group">
 								<label for="code" class="control-label col-sm-2">商品名</label>
 								<div class="col-sm-9">
-									<input type="text" name="name" id="name"
-										class="form-control input-sm" />
+									<input type="text" name="name" id="name" class="form-control input-sm" th:field="*{name}"/>
 								</div>
+								<select name="element">
+								<option value="cheap">安い順</option>
+								<option value="high">高い順</option>
+								</select>
+								<button> 並び替え</button>
 							</div>
 							<div class="text-center">
 								<button type="submit" value="検索" class="btn btn-primary">検索</button>

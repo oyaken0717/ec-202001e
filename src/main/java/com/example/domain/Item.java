@@ -27,7 +27,7 @@ public class Item {
 	/**
 	 * Mサイズの価格
 	 */
-	private Integer priceM;
+	public Integer priceM;
 	
 	/**
 	 * Lサイズの価格
