@@ -99,7 +99,7 @@ public class ShoppingCartController {
 		}
 		
 		//ログイン前に追加した商品を、ログイン後に反映
-		if(beforeLoginOrder != null) {
+		if(beforeLoginOrder != null && loginUser != null) {
 			service.saveBeforeLoginItem(loginOrder.getId(), beforeLoginOrder.getId());
 			orderService.deleteById(beforeLoginOrder.getId());
 		}			
@@ -107,6 +107,9 @@ public class ShoppingCartController {
 		
 		Order order = service.showCartList(userId); 
 		model.addAttribute("order", order);
+		if (order == null) {
+			order = new Order();
+		}
 		model.addAttribute("orderItemList", order.getOrderItemList());
 		return "cart_list";
 	}
