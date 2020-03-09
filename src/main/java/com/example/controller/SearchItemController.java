@@ -66,6 +66,7 @@ public class SearchItemController {
 
 		}
 		StringBuilder itemListForAutocomplete = searchItemService.getItemListForAutoconplete(itemList);
+
 		model.addAttribute("itemListForAutocomplete", itemListForAutocomplete);
 		System.out.println(itemListForAutocomplete);
 
