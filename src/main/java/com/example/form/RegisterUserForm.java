@@ -32,7 +32,7 @@ public class RegisterUserForm {
 	private String telephone;
 	/** パスワード */
 //	@NotBlank(message="パスワードを入力してください。")
-	@Pattern(regexp="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]){8,16}$", message="パスワードが不正です。")
+	@Pattern(regexp="^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,16}$", message="パスワードが不正です。")
 	private String password;
 	/** 確認用パスワード */
 	@NotBlank(message="確認用パスワードを入力してください。")
