@@ -57,8 +57,16 @@ public class ShoppingCartController {
 	 * @return カートの中身を表示
 	 */
 	@RequestMapping("/insert")
-	public String insert(AddShoppingCartForm form, int userId) {
-
+	public String insert(AddShoppingCartForm form, @AuthenticationPrincipal LoginUser loginUser) {
+		Integer userId = (Integer)session.getAttribute("userId");
+		if(userId == null) {
+			session.setAttribute("userId", session.getId().hashCode());
+		}
+		
+		if (loginUser != null) {
+			userId = loginUser.getUser().getId();
+		}
+		
 		service.insert(form, userId);
 		return "redirect:/cart/showList";
 	}
