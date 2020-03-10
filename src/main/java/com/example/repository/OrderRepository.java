@@ -36,11 +36,11 @@ public class OrderRepository {
 	
 	
 	/** 注文情報をOrderドメインにセットするResultSetExtractor */
-	private static final ResultSetExtractor<Order>ORDER_RESULT_SET_EXTRACTOR=(rs)->{
+	private static final ResultSetExtractor <List<Order>>ORDER_RESULT_SET_EXTRACTOR=(rs)->{
 		Order order=new Order();
 		List<OrderTopping>orderToppingList=new ArrayList<>();
 		List<OrderItem>orderItemList=new ArrayList<>();
-
+		List<Order>orderList=new ArrayList<>();
 		List<Topping> toppingList = new ArrayList<>();
 		int firstOrderItemId=0;
 		int beforeOrderId = 0;
@@ -48,6 +48,7 @@ public class OrderRepository {
 		while(rs.next()) {
 			int nowUserId = rs.getInt("order_id");
 			if(nowUserId != beforeOrderId) {
+				orderList=new ArrayList<>();
 				order.setId(rs.getInt("order_id"));
 				order.setUserId(rs.getInt("order_user_id"));
 				order.setStatus(rs.getInt("order_status"));
@@ -61,7 +62,7 @@ public class OrderRepository {
 				order.setDeliveryTime(rs.getTimestamp("order_delivery_time"));
 				order.setPaymentMethod(rs.getInt("order_payment_method"));
 				order.setOrderItemList(orderItemList);
-				
+				orderList.add(order);
 //				preId=rs.getInt("order_id");
 			}
 			if(rs.getInt("orderitem_id") != firstOrderItemId && rs.getInt("orderitem_id")!=beforeOrderId) {
@@ -105,7 +106,7 @@ public class OrderRepository {
 			firstOrderItemId=rs.getInt("orderitem_id");
 			beforeOrderId = rs.getInt("order_id");
 		}
-		return order;
+		return orderList;
 	};
 	
 	/**
@@ -131,8 +132,11 @@ public class OrderRepository {
 		sql.append("INNER JOIN items i ON oi.item_id = i.id LEFT OUTER JOIN toppings t ON ot.topping_id = t.id ");
 		sql.append("WHERE o.user_id=:user_id AND o.status=:status ORDER BY oi.id");
 		SqlParameterSource param=new MapSqlParameterSource().addValue("user_id",userId).addValue("status",status);
-		Order order=template.query(sql.toString(), param, ORDER_RESULT_SET_EXTRACTOR);
-		return order;
+		List<Order>orderList=template.query(sql.toString(), param, ORDER_RESULT_SET_EXTRACTOR);
+		if(orderList.size()>0) {
+			  return orderList.get(0);
+		  }
+		  return null;
 	}
 	
 	@PostConstruct
@@ -178,7 +182,57 @@ public class OrderRepository {
 		}
 		return order;
 	}
-	
+	/**
+	 * idでorder_itemsテーブルとorder_toppingsテーブルから削除するメソッド.
+	 * 
+	 * @param id order_itemsテーブルのid
+	 */
+	public void deleteById(Integer id) {
+		StringBuilder sql=new StringBuilder();
+		sql.append("WITH deleted AS(DELETE FROM order_items WHERE id=:id RETURNING id) ");
+		sql.append("DELETE FROM order_toppings WHERE order_item_id IN (SELECT id FROM deleted)");
+		SqlParameterSource param=new MapSqlParameterSource().addValue("id",id);
+		template.update(sql.toString(), param);
+	}
+	/**
+	 * ユーザーIDで注文情報を取得するメソッド.
+	 * 
+	 * @param userId ユーザーID
+	 * @return
+	 */
+	public List<Order> findByUserId(Integer userId) {
+		  StringBuilder sql=new StringBuilder();
+		  sql.append("SELECT o.id order_id,o.user_id order_user_id,o.status order_status,o.total_price order_total_price,");
+		  sql.append("o.order_date,o.destination_name order_destination_name,o.destination_email order_destination_email,");
+		  sql.append("o.destination_zipcode order_destination_zipcode,o.destination_address order_destination_address,");
+		  sql.append("o.destination_tel order_destination_tel,o.delivery_time order_delivery_time,");
+		  sql.append("o.payment_method order_payment_method,oi.id orderitem_id,oi.item_id orderitem_item_id,");
+		  sql.append("oi.order_id orderitem_order_id,oi.quantity orderitem_quantity,oi.size orderitem_size,");
+		  sql.append("i.id item_id,i.name item_name,i.description item_description,i.price_m item_price_m,i.price_l item_price_l,");
+		  sql.append("i.image_path item_image_path,i.deleted item_deleted,ot.id order_topping_id,ot.topping_id topping_id,");
+		  sql.append("ot.order_item_id ordert_item_id,t.id topping_id,t.name topping_name,t.price_m topping_price_m,t.price_l topping_price_l ");
+		  sql.append("FROM orders o LEFT OUTER JOIN order_items oi ON o.id = oi.order_id LEFT OUTER JOIN order_toppings ot ");
+		  sql.append("ON ot.order_item_id = oi.id INNER JOIN items i ON oi.item_id=i.id ");
+		  sql.append("LEFT OUTER JOIN toppings t ON ot.topping_id=t.id WHERE o.user_id =:user_id AND o.status in (1,2) ORDER BY o.id DESC;");
+		  SqlParameterSource param=new MapSqlParameterSource().addValue("user_id",userId);
+		  List<Order>orderList=template.query(sql.toString(), param, ORDER_RESULT_SET_EXTRACTOR);
+		  if(orderList.size()>0) {
+			  return orderList;
+		  }
+		  return null;
+		}
 
+	
+	/**
+	 * ログイン前の仮IDで取得されたorderを削除するメソッド.
+	 * 
+	 * @param id オーダーID
+	 */
+	public void deleteOrderById(int id) {
+		String sql = "DELETE FROM orders WHERE id=:id";
+		SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
+		
+		template.update(sql, param);
+	}
 }
 

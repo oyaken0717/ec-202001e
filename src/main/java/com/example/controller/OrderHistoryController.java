@@ -3,13 +3,15 @@ package com.example.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.example.domain.LoginUser;
 import com.example.domain.Order;
 import com.example.domain.User;
-import com.example.service.OrderHistoryService;
+import com.example.service.OrderService;
 
 /**
  * 注文履歴を表示するコントローラー.
@@ -22,18 +24,24 @@ import com.example.service.OrderHistoryService;
 public class OrderHistoryController {
 
 	@Autowired
-	private OrderHistoryService orderHistoryService;
+	private OrderService orderService;
 
+	/**
+	 * 注文履歴を表示するメソッド.
+	 * 
+	 * @param model
+	 * @param loginUser
+	 * @return
+	 */
 	@RequestMapping("")
-	public String showOrderHisotry(Model model/*, LoginUser loginUser */) {
-		User user = new User();//本来は消す
-		Integer userId = user.getId();//loginUser.getAdministrator().getId();
-		List<Order> orderList = orderHistoryService.showOrderHistory(2);
-		for (int i = 0; i < orderList.size(); i++) {
-			Integer status = orderList.get(i).getStatus();
-			if (status == 0) {
-				orderList.remove(i);
-			}
+	public String showOrderHisotry(Model model,@AuthenticationPrincipal LoginUser loginUser) {
+		if (loginUser == null) {
+			return "redirect:/login-user/to-login";
+		}
+		Integer userId=loginUser.getUser().getId();
+		List<Order> orderList = orderService.showOrderHistory(userId);
+		if(orderList==null) {
+			model.addAttribute("message","注文履歴はありません");
 		}
 		model.addAttribute("orderList", orderList);
 		return "order_history";

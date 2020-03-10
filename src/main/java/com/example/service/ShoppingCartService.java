@@ -1,5 +1,8 @@
 package com.example.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,11 +42,10 @@ public class ShoppingCartService {
 	 * @param userId　userId
 	 */
 	public void insert(AddShoppingCartForm form, int userId) {
-		Order userOrder = new Order(); 
-		userOrder = OrderRepository.findByUserIdAndStatus(userId, 0);
+		Order userOrder = OrderRepository.findByUserIdAndStatus(userId, 0);
 		//ショッピングカートに何も入っていない（orderのstatusがない）とき、order,orderItem,orderToppingの3つをinsert。
 		//そうでないときはorderItem,orderToppingの2つをinsert。
-		if (userOrder.getStatus() == null) {
+		if (userOrder == null) {
 			//OrderオブジェクトにuserIdとstatusを格納
 			Order order = new Order();
 			order.setUserId(userId);
@@ -71,7 +73,6 @@ public class ShoppingCartService {
 			BeanUtils.copyProperties(form, orderItem);
 			orderItem.setOrderId(userOrder.getId());
 			orderItem = OrderItemRepository.insert(orderItem);
-			System.out.println(form);
 			//OrderToppingオブジェクトにtoppingIdとorderItemIdを格納
 			if(form.getOrderToppingList() != null) {				
 				for (Integer topping: form.getOrderToppingList()) {				
@@ -101,7 +102,18 @@ public class ShoppingCartService {
 	 * @return 色々な情報が含まれた注文情報
 	 */
 	public Order showCartList(int userId) {
-		Order order = OrderRepository.findByUserIdAndStatus(userId, 0);
-		return order;
+		Order userOrder = OrderRepository.findByUserIdAndStatus(userId, 0);
+		
+		return userOrder;
+	}
+	
+	/**
+	 * ログイン前に追加した商品をログイン後に反映し、削除するメソッド.
+	 * 
+	 * @param order_id オーダーID
+	 * @param before_login_order_id　ログイン前のオーダーID
+	 */
+	public void saveBeforeLoginItem(int order_id, int before_login_order_id) {
+		OrderItemRepository.saveBeforeLoginItem(order_id,before_login_order_id);
 	}
 }

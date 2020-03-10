@@ -60,4 +60,16 @@ public class OrderItemRepository {
 		SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
 		template.update(sql, param);
 	}
+	
+	/**
+	 * ログイン前に追加した商品をログイン後に反映し、削除するメソッド.
+	 * 
+	 * @param order_id オーダーID
+	 * @param before_login_order_id　ログイン前のオーダーID
+	 */
+	public void saveBeforeLoginItem(int order_id, int before_login_order_id) {
+		String sql = "UPDATE order_items SET order_id=:orderId WHERE order_id=:beforeLoginOrderId";
+		SqlParameterSource param = new MapSqlParameterSource().addValue("orderId", order_id).addValue("beforeLoginOrderId", before_login_order_id);
+		template.update(sql, param);
+	}
 }
