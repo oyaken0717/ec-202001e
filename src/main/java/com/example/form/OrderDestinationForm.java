@@ -47,13 +47,13 @@ public class OrderDestinationForm {
 //	private String user_id;
 //	private String order_number;
 //	private String amount;
-	/** カード番号 */
+	/** カード番号いらない */
 	private String card_number;
 	/** カード有効期限(年) */
 	private String card_exp_year;
 	/** カード有効期限(月) */
 	private String card_exp_month;
-	/** カード名義人 */
+	/** カード名義人いらない */
 	private String card_name;
 	/** セキュリティコード */
 	private String card_cvv;
