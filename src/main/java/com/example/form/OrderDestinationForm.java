@@ -42,68 +42,22 @@ public class OrderDestinationForm {
 	/** 支払い方法 */
 	private String paymentMethod;
 
-	public String getDestinationName() {
-		return destinationName;
-	}
+//	---------------------------------
+	
+//	private String user_id;
+//	private String order_number;
+//	private String amount;
+	/** カード番号 */
+	private String card_number;
+	/** カード有効期限(年) */
+	private String card_exp_year;
+	/** カード有効期限(月) */
+	private String card_exp_month;
+	/** カード名義人 */
+	private String card_name;
+	/** セキュリティコード */
+	private String card_cvv;
 
-	public void setDestinationName(String destinationName) {
-		this.destinationName = destinationName;
-	}
-
-	public String getDestinationEmail() {
-		return destinationEmail;
-	}
-
-	public void setDestinationEmail(String destinationEmail) {
-		this.destinationEmail = destinationEmail;
-	}
-
-	public String getDestinationZipcode() {
-		return destinationZipcode;
-	}
-
-	public void setDestinationZipcode(String destinationZipcode) {
-		this.destinationZipcode = destinationZipcode;
-	}
-
-	public String getDestinationAddress() {
-		return destinationAddress;
-	}
-
-	public void setDestinationAddress(String destinationAddress) {
-		this.destinationAddress = destinationAddress;
-	}
-
-	public String getDestinationTel() {
-		return destinationTel;
-	}
-
-	public void setDestinationTel(String destinationTel) {
-		this.destinationTel = destinationTel;
-	}
-
-	public String getDeliveryDate() {
-		return deliveryDate;
-	}
-
-	public void setDeliveryDate(String deliveryDate) {
-		this.deliveryDate = deliveryDate;
-	}
-
-	public String getDeliveryTime() {
-		return deliveryTime;
-	}
-
-	public void setDeliveryTime(String deliveryTime) {
-		this.deliveryTime = deliveryTime;
-	}
-
-	public String getPaymentMethod() {
-		return paymentMethod;
-	}
-
-	public void setPaymentMethod(String paymentMethod) {
-		this.paymentMethod = paymentMethod;
-	}
-
+	
+	
 }
