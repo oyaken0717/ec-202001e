@@ -77,7 +77,6 @@ public class UserRepository {
 		String sql = "select id,name, email, password, zipcode, address, telephone from users where id=:id";
 		SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
 		List<User> userList = template.query(sql, param, USER_ROW_MAPPER);
-		System.out.println(userList);
 		if (userList.size() == 0) {
 			return null;
 		}
