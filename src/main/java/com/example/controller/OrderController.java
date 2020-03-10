@@ -4,9 +4,9 @@ package com.example.controller;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,14 +14,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.client.RestTemplate;
 
-import com.example.domain.Credit;
 import com.example.domain.LoginUser;
 import com.example.domain.Order;
 import com.example.domain.User;
 import com.example.form.OrderDestinationForm;
-import com.example.service.CreditService;
 import com.example.service.OrderService;
 import com.example.service.SendMailService;
 
@@ -40,14 +37,6 @@ public class OrderController {
 	
 	@Autowired
 	private SendMailService sendMailService;
-	
-	@Autowired
-	private CreditService creditService;
-	
-	@Bean
-	RestTemplate RestTemplate() {
-		return new RestTemplate();
-	}
 	
 	@ModelAttribute
 	public OrderDestinationForm setUpForm() {
@@ -97,11 +86,13 @@ public class OrderController {
 	public String order(@Validated OrderDestinationForm form,BindingResult result,@AuthenticationPrincipal LoginUser loginUser,Model model) {
 		
 		Timestamp strDeliveryTime=null;
-		strDeliveryTime=orderService.strTimestamp(form.getDeliveryDate()+","+form.getDeliveryTime());
-		LocalDateTime localDateTime=LocalDateTime.now();
-		Timestamp nowPlusOneHour=Timestamp.valueOf(localDateTime.plusHours(1));
-		if(!nowPlusOneHour.before(strDeliveryTime)) {
-			result.rejectValue("deliveryDate", null, "配達時間は現時刻の1時間後から指定できます");
+		if(!form.getDeliveryDate().equals("")&&!form.getDeliveryTime().equals("")) {
+			strDeliveryTime=orderService.strTimestamp(form.getDeliveryDate()+","+form.getDeliveryTime());
+			LocalDateTime localDateTime=LocalDateTime.now();
+			Timestamp nowPlusOneHour=Timestamp.valueOf(localDateTime.plusHours(1));
+			if(!nowPlusOneHour.before(strDeliveryTime)) {
+				result.rejectValue("deliveryDate", null, "配達時間は現時刻の1時間後から指定できます");
+			}
 		}
 		if(result.hasErrors()) {
 			return toOrder(form,loginUser,model);
@@ -127,12 +118,7 @@ public class OrderController {
 			order.setPaymentMethod(Integer.valueOf(form.getPaymentMethod()));
 		}
 		if("2".equals(form.getPaymentMethod())) {
-			Credit credit = creditService.service(form);
-			if ("error".equals(credit.getStatus())) {
-				System.out.println("失敗");
-				model.addAttribute("message", "クレジットカード情報が不正です。");
-				return toOrder(form,loginUser,model);
-			}
+			
 		}
 		orderService.order(order);
 		sendMailService.sendOrderMail(order);
