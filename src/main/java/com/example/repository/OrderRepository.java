@@ -48,7 +48,8 @@ public class OrderRepository {
 		while(rs.next()) {
 			int nowUserId = rs.getInt("order_id");
 			if(nowUserId != beforeOrderId) {
-				orderList=new ArrayList<>();
+				order=new Order();
+				orderItemList=new ArrayList<>();
 				order.setId(rs.getInt("order_id"));
 				order.setUserId(rs.getInt("order_user_id"));
 				order.setStatus(rs.getInt("order_status"));
@@ -63,7 +64,6 @@ public class OrderRepository {
 				order.setPaymentMethod(rs.getInt("order_payment_method"));
 				order.setOrderItemList(orderItemList);
 				orderList.add(order);
-//				preId=rs.getInt("order_id");
 			}
 			if(rs.getInt("orderitem_id") != firstOrderItemId && rs.getInt("orderitem_id")!=beforeOrderId) {
 				OrderItem orderItem=new OrderItem();
