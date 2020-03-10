@@ -110,8 +110,14 @@ public class OrderController {
 		order.setDestinationTel(form.getDestinationTel());
 		order.setStatus(Integer.valueOf(form.getPaymentMethod()));
 		order.setDeliveryTime(strDeliveryTime);
-		order.setPaymentMethod(Integer.valueOf(form.getPaymentMethod()));
+	//	order.setPaymentMethod(Integer.valueOf(form.getPaymentMethod()));
 		
+		if("1".equals(form.getPaymentMethod())) {
+			order.setPaymentMethod(Integer.valueOf(form.getPaymentMethod()));
+		}
+		if("2".equals(form.getPaymentMethod())) {
+			
+		}
 		orderService.order(order);
 		sendMailService.sendOrderMail(order);
 		
