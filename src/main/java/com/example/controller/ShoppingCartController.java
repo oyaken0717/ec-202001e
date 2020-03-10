@@ -95,6 +95,7 @@ public class ShoppingCartController {
 		Integer userId = (Integer)session.getAttribute("userId");
 		if(userId == null) {
 			session.setAttribute("userId", session.getId().hashCode());
+			userId = (Integer)session.getAttribute("userId");
 		}
 		//ログイン前にカートに追加した時に生成されるorder情報を取得
 		Order beforeLoginOrder = orderService.findByUserIdAndStatus(userId, 0);
