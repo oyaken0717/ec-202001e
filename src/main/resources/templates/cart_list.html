@@ -62,7 +62,16 @@
 		</nav>
 		
 		<!-- table -->
-		<div th:if="${orderItemList} == null">カートに商品がありません</div>
+		<nav th:if="${orderItemList} == null">
+			<div style="text-align: center;font-size: 16px;">カートに商品がありません</div>
+			<form action="" th:action="@{/}" method="post">
+				<button class="form-control btn btn-warning btn-block" style="
+				    margin: 20px auto;
+				    width: 20%;
+				    font-size: 16px;"
+				    >商品一覧へ</button>
+			</form>
+		</nav>
 		<div th:if="${orderItemList} != null">
 			<div class="row">
 				<div

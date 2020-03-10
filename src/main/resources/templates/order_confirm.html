@@ -272,8 +272,79 @@
 					<div><strong>支払い情報</strong></div>
 					<input type="radio" name="payment" value="bank" checked>銀行振込
 					<input type="radio" name="payment" value="credit">クレジットカード<br>
+					<div th:if="${message}" th:text="${message}" style="color:red"></div>
 					クレジットカード番号:<input type="text" name="card_number"><br>
 					有効期限: 
+					<select name="card_exp_month" size="1">
+						<option>01</option>
+						<option>02</option>
+						<option>03</option>
+						<option>04</option>
+						<option>05</option>
+						<option>06</option>
+						<option>07</option>
+						<option>08</option>
+						<option>09</option>
+						<option>10</option>
+						<option>11</option>
+						<option>12</option>
+					</select> 
+					<select name="card_exp_year" size="1">
+						<option>2018</option>
+						<option>2019</option>
+						<option>2020</option>
+						<option>2021</option>
+						<option>2022</option>
+						<option>2023</option>
+						<option>2024</option>
+						<option>2025</option>
+						<option>2026</option>
+						<option>2027</option>
+						<option>2028</option>
+						<option>2029</option>
+						<option>2030</option>
+						<option>2031</option>
+						<option>2032</option>
+						<option>2033</option>
+						<option>2034</option>
+						<option>2035</option>
+						<option>2036</option>
+						<option>2037</option>
+						<option>2038</option>
+					</select><br> 
+					クレジットカード名義人:<input type="text" name="card_name"><br>
+					セキュリティコード:<input type="text" name="card_cvv"><br>
+
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-xs-offset-4 col-xs-4">
+					<div class="form-group">
+						<input class="form-control btn btn-warning btn-block"
+							type="submit" value="この内容で注文する">
+					</div>
+				</div>
+			</div>
+		</form>
+		
+		<footer>
+			<div class="wrapper">
+				<p><small>&copy; 2020 Rakuraku Ramen</small></p>
+			</div>
+		</footer>
+	</div>
+	<!-- end container -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+	<script src="https://ajaxzip3.github.io/ajaxzip3.js" charset="UTF-8"></script>
+	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+	<script src="../static/js/get_address.js" th:src="@{/js/get_address.js}"></script>
+</body>
+</html>
+
+
+<!-- 					有効期限: 
 					<select name="month" size="1">
 						<option value="01">01</option>
 						<option value="02">02</option>
@@ -311,33 +382,4 @@
 						<option value="2037">2037</option>
 						<option value="2038">2038</option>
 					</select><br> 
-					クレジットカード名義人:<input type="text" name="cardName"><br>
-					セキュリティコード:<input type="text" name="securityCode"><br>
-
-				</div>
-			</div>
-
-			<div class="row">
-				<div class="col-xs-offset-4 col-xs-4">
-					<div class="form-group">
-						<input class="form-control btn btn-warning btn-block"
-							type="submit" value="この内容で注文する">
-					</div>
-				</div>
-			</div>
-		</form>
-		
-		<footer>
-			<div class="wrapper">
-				<p><small>&copy; 2020 Rakuraku Ramen</small></p>
-			</div>
-		</footer>
-	</div>
-	<!-- end container -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-	<script src="../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
-	<script src="https://ajaxzip3.github.io/ajaxzip3.js" charset="UTF-8"></script>
-	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-	<script src="../static/js/get_address.js" th:src="@{/js/get_address.js}"></script>
-</body>
-</html>
+ -->

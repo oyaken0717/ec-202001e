@@ -57,7 +57,6 @@ public class SearchItemService {
 			itemListForAutocomplete.append("\"");
 
 		}
-		System.out.println(itemListForAutocomplete);
 		return itemListForAutocomplete;
 	}
 

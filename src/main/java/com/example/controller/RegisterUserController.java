@@ -53,7 +53,6 @@ public class RegisterUserController {
 		
 		User existUser = registerUserService.findByEmail(form.getEmail());
 		
-		System.out.println(form);
 
 		if (!(existUser == null)) {
 			result.rejectValue("email", "", "入力したメールアドレスはすでに登録されています。");
