@@ -94,6 +94,7 @@ public class SearchItemController {
 		model.addAttribute("superItemList", superItemList);
 		model.addAttribute("bigThreeList", superItemList.get(index));
 		model.addAttribute("ichiran", 1);
+		System.out.println(superItemList);
 		
 		return "item_list_noodle";
 
@@ -185,9 +186,9 @@ public class SearchItemController {
 		}
 		model.addAttribute("superItemList", superItemList);
 		model.addAttribute("bigThreeList", superItemList.get(index));
-
-		
 		model.addAttribute("bigItemList", bigItemList);
+		StringBuilder itemListForAutocomplete = searchItemService.getItemListForAutoconplete(itemList);
+		model.addAttribute("itemListForAutocomplete", itemListForAutocomplete);
 		return bigItemList;
 	}
 
