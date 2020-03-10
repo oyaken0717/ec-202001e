@@ -47,8 +47,7 @@ public class SearchItemController {
 	 * 商品一覧への遷移（あいまい検索された場合はその商品のみ表示）.
 	 * 
 	 * @param model          モデル
-	 * @param searchItemForm
-	 * @param form
+	 * @param searchItemForm 検索された文字列を取得するフォーム
 	 * @return 商品一覧表示画面
 	 */
 	@RequestMapping("")
@@ -66,10 +65,7 @@ public class SearchItemController {
 
 		}
 		StringBuilder itemListForAutocomplete = searchItemService.getItemListForAutoconplete(itemList);
-
 		model.addAttribute("itemListForAutocomplete", itemListForAutocomplete);
-		System.out.println(itemListForAutocomplete);
-
 		model.addAttribute("bigItemList", bigItemList);
 		return "item_list_noodle";
 
