@@ -92,8 +92,8 @@ public class OrderService {
 	 * 
 	 * @param id オーダーID
 	 */
-	public void deleteById(int id) {
-		orderRepository.deleteById(id);
+	public void deleteOrderById(int id) {
+		orderRepository.deleteOrderById(id);
 	}
 	
 	/**
