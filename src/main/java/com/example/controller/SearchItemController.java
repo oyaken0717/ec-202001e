@@ -51,10 +51,13 @@ public class SearchItemController {
 	 * @return 商品一覧表示画面
 	 */
 	@RequestMapping("")
-	public String showItemList(Model model, SearchItemForm searchItemForm) {
+	public String showItemList(Model model, SearchItemForm searchItemForm, Integer page) {
 		List<Item> itemList = searchItemService.showItemList();
 		List<Item> threeList = new ArrayList<>();
 		List<List<Item>> bigItemList = new ArrayList<>();
+
+		List<List<Item>> bigThreeList = new ArrayList<>();
+		List<List<List<Item>>> superItemList = new ArrayList<>();
 
 		for (int i = 0; i < itemList.size(); i++) {
 			threeList.add(itemList.get(i));
@@ -62,11 +65,36 @@ public class SearchItemController {
 				bigItemList.add(threeList);
 				threeList = new ArrayList<>();
 			}
-
 		}
+
+		if (threeList.size() != 0) {
+			bigItemList.add(threeList);			
+		}
+
+		for (int i = 0; i < bigItemList.size(); i++) {
+			bigThreeList.add(bigItemList.get(i));
+			if (bigThreeList.size() == 3) {
+				superItemList.add(bigThreeList);
+				bigThreeList = new ArrayList<>();
+			}
+		}
+		
+		if (bigThreeList.size() != 0) {
+			superItemList.add(bigThreeList);			
+		}
+
 		StringBuilder itemListForAutocomplete = searchItemService.getItemListForAutoconplete(itemList);
 		model.addAttribute("itemListForAutocomplete", itemListForAutocomplete);
-		model.addAttribute("bigItemList", bigItemList);
+//		model.addAttribute("bigItemList", bigItemList);
+		
+		Integer index = 0;
+		if (page != null) {
+			index = page-1;
+		}
+		model.addAttribute("superItemList", superItemList);
+		model.addAttribute("bigThreeList", superItemList.get(index));
+		model.addAttribute("ichiran", 1);
+		
 		return "item_list_noodle";
 
 	}
@@ -79,8 +107,8 @@ public class SearchItemController {
 	 * @return 商品一覧表示画面
 	 */
 	@RequestMapping("/searchItem")
-	public String searchItemList(Model model, SearchItemForm searchItemForm, SortItemForm sortItemForm) {
-		List<List<Item>> bigItemList = showItemList(searchItemForm, model, sortItemForm);
+	public String searchItemList(Model model, SearchItemForm searchItemForm, SortItemForm sortItemForm,Integer page) {
+		List<List<Item>> bigItemList = showItemList(searchItemForm, model, sortItemForm,page);
 		model.addAttribute("bigItemList", bigItemList);
 		return "item_list_noodle";
 
@@ -93,10 +121,14 @@ public class SearchItemController {
 	 * @param model
 	 * @return 商品を3個入れたlistの詰まったlist
 	 */
-	private List<List<Item>> showItemList(SearchItemForm searchItemForm, Model model, SortItemForm sortItemForm) {
+	private List<List<Item>> showItemList(SearchItemForm searchItemForm, Model model, SortItemForm sortItemForm,Integer page) {
 		List<Item> itemList = searchItemService.SearchByLikeName(searchItemForm.getName());
+		model.addAttribute("name", searchItemForm.getName());
+		model.addAttribute("kensaku", searchItemForm.getName());
 		if (sortItemForm.getElement().equals("high")) {
 			Collections.sort(itemList, new ItemConparator());
+			model.addAttribute("element", sortItemForm.getElement());
+			model.addAttribute("narabikae", 1);
 		}
 		List<Item> threeList = new ArrayList<>();
 		List<List<Item>> bigItemList = new ArrayList<>();
@@ -124,11 +156,37 @@ public class SearchItemController {
 					threeList = new ArrayList<>();
 				}
 			}
-			if (threeList.size() < 3) {
+//			if (threeList.size() < 3) {
+//				bigItemList.add(threeList);
+//			}
+			if (threeList.size() != 0) {
 				bigItemList.add(threeList);
-			}
+			}		
 		}
 
+		List<List<Item>> bigThreeList = new ArrayList<>();
+		List<List<List<Item>>> superItemList = new ArrayList<>();
+
+		for (int i = 0; i < bigItemList.size(); i++) {
+			bigThreeList.add(bigItemList.get(i));
+			if (bigThreeList.size() == 3) {
+				superItemList.add(bigThreeList);
+				bigThreeList = new ArrayList<>();
+			}
+		}
+		
+		if (bigThreeList.size() != 0) {
+			superItemList.add(bigThreeList);			
+		}
+		
+		Integer index = 0;
+		if (page != null) {
+			index = page-1;
+		}
+		model.addAttribute("superItemList", superItemList);
+		model.addAttribute("bigThreeList", superItemList.get(index));
+
+		
 		model.addAttribute("bigItemList", bigItemList);
 		return bigItemList;
 	}
