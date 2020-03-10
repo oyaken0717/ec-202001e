@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja" xmlns:th="http://www.thymeleaf.org"	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -39,41 +38,7 @@ $( function() {
 </head>
 <body>
 	<div class="container">
-		<nav class="navbar navbar-default">
-			<div class="container-fluid">
-				<!-- Brand and toggle get grouped for better mobile display -->
-				<div class="navbar-header">
-					<button type="button" class="navbar-toggle collapsed"
-						data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
-						aria-expanded="false">
-						<span class="sr-only">Toggle navigation</span> <span
-							class="icon-bar"></span> <span class="icon-bar"></span> <span
-							class="icon-bar"></span>
-					</button>
-					<a class="navbar-brand" href="item_list.html" th:href="@{/}"> <!-- 企業ロゴ -->
-						<img alt="main log" src="/img_noodle/header_logo.png" height="35">
-					</a>
-				</div>
-
-				<!-- Collect the nav links, forms, and other content for toggling -->
-				<div class="collapse navbar-collapse"
-					id="bs-example-navbar-collapse-1">
-					<p class="navbar-text navbar-right">
-						<a class="navbar-link" th:href="@{/cart/showList}">ご注文はこちらから→
-						<img th:src="@{/img_noodle/cart.png}" height="35"></a>&nbsp;&nbsp; 
-						
-						
-						<a href="order_history.html" th:href="@{/orderHistory}"
-							class="navbar-link">注文履歴</a>&nbsp;&nbsp; <span
-							sec:authorize="!isAuthenticated()"><a
-							href="/login-user/to-login">ログイン</a></span> <span
-							sec:authorize="isAuthenticated()"><a href="/logout">ログアウト</a></span>
-					</p>
-				</div>
-				<!-- /.navbar-collapse -->
-			</div>
-			<!-- /.container-fluid -->
-		</nav>
+		<nav th:replace="header :: header"></nav>
 
 		<!-- search form -->
 		<div class="row">
@@ -114,24 +79,33 @@ $( function() {
 		<div class="row">
 			<div
 				class="table-responsive col-lg-offset-1 col-lg-10 col-md-offset-1 col-md-10 col-sm-10 col-xs-12">
-				<table class="table table-striped" th:each="itemList:${bigItemList}">
-					<tbody>
+				<table class="table table-striped">
+					<tbody th:each="threeList:${bigThreeList}">
 						<tr>
 
-							<th th:each="item:${itemList}"><a
-								th:href="@{'/detail/showDetail?id='+${item.id}}"> <img
-									th:src="@{'/img_noodle/'+${item.imagePath}}"
-									class="img-responsive img-rounded" width="200" height="600">
-							</a><br> <a th:href="@{'/detail/showDetail?id='+${item.id}}"><span
-									th:text="${item.name}">じゃがバターベーコン</span></a><br> <span
-								class="price">&nbsp;М&nbsp;</span>&nbsp;&nbsp;<span
-								th:text="${#numbers.formatInteger(item.priceM, 1,'COMMA')+'円（税抜き）'}">1,380円(税抜)</span><br>
-
-								<span class="price">&nbsp;Ｌ</span>&nbsp;&nbsp;<span
-								th:text="${#numbers.formatInteger(item.priceL, 1,'COMMA')+'円（税抜き）'}">2,380円(税抜)</span><br></th>
+							<th th:each="list:${threeList}">
+								<span th:each="item:${list}">
+									<a th:href="@{'/detail/showDetail?id='+${item.id}}">
+										<img th:src="@{'/img_noodle/'+${item.imagePath}}" class="img-responsive img-rounded" width="200" height="600">
+									</a><br> 
+									<a th:href="@{'/detail/showDetail?id='+${item.id}}">
+										<span th:text="${item.name}">じゃがバターベーコン</span>
+									</a><br> 
+									<span class="price">&nbsp;М&nbsp;</span>&nbsp;&nbsp;
+									<span th:text="${#numbers.formatInteger(item.priceM, 1,'COMMA')+'円（税抜き）'}">1,380円(税抜)</span><br>
+									<span class="price">&nbsp;Ｌ</span>&nbsp;&nbsp;
+									<span th:text="${#numbers.formatInteger(item.priceL, 1,'COMMA')+'円（税抜き）'}">2,380円(税抜)</span><br>
+								</span>
+							</th>
 						</tr>
 					</tbody>
 				</table>
+
+				<span th:each="bigThreeList,status:${superItemList}">					
+					<a th:if="${kensaku==1}" th:text="${status.count}" th:href="@{/searchItem(page=${status.count},name=${name},element=${element})}">1</a>
+					<a th:if="${narabikae==1}" th:text="${status.count}" th:href="@{/searchItem(page=${status.count},name=${name},element=${element})}">1</a>					
+					<a th:if="${ichiran == 1}" th:href="@{'?page='+${status.count}}" th:text="${status.count}" >1</a>
+				</span>
 
 			</div>
 		</div>

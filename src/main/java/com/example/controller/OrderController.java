@@ -90,7 +90,7 @@ public class OrderController {
 		LocalDateTime localDateTime=LocalDateTime.now();
 		Timestamp nowPlusOneHour=Timestamp.valueOf(localDateTime.plusHours(1));
 		if(!nowPlusOneHour.before(strDeliveryTime)) {
-			result.rejectValue("deliveryDate", null, "配達時間は現時刻の1時間前を指定してください");
+			result.rejectValue("deliveryDate", null, "配達時間は現時刻の1時間後から指定できます");
 		}
 		if(result.hasErrors()) {
 			return toOrder(form,loginUser,model);

@@ -57,8 +57,16 @@ public class ShoppingCartController {
 	 * @return カートの中身を表示
 	 */
 	@RequestMapping("/insert")
-	public String insert(AddShoppingCartForm form, int userId) {
-
+	public String insert(AddShoppingCartForm form, @AuthenticationPrincipal LoginUser loginUser) {
+		Integer userId = (Integer)session.getAttribute("userId");
+		if(userId == null) {
+			session.setAttribute("userId", session.getId().hashCode());
+		}
+		
+		if (loginUser != null) {
+			userId = loginUser.getUser().getId();
+		}
+		
 		service.insert(form, userId);
 		return "redirect:/cart/showList";
 	}
@@ -100,6 +108,14 @@ public class ShoppingCartController {
 		
 		//ログイン前に追加した商品を、ログイン後に反映
 		if(beforeLoginOrder != null && loginUser != null) {
+			//ログイン後のオーダー情報がない場合に作成
+			if (loginOrder == null) {
+				loginOrder = new Order();
+				loginOrder.setUserId(userId);
+				loginOrder.setStatus(0);
+				loginOrder.setTotalPrice(0);
+				orderService.insert(loginOrder);
+			}
 			service.saveBeforeLoginItem(loginOrder.getId(), beforeLoginOrder.getId());
 			orderService.deleteById(beforeLoginOrder.getId());
 		}			
