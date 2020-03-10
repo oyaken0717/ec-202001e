@@ -2,8 +2,12 @@
  * 
  */
 
-$(function() {
+$(function() {	
+
 	calc_price();
+	$(".btn").on("click", function(){
+		calc_price();
+	})
 	
 	$(".size").on("change",function() {
 		calc_price();

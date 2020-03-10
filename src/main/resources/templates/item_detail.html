@@ -5,9 +5,19 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ラーメン屋のネット注文</title>
+<title>商品詳細</title>
 <link href="../static/css/bootstrap.css" rel="stylesheet" th:href="@{/css/bootstrap.css}">
 <link href="../static/css/piza.css" rel="stylesheet" th:href="@{/css/piza.css}">
+
+<link rel="icon" type="image/png" sizes="16x16" th:href="@{/img_noodle/favicon-16x16.png}">
+<link rel="icon" type="image/png" sizes="32x32" th:href="@{/img_noodle/favicon-32x32.png}">
+<link rel="apple-touch-icon" sizes="180x180" th:href="@{/img_noodle/apple-touch-icon.png}">
+<link rel="manifest" th:href="@{/img_noodle/site.webmanifest}">
+<link rel="mask-icon" th:href="@{/img_noodle/safari-pinned-tab.svg}">
+<meta name="msapplication-TileColor" content="#ffc40d">
+<meta name="theme-color" content="#a80c0c">
+
+
 <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -17,7 +27,7 @@
 </head>
 <body>
 
-<div class="container">
+	<div class="container">
 		<nav class="navbar navbar-default">
 			<div class="container-fluid">
 				<!-- Brand and toggle get grouped for better mobile display -->
@@ -55,16 +65,15 @@
 		<input type="hidden" name="userId" value="1"><!-- 仮置き -->
 		<div class="row">
 			<div class="col-xs-offset-2 col-xs-8">
-
-				<h3 class="text-center">商品詳細</h3>
-				<div class="row">
-					<div class="col-xs-5">
+				
+					<div class="row">
+					<div id="image" class="col-xs-5">
 						<img src="/img_noodle/1.jpg" th:src="@{/img_noodle/} + ${item.imagePath}" class="img-responsive img-rounded">
 					</div>
-
+				
 					<div class="col-xs-5">
 						<div class="bs-component">
-							<h4 th:text="${item.name}">じゃがバターベーコン</h4> <br>
+							<h2 th:text="${item.name}">じゃがバターベーコン</h2> <br>
 							<br>
 							<p th:text="${item.description}">マイルドな味付けのカレーに大きくカットしたポテトをのせた、バターとチーズの風味が食欲をそそるお子様でも楽しめる商品です。</p>
 						</div>
@@ -102,41 +111,26 @@
 										<span>&nbsp;Ｌ</span>&nbsp;&nbsp;300円(税抜)
 									</label>
 								</div>
+								
 								<div class="col-sm-12" id="topping">
 								
-									<label class="checkbox-inline" th:each="topping:${item.toppingList}">
+								<!-- トッピングの全選択・全解除ボタンを実装しています-->
+								
+								<script lang="Javascript">
+									function Click_Sub1(check) {
+  										  for(i = 0; i < document.all.orderToppingList.length; i++){
+       									  document.all.orderToppingList[i].checked = check;
+								    }
+								}
+								</script>
+								
+								<input id="selectAll" class="btn btn-primary btn-sm" type="button" onclick="Click_Sub1(true)" value="全選択">
+								<input id="deselectAll" class="btn btn-primary btn-sm" type="button" onclick="Click_Sub1(false)" value="全解除"><br>
+								<div id="toppings" th:each="topping:${item.toppingList}">
+									<label class="checkbox-inline">
 										<input name="orderToppingList" type="checkbox" class="checkbox" th:text="${topping.name}" th:value="${topping.id}">
 									</label>
-								
-								
-								
-								
-									<!-- 
-									<label class="checkbox-inline">
-										<input name="orderToppingList" type="checkbox" value="1">オニオン
-									</label>
-									<label class="checkbox-inline">
-										<input name="orderToppingList" type="checkbox" value="2">チーズ
-									</label>
-									<label class="checkbox-inline">
-										<input name="orderToppingList" type="checkbox" value="3">ピーマン
-									</label>
-									<label class="checkbox-inline">
-										<input name="orderToppingList" type="checkbox" value="4">ロースハム
-									</label><br>
-									<label class="checkbox-inline">
-										<input name="orderToppingList" type="checkbox" value="5">ほうれん草
-									</label>
-									<label class="checkbox-inline">
-										<input name="orderToppingList" type="checkbox" value="6">ぺパロに
-									</label>
-									<label class="checkbox-inline">
-										<input name="orderToppingList" type="checkbox" value="7">グリルナス
-									</label>
-									<label class="checkbox-inline">
-										<input name="orderToppingList" type="checkbox" value="8">あらびきソーセージ
-									</label>
-									 -->
+								</div>		
 								</div>
 							</div>
 						</div>
@@ -188,9 +182,14 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		</div>	
 		</form>
-
+		
+		<footer>
+			<div class="wrapper">
+				<p><small>&copy; 2020 Rakuraku Ramen</small></p>
+			</div>
+		</footer>
 	</div>
 	<!-- end container -->
 	<script

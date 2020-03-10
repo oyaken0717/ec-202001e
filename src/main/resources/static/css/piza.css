@@ -11,8 +11,28 @@ span.price {
  border-radius: 50%;
  -webkit-border-radius: 50%;
  -moz-border-radius: 50%;
- 
 }
+
+
+
+/*トッピングリストの整列*/
+#toppings label{ 
+  display: block;
+  float: left;
+  width: 160px;
+}
+
+/*フッターの設定*/
+footer{
+	background: #f5f5f5;
+	text-align: center;
+	padding: 26px 0;
+}
+
+
+
+
+
 /* 合計金額の文字の大きさを変える */
 span#total-price {
 	font-size: 35px;
