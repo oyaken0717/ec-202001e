@@ -95,4 +95,13 @@ public class OrderService {
 	public void deleteById(int id) {
 		orderRepository.deleteById(id);
 	}
+	
+	/**
+	 * ordersテーブルに格納するためのメソッド.
+	 * 
+	 * @param order
+	 */
+	public void insert(Order order) {
+		orderRepository.insert(order);
+	}
 }

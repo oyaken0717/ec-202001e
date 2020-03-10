@@ -100,6 +100,14 @@ public class ShoppingCartController {
 		
 		//ログイン前に追加した商品を、ログイン後に反映
 		if(beforeLoginOrder != null && loginUser != null) {
+			//ログイン後のオーダー情報がない場合に作成
+			if (loginOrder == null) {
+				loginOrder = new Order();
+				loginOrder.setUserId(userId);
+				loginOrder.setStatus(0);
+				loginOrder.setTotalPrice(0);
+				orderService.insert(loginOrder);
+			}
 			service.saveBeforeLoginItem(loginOrder.getId(), beforeLoginOrder.getId());
 			orderService.deleteById(beforeLoginOrder.getId());
 		}			
