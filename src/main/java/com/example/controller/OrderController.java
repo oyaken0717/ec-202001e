@@ -51,15 +51,25 @@ public class OrderController {
 	 * @return　注文商品表示画面
 	 */
 	@RequestMapping("")
-	public String toOrder(@AuthenticationPrincipal LoginUser loginUser,Model model) {
+	public String toOrder(OrderDestinationForm form,@AuthenticationPrincipal LoginUser loginUser,Model model) {
 		int status=0;
-		User user=new User();
-		Integer userId =user.getId();//loginUser.getUser().getId();
-		Order order=orderService.findByUserIdAndStatus(1,status);
+		
+		if (loginUser == null) {
+			return "redirect:/login-user/to-login";
+		}
+		User user=loginUser.getUser();
+		Integer userId = user.getId();
+		Order order=orderService.findByUserIdAndStatus(userId,status);
 		if(order == null) {
 			return "redirect:/";
 		}
-		model.addAttribute("user",user);
+		form.setDestinationName(loginUser.getUser().getName());
+		form.setDestinationEmail(loginUser.getUser().getEmail());
+		form.setDestinationZipcode(loginUser.getUser().getZipcode());
+		form.setDestinationAddress(loginUser.getUser().getAddress());
+		form.setDestinationTel(loginUser.getUser().getTelephone());
+		
+		model.addAttribute("olderDestinationForm",form);
 		model.addAttribute("order",order);
 		
 		return "order_confirm";
@@ -83,13 +93,13 @@ public class OrderController {
 			result.rejectValue("deliveryDate", null, "配達時間は現時刻の1時間前を指定してください");
 		}
 		if(result.hasErrors()) {
-			return toOrder(loginUser,model);
+			return toOrder(form,loginUser,model);
 		}
 		
 		Integer status=0;
-		User user=new User();//loginUser.getUser();
-		Integer userId =user.getId();//loginUser.getUser().getId();
-		Order order=orderService.findByUserIdAndStatus(1, status);
+		User user = loginUser.getUser();
+		Integer userId =user.getId();
+		Order order=orderService.findByUserIdAndStatus(userId, status);
 		
 		order.setTotalPrice(order.getCalcTotalPrice());
 		order.setOrderDate(new Date());

@@ -40,8 +40,8 @@
 					id="bs-example-navbar-collapse-1">
 					<p class="navbar-text navbar-right">
 
-						<a class="navbar-link" th:href="@{/cart/showList}">
-						<img th:src="@{/img_noodle/cart1.png}" height="35"></a>&nbsp;&nbsp; <a
+						<a class="navbar-link" th:href="@{/cart/showList}">ご注文はこちらから→
+						<img th:src="@{/img_noodle/cart.png}" height="35"></a>&nbsp;&nbsp; <a
 							href="order_history.html" th:href="@{/orderHistory}"
 							class="navbar-link">注文履歴</a>&nbsp;&nbsp; <span
 							sec:authorize="!isAuthenticated()"><a
@@ -153,7 +153,7 @@
 								</td>
 								<td><span th:errors="*{destinationName}" style="color: red"></span>
 									<input type="text" name="destinationName" class="form-control"
-									th:field="*{destinationName}" value="${user.name}"></td>
+									th:field="*{destinationName}"></td>
 							</tr>
 							<tr>
 								<td>
@@ -162,7 +162,7 @@
 								<td><span th:errors="*{destinationEmail}"
 									style="color: red"></span> <input type="text"
 									name="destinationEmail" class="form-control"
-									th:field="*{destinationEmail}" value="${user.email}"></td>
+									th:field="*{destinationEmail}"></td>
 							</tr>
 							<tr>
 								<td>
@@ -171,8 +171,8 @@
 								<td><span th:errors="*{destinationZipcode}"
 									style="color: red"></span> <input type="text"
 									name="destinationZipcode" class="form-control"
-									th:field="*{destinationZipcode}" value="${user.zipcode}">
-									<button id="get_address_btn" type="button">住所検索</button></td>
+									th:field="*{destinationZipcode}">
+									<button type="button" id="searchAddress2">住所検索</button></td>
 							</tr>
 							<tr>
 								<td>
@@ -181,8 +181,7 @@
 								<td><span th:errors="*{destinationAddress}"
 									style="color: red"></span> <input type="text"
 									name="destinationAddress" class="form-control"
-									th:field="*{destinationAddress}" size="60"
-									value="${user.address}"></td>
+									th:field="*{destinationAddress}" size="60"></td>
 							</tr>
 							<tr>
 								<td>
@@ -190,7 +189,7 @@
 								</td>
 								<td><span th:errors="*{destinationTel}" style="color: red"></span>
 									<input type="text" name="destinationTel" class="form-control"
-									th:field="*{destinationTel}" value="${user.telephone}">
+									th:field="*{destinationTel}">
 								</td>
 							</tr>
 							<tr>
@@ -352,11 +351,10 @@
 		</form>
 	</div>
 	<!-- end container -->
-	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="../static/js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+	<script src="https://ajaxzip3.github.io/ajaxzip3.js" charset="UTF-8"></script>
 	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-	<script src="../static/js/bootstrap.min.js"></script>
-	<script src="../static/js/get_address.js"
-		th:src="@{/js/get_address.js}"></script>
+	<script src="../static/js/get_address.js" th:src="@{/js/get_address.js}"></script>
 </body>
 </html>

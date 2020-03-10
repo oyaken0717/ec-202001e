@@ -7,7 +7,7 @@ $(function(){
 	});
 	
 	$("#searchAddress2").on("click", function(){
-		AjaxZip3.zip2addr('zip2','','address2','address2');
+		AjaxZip3.zip2addr('destinationZipcode','','destinationAddress','destinationAddress');
 	});
 });
 

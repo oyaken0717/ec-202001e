@@ -26,23 +26,24 @@ public class OrderHistoryController {
 	@Autowired
 	private OrderService orderService;
 
+	/**
+	 * 注文履歴を表示するメソッド.
+	 * 
+	 * @param model
+	 * @param loginUser
+	 * @return
+	 */
 	@RequestMapping("")
 	public String showOrderHisotry(Model model,@AuthenticationPrincipal LoginUser loginUser) {
-		User user=new User();
-		Integer userId=user.getId();//loginUser.getUser().getId();
-		List<Order> orderList = orderService.showOrderHistory(1);
+		if (loginUser == null) {
+			return "redirect:/login-user/to-login";
+		}
+		Integer userId=loginUser.getUser().getId();
+		List<Order> orderList = orderService.showOrderHistory(userId);
 		if(orderList==null) {
 			model.addAttribute("message","注文履歴はありません");
-		}else {
-			for (int i = 0; i < orderList.size(); i++) {
-				Integer status = orderList.get(i).getStatus();
-				if (status == 0) {
-					orderList.remove(i);
-				}
-			}
-			model.addAttribute("orderList", orderList);
 		}
-		
+		model.addAttribute("orderList", orderList);
 		return "order_history";
 	}
 	

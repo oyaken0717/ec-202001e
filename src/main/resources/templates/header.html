@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org"
+				xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<nav class="navbar navbar-default" th:fragment="header">
+		<div class="container-fluid">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+					aria-expanded="false">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="item_list.html"  th:href="@{/}"> <!-- 企業ロゴ --> <img
+					alt="main log" src="/img_noodle/header_logo.png" height="35">
+				</a>
+			</div>
+	
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse"
+				id="bs-example-navbar-collapse-1">
+				<p class="navbar-text navbar-right">
+				<a class="navbar-link" th:href="@{/cart/showList}">
+					<img th:src="@{/img_noodle/cart1.png}" height="35"></a>&nbsp;&nbsp;
+					<span sec:authorize="isAuthenticated()"><a href="order_history.html" th:href="@{/orderHistory}" class="navbar-link">注文履歴</a>
+					</span>&nbsp;&nbsp;
+					<span sec:authorize="!isAuthenticated()"><a href="/login-user/to-login">ログイン</a></span> 
+					<span sec:authorize="isAuthenticated()"><a href="/logout">ログアウト</a></span>
+				</p>
+			</div>
+			<!-- /.navbar-collapse -->
+		</div>
+		<!-- /.container-fluid -->
+	</nav>
+</body>
+</html>

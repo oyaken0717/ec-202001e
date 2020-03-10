@@ -213,7 +213,7 @@ public class OrderRepository {
 		  sql.append("ot.order_item_id ordert_item_id,t.id topping_id,t.name topping_name,t.price_m topping_price_m,t.price_l topping_price_l ");
 		  sql.append("FROM orders o LEFT OUTER JOIN order_items oi ON o.id = oi.order_id LEFT OUTER JOIN order_toppings ot ");
 		  sql.append("ON ot.order_item_id = oi.id INNER JOIN items i ON oi.item_id=i.id ");
-		  sql.append("LEFT OUTER JOIN toppings t ON ot.topping_id=t.id WHERE o.user_id =:user_id ORDER BY o.order_date DESC;");
+		  sql.append("LEFT OUTER JOIN toppings t ON ot.topping_id=t.id WHERE o.user_id =:user_id AND o.status in (1,2) ORDER BY o.id DESC;");
 		  SqlParameterSource param=new MapSqlParameterSource().addValue("user_id",userId);
 		  List<Order>orderList=template.query(sql.toString(), param, ORDER_RESULT_SET_EXTRACTOR);
 		  if(orderList.size()>0) {
@@ -222,5 +222,17 @@ public class OrderRepository {
 		  return null;
 		}
 
+	
+	/**
+	 * ログイン前の仮IDで取得されたorderを削除するメソッド.
+	 * 
+	 * @param id オーダーID
+	 */
+	public void deleteOrderById(int id) {
+		String sql = "DELETE FROM orders WHERE id=:id";
+		SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
+		
+		template.update(sql, param);
+	}
 }
 

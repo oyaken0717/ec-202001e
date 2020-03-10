@@ -42,49 +42,44 @@ public class ShoppingCartService {
 	 * @param userId　userId
 	 */
 	public void insert(AddShoppingCartForm form, int userId) {
-		List<Order> userOrderList = new ArrayList<>(); 
-		userOrderList = OrderRepository.findByUserIdAndStatus(userId, 0);
+		Order userOrder = OrderRepository.findByUserIdAndStatus(userId, 0);
 		//ショッピングカートに何も入っていない（orderのstatusがない）とき、order,orderItem,orderToppingの3つをinsert。
 		//そうでないときはorderItem,orderToppingの2つをinsert。
-		for(Order userOrder: userOrderList) {
+		if (userOrder == null) {
+			//OrderオブジェクトにuserIdとstatusを格納
+			Order order = new Order();
+			order.setUserId(userId);
+			order.setStatus(0);
+			order.setTotalPrice(0);
+			order = OrderRepository.insert(order);
+			//OrderItemオブジェクトにformとorderId格納
+			OrderItem orderItem = new OrderItem();
+			BeanUtils.copyProperties(form, orderItem);
+			orderItem.setOrderId(order.getId());
+			orderItem = OrderItemRepository.insert(orderItem);
 			
-			if (userOrder.getStatus() == null) {
-				//OrderオブジェクトにuserIdとstatusを格納
-				Order order = new Order();
-				order.setUserId(userId);
-				order.setStatus(0);
-				order.setTotalPrice(0);
-				order = OrderRepository.insert(order);
-				//OrderItemオブジェクトにformとorderId格納
-				OrderItem orderItem = new OrderItem();
-				BeanUtils.copyProperties(form, orderItem);
-				orderItem.setOrderId(order.getId());
-				orderItem = OrderItemRepository.insert(orderItem);
-				
-				//OrderToppingオブジェクトにtoppingIdとorderItemIdを格納
-				if(form.getOrderToppingList() != null) {				
-					for (Integer topping: form.getOrderToppingList()) {				
-						OrderTopping orderTopping = new OrderTopping();
-						orderTopping.setToppingId(topping);
-						orderTopping.setOrderItemId(orderItem.getId());
-						orderToppingRepository.insert(orderTopping);
-					}
+			//OrderToppingオブジェクトにtoppingIdとorderItemIdを格納
+			if(form.getOrderToppingList() != null) {				
+				for (Integer topping: form.getOrderToppingList()) {				
+					OrderTopping orderTopping = new OrderTopping();
+					orderTopping.setToppingId(topping);
+					orderTopping.setOrderItemId(orderItem.getId());
+					orderToppingRepository.insert(orderTopping);
 				}
-			} else if (userOrder.getStatus() == 0) {
-				//OrderItemオブジェクトにformとorderId格納
-				OrderItem orderItem = new OrderItem();
-				BeanUtils.copyProperties(form, orderItem);
-				orderItem.setOrderId(userOrder.getId());
-				orderItem = OrderItemRepository.insert(orderItem);
-				System.out.println(form);
-				//OrderToppingオブジェクトにtoppingIdとorderItemIdを格納
-				if(form.getOrderToppingList() != null) {				
-					for (Integer topping: form.getOrderToppingList()) {				
-						OrderTopping orderTopping = new OrderTopping();
-						orderTopping.setToppingId(topping);
-						orderTopping.setOrderItemId(orderItem.getId());
-						orderToppingRepository.insert(orderTopping);
-					}
+			}
+		} else if (userOrder.getStatus() == 0) {
+			//OrderItemオブジェクトにformとorderId格納
+			OrderItem orderItem = new OrderItem();
+			BeanUtils.copyProperties(form, orderItem);
+			orderItem.setOrderId(userOrder.getId());
+			orderItem = OrderItemRepository.insert(orderItem);
+			//OrderToppingオブジェクトにtoppingIdとorderItemIdを格納
+			if(form.getOrderToppingList() != null) {				
+				for (Integer topping: form.getOrderToppingList()) {				
+					OrderTopping orderTopping = new OrderTopping();
+					orderTopping.setToppingId(topping);
+					orderTopping.setOrderItemId(orderItem.getId());
+					orderToppingRepository.insert(orderTopping);
 				}
 			}
 		}
@@ -107,12 +102,18 @@ public class ShoppingCartService {
 	 * @return 色々な情報が含まれた注文情報
 	 */
 	public Order showCartList(int userId) {
-		List<Order> orderList = OrderRepository.findByUserIdAndStatus(userId, 0);
-		Order userOrder = new Order();
+		Order userOrder = OrderRepository.findByUserIdAndStatus(userId, 0);
 		
-		for (Order order: orderList) {
-			userOrder = order;
-		}
 		return userOrder;
+	}
+	
+	/**
+	 * ログイン前に追加した商品をログイン後に反映し、削除するメソッド.
+	 * 
+	 * @param order_id オーダーID
+	 * @param before_login_order_id　ログイン前のオーダーID
+	 */
+	public void saveBeforeLoginItem(int order_id, int before_login_order_id) {
+		OrderItemRepository.saveBeforeLoginItem(order_id,before_login_order_id);
 	}
 }
