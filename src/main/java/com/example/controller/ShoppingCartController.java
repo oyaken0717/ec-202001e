@@ -118,7 +118,7 @@ public class ShoppingCartController {
 				orderService.insert(loginOrder);
 			}
 			service.saveBeforeLoginItem(loginOrder.getId(), beforeLoginOrder.getId());
-			orderService.deleteById(beforeLoginOrder.getId());
+			orderService.deleteOrderById(beforeLoginOrder.getId());
 		}			
 		
 		
