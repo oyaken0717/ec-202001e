@@ -40,6 +40,7 @@ public class OrderHistoryController {
 		}
 		Integer userId=loginUser.getUser().getId();
 		List<Order> orderList = orderService.showOrderHistory(userId);
+		System.out.println(orderList);
 		if(orderList==null) {
 			model.addAttribute("message","注文履歴はありません");
 		}
