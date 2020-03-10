@@ -93,12 +93,16 @@
 									class="control-label" th:errors="*{telephone}" style="color: red" for="inputError">電話番号を入力してください</label>
 								<input type="text" id="inputTel" class="form-control" placeholder="Tel" th:field="*{telephone}">
 							</div>
+							
 							<div class="form-group">
 								<label for="inputPassword">パスワード:</label>
 								<label
 									class="control-label" th:errors="*{password}" style="color: red" for="inputError">パスワードを入力してください</label>
 								<input type="password" id="inputPassword" class="form-control" placeholder="Password" th:field="*{password}">
+								<label for="passcheck">
+								<input type="checkbox" id="passcheck">パスワードを表示する</label>
 							</div>
+							
 							<div class="form-group">
 								<label for="inputConfirmationPassword">確認用パスワード:</label>
 								<label
@@ -129,6 +133,7 @@
 	<script src="https://ajaxzip3.github.io/ajaxzip3.js" charset="UTF-8"></script>
 	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 	<script src="../static/js/get_address.js" th:src="@{/js/get_address.js}"></script>
+	<script src="../static/js/password_show.js" th:src="@{/js/password_show.js}"></script>
 	
 </body>
 </html>
