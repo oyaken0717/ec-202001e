@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja" xmlns:th="http://www.thymeleaf.org"	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -114,24 +113,33 @@ $( function() {
 		<div class="row">
 			<div
 				class="table-responsive col-lg-offset-1 col-lg-10 col-md-offset-1 col-md-10 col-sm-10 col-xs-12">
-				<table class="table table-striped" th:each="itemList:${bigItemList}">
-					<tbody>
+				<table class="table table-striped">
+					<tbody th:each="threeList:${bigThreeList}">
 						<tr>
 
-							<th th:each="item:${itemList}"><a
-								th:href="@{'/detail/showDetail?id='+${item.id}}"> <img
-									th:src="@{'/img_noodle/'+${item.imagePath}}"
-									class="img-responsive img-rounded" width="200" height="600">
-							</a><br> <a th:href="@{'/detail/showDetail?id='+${item.id}}"><span
-									th:text="${item.name}">じゃがバターベーコン</span></a><br> <span
-								class="price">&nbsp;М&nbsp;</span>&nbsp;&nbsp;<span
-								th:text="${#numbers.formatInteger(item.priceM, 1,'COMMA')+'円（税抜き）'}">1,380円(税抜)</span><br>
-
-								<span class="price">&nbsp;Ｌ</span>&nbsp;&nbsp;<span
-								th:text="${#numbers.formatInteger(item.priceL, 1,'COMMA')+'円（税抜き）'}">2,380円(税抜)</span><br></th>
+							<th th:each="list:${threeList}">
+								<span th:each="item:${list}">
+									<a th:href="@{'/detail/showDetail?id='+${item.id}}">
+										<img th:src="@{'/img_noodle/'+${item.imagePath}}" class="img-responsive img-rounded" width="200" height="600">
+									</a><br> 
+									<a th:href="@{'/detail/showDetail?id='+${item.id}}">
+										<span th:text="${item.name}">じゃがバターベーコン</span>
+									</a><br> 
+									<span class="price">&nbsp;М&nbsp;</span>&nbsp;&nbsp;
+									<span th:text="${#numbers.formatInteger(item.priceM, 1,'COMMA')+'円（税抜き）'}">1,380円(税抜)</span><br>
+									<span class="price">&nbsp;Ｌ</span>&nbsp;&nbsp;
+									<span th:text="${#numbers.formatInteger(item.priceL, 1,'COMMA')+'円（税抜き）'}">2,380円(税抜)</span><br>
+								</span>
+							</th>
 						</tr>
 					</tbody>
 				</table>
+
+				<span th:each="bigThreeList,status:${superItemList}">					
+					<a th:if="${kensaku==1}" th:text="${status.count}" th:href="@{/searchItem(page=${status.count},name=${name},element=${element})}">1</a>
+					<a th:if="${narabikae==1}" th:text="${status.count}" th:href="@{/searchItem(page=${status.count},name=${name},element=${element})}">1</a>					
+					<a th:if="${ichiran == 1}" th:href="@{'?page='+${status.count}}" th:text="${status.count}" >1</a>
+				</span>
 
 			</div>
 		</div>
