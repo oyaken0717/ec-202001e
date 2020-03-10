@@ -35,7 +35,9 @@ public class OrderHistoryController {
 	 */
 	@RequestMapping("")
 	public String showOrderHisotry(Model model,@AuthenticationPrincipal LoginUser loginUser) {
-		
+		if (loginUser == null) {
+			return "redirect:/login-user/to-login";
+		}
 		Integer userId=loginUser.getUser().getId();
 		List<Order> orderList = orderService.showOrderHistory(userId);
 		if(orderList==null) {
