@@ -125,7 +125,7 @@ public class SearchItemController {
 	private List<List<Item>> showItemList(SearchItemForm searchItemForm, Model model, SortItemForm sortItemForm,Integer page) {
 		List<Item> itemList = searchItemService.SearchByLikeName(searchItemForm.getName());
 		model.addAttribute("name", searchItemForm.getName());
-		model.addAttribute("kensaku", searchItemForm.getName());
+		model.addAttribute("kensaku", 1);
 		if (sortItemForm.getElement().equals("high")) {
 			Collections.sort(itemList, new ItemConparator());
 			model.addAttribute("element", sortItemForm.getElement());
