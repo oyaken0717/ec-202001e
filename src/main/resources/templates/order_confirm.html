@@ -241,7 +241,7 @@
 								<td align="center">
 									<div class="row">
 										<div class="col-sm-12">
-											<label class="radio-inline"> <input type="radio"
+											<label class="radio-inline"> <input type="radio" id="money"
 
 												name="paymentMethod" th:value="1" checked="checked">
 												代金引換
@@ -258,8 +258,8 @@
 								<td align="center">
 									<div class="row">
 										<div class="col-sm-12">
-											<label class="radio-inline"> <input type="radio"
-												name="paymentMethod" checked="checked" id="paymentMethod"
+											<label class="radio-inline"> <input type="radio" id="credit"
+												name="paymentMethod" checked="checked"
 												th:value="2" th:field="*{paymentMethod}"> クレジットカード
 											</label><br>
 											<br>
@@ -269,7 +269,7 @@
 							</tr>
 						</tbody>
 					</table>
-					<div class="text-center"><strong>支払い情報</strong><br>
+					<div class="text-center" id="creditField" style="display: none"><strong>支払い情報</strong><br>
 					<input type="radio" name="payment" value="bank" checked>銀行振込
 					<input type="radio" name="payment" value="credit">クレジットカード<br>
 					<div th:if="${message}" th:text="${message}" style="color:red"></div>
@@ -341,6 +341,7 @@
 	<script src="https://ajaxzip3.github.io/ajaxzip3.js" charset="UTF-8"></script>
 	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 	<script src="../static/js/get_address.js" th:src="@{/js/get_address.js}"></script>
+	<script src="../static/js/get_address.js" th:src="@{/js/credit.js}"></script>
 </body>
 </html>
 
