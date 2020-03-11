@@ -238,7 +238,7 @@
 								<td>
 									<div class="text-center">代金引換</div>
 								</td>
-								<td>
+								<td align="center">
 									<div class="row">
 										<div class="col-sm-12">
 											<label class="radio-inline"> <input type="radio"
@@ -269,7 +269,7 @@
 							</tr>
 						</tbody>
 					</table>
-					<div><strong>支払い情報</strong></div>
+					<div class="text-center"><strong>支払い情報</strong><br>
 					<input type="radio" name="payment" value="bank" checked>銀行振込
 					<input type="radio" name="payment" value="credit">クレジットカード<br>
 					<div th:if="${message}" th:text="${message}" style="color:red"></div>
@@ -314,7 +314,8 @@
 					</select><br> 
 					クレジットカード名義人:<input type="text" name="card_name"><br>
 					セキュリティコード:<input type="text" name="card_cvv"><br>
-
+					<br>
+					</div>
 				</div>
 			</div>
 
