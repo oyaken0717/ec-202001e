@@ -125,11 +125,12 @@ public class SearchItemController {
 	private List<List<Item>> showItemList(SearchItemForm searchItemForm, Model model, SortItemForm sortItemForm,Integer page) {
 		List<Item> itemList = searchItemService.SearchByLikeName(searchItemForm.getName());
 		model.addAttribute("name", searchItemForm.getName());
-		model.addAttribute("kensaku", 1);
 		if (sortItemForm.getElement().equals("high")) {
 			Collections.sort(itemList, new ItemConparator());
 			model.addAttribute("element", sortItemForm.getElement());
 			model.addAttribute("narabikae", 1);
+		}else {
+			model.addAttribute("kensaku", 1);			
 		}
 		List<Item> threeList = new ArrayList<>();
 		List<List<Item>> bigItemList = new ArrayList<>();
