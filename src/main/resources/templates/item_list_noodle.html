@@ -100,12 +100,13 @@ $( function() {
 						</tr>
 					</tbody>
 				</table>
-
+				<div class="text-center">
 				<span th:each="bigThreeList,status:${superItemList}">					
 					<a th:if="${kensaku==1}" th:text="${status.count}" th:href="@{/searchItem(page=${status.count},name=${name},element=${element})}">1</a>
 					<a th:if="${narabikae==1}" th:text="${status.count}" th:href="@{/searchItem(page=${status.count},name=${name},element=${element})}">1</a>					
 					<a th:if="${ichiran == 1}" th:href="@{'?page='+${status.count}}" th:text="${status.count}" >1</a>
 				</span>
+				</div>
 
 			</div>
 		</div>
