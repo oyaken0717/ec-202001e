@@ -129,6 +129,7 @@ public class OrderController {
 		}
 		if("2".equals(form.getPaymentMethod())) {
 			Credit credit = creditService.service(form);
+			order.setPaymentMethod(Integer.valueOf(form.getPaymentMethod()));
 			if ("error".equals(credit.getStatus())) {
 				System.out.println("失敗");
 				model.addAttribute("message", "クレジットカード情報が不正です。");
