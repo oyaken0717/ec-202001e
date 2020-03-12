@@ -1,0 +1,116 @@
+-- ユーザー
+drop table if exists users cascade;
+
+create table users (
+ id serial primary key
+ , name varchar(100) not null
+ , email varchar(100) not null unique
+ , password text not null
+ , zipcode varchar(7) not null
+ , address varchar(200) not null
+ , telephone varchar(15) not null
+) ;
+
+
+--ユーザー登録(pass:morimori)
+insert into users(name, email, password, zipcode, address, telephone) values('テストユーザ', 'test@test.co.jp', 'a232fe3fd81a175aa15541dc2051fe2cb003cdae810371104fbfc100eb34cd6f','1111111', 'テスト住所', 'テスト電話番号');
+
+-- 商品
+drop table if exists items cascade;
+
+create table items (
+  id integer primary key
+  , name text not null
+  , description text not null
+  , price_m integer not null
+  , price_l integer not null
+  , image_path text not null
+  , deleted boolean default false not null
+) ;
+
+insert into items values(1, 'とんこつラーメン', '創業当時から今に引き継ぐとんこつラーメンの本流であり、原点の味。18時間の調理と、丸1日の熟成を経て、とんこつの旨味を極限まで抽出した豊かで香り高いシルキーなスープに、博多らしい細麺がマッチします。', 700, 800, '1.jpg');
+insert into items values(2, '赤ラーメン', '自家製の香味油と辛みそを加えることで、一杯のラーメンの中でいくつもの味の奥行きと調和を楽しめます。白丸が正統派のとんこつラーメンならば、赤丸新味は豚骨ラーメンの可能性を広げた“革新派”。 コクと深みを追求した、自信作です。', 750, 850, '2.jpg');
+insert into items values(3, 'からか麺', '博多絹ごしとんこつをベースに、豆板醤や甜麺醤などを独自に配合した肉味噌を大胆にトッピング。山椒などのスパイスを効かせた自家製ラー油が全体をピリリとまとめあげ、中太のストレート麺がうま味と辛味を余すところなくすくいあげます。1989年に大名本店で登場以来、進化を続ける根強い人気の一杯です。', 800, 900, '3.jpg');
+insert into items values(4, 'かさね味', '2001年、本店限定メニューとして誕生。とんこつと鶏ガラを素材に、それぞれの旨みを抽出しながら絶妙なバランスで合わせた鶏豚骨スープは、さっぱりとしながらも深みがあり、加水率の高い中太麺を引き立てています。', 900, 1000, '4.jpg');
+insert into items values(5, '百福元味', 'ラーメンに生涯を捧げた麺翁、日清食品創業者・安藤百福氏を想い、一風堂店主・河原成美が手掛けた醤油ラーメン。 国産の丸鶏を使用したスープ、国産小麦を2種類使用した平打ちちぢれ麺、自家製のごぼう香油など、こだわり抜かれた一杯です。', 980, 1080, '5.jpg');
+insert into items values(6, '川越とんこつ醤油', '埼玉県・川越のラーメン店と醤油メーカーが中心となって行っている「川越醤油ラーメン」プロジェクトに一風堂も参加！松本醤油商店さんの「はつかり醤油」と川越産の小松菜を一風堂のとんこつスープを合わせた「川越とんこつ醤油」です。', 880, 980, '6.jpg');
+insert into items values(7, '元祖・白丸元味／元祖・赤丸新味', '1985年に創業した博多 一風堂の1号店である大名本店限定メニュー。創業当時のトロリとしたポタージュのようなスープを再現し、通常よりも一段と濃厚な白丸/赤丸に仕上げています。全国のラーメンファン、観光客の方が、この味を求めて足を運んでくださいます。', 900, 1000, '7.jpg');
+insert into items values(8, '鶏とんこつ麺', '関西のラーメン激戦区で修行を積んだ親父による珠玉の一品。濃厚な鶏の凝縮されたコクのあるスープの旨味と極太麺に海苔の風味が上品かつ風情を醸し出した自信作。', 800, 900, '8.jpg');
+insert into items values(9, '辛味噌ちゃあしゅう麺', '九州で伝統的に伝わる発酵手法で作られた秘伝味噌をふんだんに使用したコクのある味噌ラーメン。チャーシューは低温調理で豚本来の旨味をぎゅっと閉じ込めた贅沢な一杯。', 820, 920, '9.jpg');
+insert into items values(10, '追い鰹チャーシュー', '関西のラーメンランキングでNo.1をとったこともある名店で仕込まれた味。香り高い追い鰹でとられたスープはただ飲むだけでなく、添えられた車麩に浸しても楽しめる。ここでしか食べられない極上の一杯。', 1050, 1100, '10.jpg');
+insert into items values(11, '鶏白湯坦々麺', '鶏の部位でも上質な部位のみを厳選し、旨味を閉じ込めた白湯スープ。10種類のスパイスが組み合わさった爽やかな辛さとナッツの甘味が香ばしさを引き立てた一杯。', 980, 1080, '11.jpg');
+insert into items values(12, '貝出汁らーめん原点', '人気の魚「貝」系らーめん。あさりやしじみの貝の旨味を閉じ込め、淡口醤油であっさり仕上げている。', 900, 1000, '12.jpg');
+insert into items values(13, '澄み切った醤油らーめん', '喉越しの良さを突き詰めた王道醤油ラーメン。すっきりとした見た目とは裏腹にじっくりのコクのある最後までスープを飲み干したくなる一杯。', 950, 1050, '13.jpg');
+insert into items values(14, '煮干しつけ麺', '煮干しでとられた醤油ベースのスープが喉越しの良いもっちりとした麺の味を引き立てるつけ麺。', 750, 850, '14.jpg');
+insert into items values(15, '旨辛味噌麺', '味噌ラーメンの常識を変える一杯。濃厚かつコクと深みのあるスープ、小麦の味がこみ上げる極太麺、ジューシーなチャーシューが胃袋を鷲掴みにする。', 680, 800, '15.jpg');
+insert into items values(16, 'まぜ麺', '食欲をそそるエスニックでスパイシーな一杯。しっかり混ぜて広がるまぜ麺に最後は追い飯をすれば、1度だけでなく2度楽しめるお得感のあるラーメンです。', 780, 880, '16.jpg');
+insert into items values(17, '台湾まぜそば', 'ピリ辛!!の台湾まぜそば汗をジンワリとかく程度の辛さで魚粉の香りが引き立ち、辛く味付けした挽肉が非常にマッチした一品。タレが残ったら追いめしが楽しめます。', 1200, 1300, '17.jpg');
+insert into items values(18, '真・澄み切った塩らーめん', '岩塩でキリッとさせた鶏スープがまとまりがある仕上がり。透明度の高いスープは旨味が凝縮された丁寧な一杯。何度でも食べたくなる味のラーメンです。', 990, 1090, '18.jpg');
+
+-- トッピング
+drop table if exists toppings cascade;
+
+create table toppings (
+  id integer primary key
+  , name text not null
+  , price_m integer not null
+  , price_l integer not null
+) ;
+
+insert into toppings values(1, 'チャーシュー', 200, 300);
+insert into toppings values(2, '煮たまご', 200, 300);
+insert into toppings values(3, 'メンマ', 200, 300);
+insert into toppings values(4, 'のり', 200, 300);
+insert into toppings values(5, 'もやし', 200, 300);
+insert into toppings values(6, 'ほうれん草', 200, 300);
+insert into toppings values(7, '車麩', 200, 300);
+insert into toppings values(8, 'バター', 200, 300);
+insert into toppings values(9, '白髪ねぎ', 200, 300);
+insert into toppings values(10, '紫たまねぎ', 200, 300);
+insert into toppings values(11, 'うずら煮卵', 200, 300);
+insert into toppings values(12, '薫製たまご', 200, 300);
+insert into toppings values(13, 'つみれ', 200, 300);
+insert into toppings values(14, 'ワンタン', 200, 300);
+insert into toppings values(15, 'ザーサイ', 200, 300);
+insert into toppings values(16, '大トロチャーシュー', 200, 300);
+insert into toppings values(17, '太麺に変更', 200, 300);
+insert into toppings values(18, '追い飯', 200, 300);
+
+
+-- 注文
+drop table if exists orders cascade;
+
+create table orders (
+  id serial primary key
+  , user_id integer not null
+  , status integer not null
+  , total_price integer not null
+  , order_date date
+  , destination_name varchar(100)
+  , destination_email varchar(100)
+  , destination_zipcode varchar(7)
+  , destination_address varchar(200)
+  , destination_tel varchar(15)
+  , delivery_time timestamp
+  , payment_method integer
+  ) ;
+
+-- 注文商品
+drop table if exists order_items cascade;
+
+create table order_items (
+  id serial primary key
+  , item_id integer not null
+  , order_id integer not null
+  , quantity integer not null
+  , size varchar(1)
+) ;
+
+-- 注文トッピング
+drop table if exists order_toppings cascade;
+
+create table order_toppings (
+  id serial primary key
+  , topping_id integer not null
+  , order_item_id integer not null
+) ;
