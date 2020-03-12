@@ -111,13 +111,20 @@
 						th:text="${#numbers.formatInteger(order.calcTotalPrice+order.tax,1,'COMMA')}">38,000</span>円
 					(税込)
 				</div>
+				<div class="col-xs-offset-5 col-xs-3">
+				<div class="text-center">
+					<button class="form-control btn btn-warning btn-block" id="order">注文する</button>
+				</div>
+				</div>
 			</div>
 		</div>
 
 		<!-- table -->
+		
 		<form action="order_finished.html" method="post"
 			th:action="@{/orderconfirm/order}"
 			th:object="${orderDestinationForm}">
+			<div id="orderinfo">
 			<div class="row">
 				<div
 					class="table-responsive col-lg-offset-3 col-lg-6 col-md-offset-1 col-md-10 col-sm-10 col-xs-12">
@@ -226,11 +233,14 @@
 					</table>
 				</div>
 			</div>
+			
 
 			<!-- table -->
 			<div class="row">
+				<div id="paymethod">
 				<div
 					class="table-responsive col-lg-offset-3 col-lg-6 col-md-offset-1 col-md-10 col-sm-10 col-xs-12">
+					
 					<h3 class="text-center">お支払い方法</h3>
 					<table class="table table-striped">
 						<tbody>
@@ -241,7 +251,9 @@
 								<td align="center">
 									<div class="row">
 										<div class="col-sm-12">
-											<label class="radio-inline"> <input type="radio" id="money"
+
+											<label class="radio-inline"> <input type="radio" id=1
+
 
 												name="paymentMethod" th:value="1" checked="checked">
 												代金引換
@@ -258,8 +270,10 @@
 								<td align="center">
 									<div class="row">
 										<div class="col-sm-12">
-											<label class="radio-inline"> <input type="radio" id="credit"
-												name="paymentMethod" checked="checked"
+
+											<label class="radio-inline"> <input type="radio"
+												name="paymentMethod" id="2"
+
 												th:value="2" th:field="*{paymentMethod}"> クレジットカード
 											</label><br>
 											<br>
@@ -269,7 +283,13 @@
 							</tr>
 						</tbody>
 					</table>
-					<div class="text-center" id="creditField" style="display: none"><strong>支払い情報</strong><br>
+
+					</div>
+					</div>
+			</div>
+					<div id="card">
+					<div class="text-center"><strong>支払い情報</strong><br>
+
 					<input type="radio" name="payment" value="bank" checked>銀行振込
 					<input type="radio" name="payment" value="credit">クレジットカード<br>
 					<div th:if="${message}" th:text="${message}" style="color:red"></div>
@@ -317,7 +337,8 @@
 					<br>
 					</div>
 				</div>
-			</div>
+			
+			
 
 			<div class="row">
 				<div class="col-xs-offset-4 col-xs-4">
@@ -327,6 +348,8 @@
 					</div>
 				</div>
 			</div>
+		</div>
+			
 		</form>
 		
 		<footer>
