@@ -7,8 +7,8 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    username: muugo1006.udk@gmail.com
-    password: mubfzbiqrquisrzz
+    username: 自分のメールアドレスを入れる
+    password: アプリパスを入れる
     properties:
       mail.smtp:
         auth: true
